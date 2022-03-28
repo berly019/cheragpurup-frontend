@@ -1,0 +1,60 @@
+.select-form {
+  padding: 5px 20px;
+  border-bottom: 2px solid red;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background-image: url(../../../media/filter.png);
+  background-size: 15px 18px;
+  background-repeat: no-repeat;
+  background-position: left 7.5px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  padding-left: 30px;
+}
+.c-table .pagination {
+  margin: 0;
+  width: fit-content;
+  /* justify-content: center;
+  align-items: center; */
+}
+.page-link {
+  color: black;
+}
+.page-item.active .page-link {
+  background-color: black;
+  border-color: black;
+}
+
+.color-active,
+.btn-sub:hover {
+  background-color: #00aa55;
+  color: white;
+}
+
+@media screen and (min-width: 768px) {
+  .pagi-control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+/* .page-container{
+  height: 20px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+.page-container a {
+  padding: 10px;
+  margin: 8px;
+  cursor: pointer;
+}
+.page-container a:hover{
+  color: white !important;
+  background-color: rgb(71, 37, 37);
+}
+.paginateActive a{
+  color: white !important;
+  background-color: rgb(71, 37, 37);
+} */

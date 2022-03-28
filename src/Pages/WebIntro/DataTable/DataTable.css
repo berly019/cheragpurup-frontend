@@ -1,0 +1,81 @@
+table.dltrc {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0px;
+    border: solid #198754 2px;
+    border-radius: 10px;
+  }
+  
+  tr.dlheader {
+    text-align: center;
+    /* font-weight: bold; */
+    border-left: solid #198754 2px;
+    padding: 2px
+  }
+  
+  td.dlheader {
+    /* background: #d9d9d9; */
+    text-align: center;
+    /* font-weight: bold; */
+    border-left: solid #198754 2px;
+    border-radius: 0px;
+    padding: 2px
+  }
+  
+  tr.dlinfo,
+  td.dlinfo {
+    text-align: center;
+    border-left: solid #198754 2px;
+    border-top: solid #198754 2px;
+    padding: 2px
+  }
+  
+  td.dlinfo:first-child,
+  td.dlheader:first-child {
+    border-left: none;
+  }
+  
+  td.dlheader:first-child {
+    border-radius: 10px 0 0 0;
+  }
+  
+  td.dlheader:last-child {
+    border-radius: 0 10px 0 0;
+  }
+  
+  
+  /*===== hover effects =====*/
+  
+  
+  /*tr.hover01:hover,
+  tr.hover02:hover {
+    background-color: #dde6ee;
+  }*/
+  
+  
+  /* === ROW HOVER === */
+  
+  
+  /*tr.hover02:hover:last-child {
+    background-color: #dde6ee;
+    border-radius: 0 0 6px 6px;
+    }*/
+  
+  
+  /* === CELL HOVER === */
+  
+  td.hover01:hover {
+    background-color: #dde6ee;
+  }
+  
+  td.hover02:hover {
+    background-color: #dde6ee;
+  }
+  
+  td.hover02:first-child {
+    border-radius: 0 0 0 10px;
+  }
+  
+  td.hover02:last-child {
+    border-radius: 0 0 10px 0;
+  }
