@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { BsEye } from 'react-icons/bs';
 import { CgPushDown } from 'react-icons/cg';
 import { FiEdit } from 'react-icons/fi';
@@ -12,6 +12,7 @@ import CNModalShow from './CNModalShow/CNModalShow';
 import CNDownload from './CNDownload/CNDownload'
 
 const CNagorik = () => {
+    const [isLoading, setIsLoading] = React.useState(false);
     const [modalShow, setModalShow] = React.useState(false);
     const [modalEdit, setModalEdit] = React.useState(false);
     const [modalShowF, setModalShowF] = React.useState(false);
@@ -36,6 +37,7 @@ const CNagorik = () => {
                 setCNData(data.data);
                 // console.log(data.data);
                 setFilteredData(data.data);
+                setIsLoading(true);
             })
     }, [modalShow]);
 
@@ -76,6 +78,23 @@ const CNagorik = () => {
                 setFilteredData(data.data);
             })
     }
+
+    // spinner
+    if (!isLoading) {
+        return <div className="text-center 100vh pt-5">
+            <Button variant="success" disabled>
+                <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                />
+                Loading...
+            </Button>
+        </div>
+    }
+
     return (
         <Container>
             <Row xs={1} className="g-4 justify-content-center">
@@ -201,7 +220,7 @@ const CNagorik = () => {
                                         <BsEye onClick={() => { setModalShowF(true); setModalId(data._id) }} /> <FiEdit className="mx-4" onClick={() => { setModalEdit(true); setModalId(data._id) }} /> <CgPushDown onClick={() => { setModalPushDown(true); setModalId(data._id) }} />
                                     </td>
                                 </tr>
-                            ) 
+                            )
                         }
                     </tbody>
                 </table>

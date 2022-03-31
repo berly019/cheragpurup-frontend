@@ -1,8 +1,11 @@
 import React from 'react';
-import { Col, Container, Image, Row, Table } from 'react-bootstrap';
+import { Button, Col, Container, Image, Row, Table } from 'react-bootstrap';
 import axios from 'axios';
+import ShowAbout from './ShowAbout';
+import { BsArrowRight } from 'react-icons/bs';
 
 const About = () => {
+    const [editInto, setEditIntro] = React.useState(false);
 
     const [pMain, setPMain] = React.useState([]);
     const [homeData, setHomeData] = React.useState([]);
@@ -20,10 +23,20 @@ const About = () => {
     return (
         <>
             <Container className="py-5">
+            <ShowAbout
+                show={editInto}
+                title={pMain?.title}
+                data={pMain?.description}
+                onHide={() => setEditIntro(false)}
+            />
                 <Row className="my-5 py-5 align-items-center flex-column flex-md-row">
                     <Col>
                         <p className="fs-1 fw-bold text-center text-md-start">{pMain?.title}</p>
-                        <p className="fs-5" style={{ textAlign: 'justify' }}>{pMain?.description}</p>
+                        <p className="fs-5" style={{ textAlign: 'justify' }}>{pMain?.description?.slice(0,220)} .....</p>
+
+                        <div size="sm" variant="outline-success" onClick={() => { setEditIntro(true) }}>
+                            <Button className="px-4"variant="success">আরো পড়ুন <BsArrowRight /></Button>
+                        </div>
                     </Col>
                     <Col xs lg="4" className="d-flex flex-column ps-md-5">
                         <Image fluid className="pb-5" src={pMain?.f_image}></Image>

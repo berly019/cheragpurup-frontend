@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { BsEye } from 'react-icons/bs';
 import { CgPushDown } from 'react-icons/cg';
 import { FiEdit } from 'react-icons/fi';
@@ -12,6 +12,7 @@ import CCModalShow from './CCModalShow/CCModalShow';
 import CCDownload from './CCDownload/CCDownload';
 
 const CCharacter = () => {
+    const [isLoading, setIsLoading] = React.useState(false);
     const [modalShow, setModalShow] = React.useState(false);
     const [modalEdit, setModalEdit] = React.useState(false);
     const [modalShowF, setModalShowF] = React.useState(false);
@@ -36,6 +37,7 @@ const CCharacter = () => {
                 setCCData(data.data);
                 setFilteredData(data.data);
                 // console.log(data.data);
+                setIsLoading(true);
             })
     }, [modalShow, CCData?._id]);
 
@@ -76,6 +78,22 @@ const CCharacter = () => {
                 // console.log(data.data);
             })
     }
+
+        // spinner
+        if (!isLoading) {
+            return <div className="text-center 100vh pt-5">
+                <Button variant="success" disabled>
+                    <Spinner
+                        as="span"
+                        animation="grow"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                    />
+                    Loading...
+                </Button>
+            </div>
+        }
 
     return (
         <Container>

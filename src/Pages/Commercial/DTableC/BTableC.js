@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 
 const DynamicTable = () => {
@@ -186,7 +186,7 @@ const DynamicTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {displayData.length > 0 ?
+                        {
                             displayData.map(data =>
                                 <tr key={data._id}>
                                     <th scope="row">{data.holding_no}</th>
@@ -198,10 +198,11 @@ const DynamicTable = () => {
                                     <td>{data?.previes_areas_tax}</td>
                                     <td>{data.total_tax}</td>
                                 </tr>
-                            ) : <p className='text-center py-5'>No Data Found</p>
+                            )
                         }
                     </tbody>
                 </table>
+                {displayData.length === 0 ? <Alert className="text-center">No Data Found</Alert> : ''}
                 <div className="d-flex justify-content-between align-items-center flex-column flex-md-row">
                     <p>Showing 1 to {displayData.length} of {filteredData.length} entries</p>
                     <ReactPaginate

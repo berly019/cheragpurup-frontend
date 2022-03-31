@@ -53,10 +53,11 @@ const WSacib = () => {
     const onSubmit = data => {
         axios.put(`https://khadimpur-mongoose-backend.herokuapp.com/up/wsacib/${id}`, data)
             .then(res => {
-                if (res.data.affectedRows > 0) {
+                console.log(res)
+                if (res.data > 0) {
                     setSuccess(true)
                 } else {
-                    setWarn(data.data)
+                    setWarn(res.data)
                 }
                 // console.log(res);
             })
@@ -109,7 +110,7 @@ const WSacib = () => {
                             Name
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.name} disabled={isDisabled} required {...register("name", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.name} disabled={isDisabled} required {...register("name")} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextPhoneC">
@@ -117,7 +118,7 @@ const WSacib = () => {
                             Phone Office
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.phone_o} disabled={isDisabled} required {...register("phone_o", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.phone_o} disabled={isDisabled} required {...register("phone_o")} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextPhone">
@@ -125,7 +126,7 @@ const WSacib = () => {
                             Phone
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.phone} disabled={isDisabled} required {...register("phone", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.phone} disabled={isDisabled} required {...register("phone")} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextDane">
@@ -133,7 +134,7 @@ const WSacib = () => {
                             Date of joining
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.doj?.slice(0, 10)} disabled={isDisabled} required {...register("doj", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.doj?.slice(0, 10)} disabled={isDisabled} required {...register("doj")} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextEmail">
@@ -141,7 +142,7 @@ const WSacib = () => {
                             Email
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.email} disabled={isDisabled} required {...register("email", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.email} disabled={isDisabled} required {...register("email")} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextFax">
@@ -149,7 +150,7 @@ const WSacib = () => {
                             Fax
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.fax} disabled={isDisabled} required {...register("fax", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.fax} disabled={isDisabled} required {...register("fax")} />
                         </Col>
                     </Form.Group>
                 </Row>

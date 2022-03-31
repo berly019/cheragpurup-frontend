@@ -43,9 +43,8 @@ const ManiMember = () => {
             <Row className='gy-5 pt-5 align-items-center'>
                 <Col>
                     <Row>
-                        <Col xs={12}>
+                        <Col xs={12} key={cData?._id}>
                             <Card
-
                                 text='dark'
                                 style={{ borderRadius: '1rem', backgroundColor: '#F4F4F4' }}
                                 className="mb-2 mx-auto border-0"
@@ -74,7 +73,7 @@ const ManiMember = () => {
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col md={6} className="pt-5">
+                        <Col md={6} className="pt-5"  key={sData?._id}>
                             <Card
                                 text='dark'
                                 style={{ borderRadius: '1rem', backgroundColor: '#F4F4F4' }}
@@ -104,7 +103,7 @@ const ManiMember = () => {
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col md={6} className="pt-5">
+                        <Col md={6} className="pt-5"  key={pData?._id}>
                             <Card
                                 text='dark'
                                 style={{ borderRadius: '1rem', backgroundColor: '#F4F4F4' }}
@@ -138,13 +137,13 @@ const ManiMember = () => {
                 </Col>
 
                 <Col md={3} className='ps-lg-5 text-center'>
-                {
-                    intro.slice(0, 3).map(int =>
-                            <Row key={int._id} className='py-4'>
+                    {
+                        intro.slice(0, 3).map(int =>
+                            <Row key={int._id}>
                                 <Col style={{ width: '195px' }}>
                                     <Image style={{ height: '220px' }} fluid src={int?.image} />
-                                    <div className="text-center my-2" style={{ backgroundColor: '#00AA55B2', bottom: '15px' }}>
-                                        <p className="fw-bold m-0">{int?.title}</p>
+                                    <div className="text-center mx-auto my-4">
+                                        <span className="fw-bold m-0 px-4 py-2 rounded-3" style={{ backgroundColor: '#00AA55B2', bottom: '15px', width: "fit-content" }}>{int?.title}</span>
                                     </div>
                                 </Col>
                             </Row>

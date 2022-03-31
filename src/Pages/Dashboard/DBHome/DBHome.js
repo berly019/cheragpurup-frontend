@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row, Spinner } from 'react-bootstrap';
 import DHTableEdit from './DHTableEdit/DHTableEdit';
 import { FiEdit } from 'react-icons/fi';
 
 const DBHome = () => {
+
+    const [isLoading, setIsLoading] = React.useState(false);
+
     const [homeData, setHomeData] = React.useState([]);
     const [totalData, setTotalData] = React.useState([]);
     const [modalId, setModalId] = React.useState([]);
@@ -28,14 +31,14 @@ const DBHome = () => {
     // const [rcCollectedTax, setRCCollectedTax] = React.useState(0);
     // const [rcAreasTax, setRCAreasTax] = React.useState(0);
 
-/*     const [treasLicenseData, setTreasLicenseData] = React.useState([]);
-
-    const [CCData, setCCData] = React.useState([]);
-    const [ccFilteredData, setCCFilteredData] = React.useState([]);
-    const [CNData, setCNData] = React.useState([]);
-    const [cnFilteredData, setCNFilteredData] = React.useState([]);
-    const [COData, setCOData] = React.useState([]);
-    const [coFilteredData, setCOFilteredData] = React.useState([]); */
+    /*     const [treasLicenseData, setTreasLicenseData] = React.useState([]);
+    
+        const [CCData, setCCData] = React.useState([]);
+        const [ccFilteredData, setCCFilteredData] = React.useState([]);
+        const [CNData, setCNData] = React.useState([]);
+        const [cnFilteredData, setCNFilteredData] = React.useState([]);
+        const [COData, setCOData] = React.useState([]);
+        const [coFilteredData, setCOFilteredData] = React.useState([]); */
 
     const [pMData, setPMData] = React.useState([]);
 
@@ -45,6 +48,7 @@ const DBHome = () => {
         axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/db_home')
             .then(data => {
                 setHomeData(data?.data);
+                setIsLoading(true);
             });
 
         axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/db_home/6235e95c87b37a195cb34d64')
@@ -99,10 +103,10 @@ const DBHome = () => {
 
 
     // residentData filter and calculate
-/*     const handleRWordFilter = id => {
-        const matchedWord = residentData.filter(data => data.word_no.toString().includes(id));
-        setRFilteredData(matchedWord);
-    } */
+    /*     const handleRWordFilter = id => {
+            const matchedWord = residentData.filter(data => data.word_no.toString().includes(id));
+            setRFilteredData(matchedWord);
+        } */
     /* useEffect(() => {
         const totalTax = rFilteredData.reduce((currentSum, nextObject) => {
             return currentSum + +nextObject.total_tax;
@@ -121,38 +125,38 @@ const DBHome = () => {
     }, [rFilteredData]) */
 
     // commerceData filter and calculate
-   /*  const handleCWordFilter = id => {
-        const matchedWord = commerceData.filter(data => data.word_no.toString().includes(id));
-        setCFilteredData(matchedWord);
-    } */
-   /*  useEffect(() => {
-        const totalTax = cFilteredData.reduce((currentSum, nextObject) => {
-            return currentSum + +nextObject.total_tax;
-        }, 0);
-        setCTotalTax(totalTax);
-
-        const collectedTax = cFilteredData.reduce((currentSum, nextObject) => {
-            return currentSum + +nextObject.collected_tax;
-        }, 0);
-        setCCollectedTax(collectedTax);
-
-        const areasTax = cFilteredData.reduce((currentSum, nextObject) => {
-            return currentSum + +nextObject.areas_tax;
-        }, 0);
-        setCAreasTax(areasTax);
-    }, [cFilteredData]) */
+    /*  const handleCWordFilter = id => {
+         const matchedWord = commerceData.filter(data => data.word_no.toString().includes(id));
+         setCFilteredData(matchedWord);
+     } */
+    /*  useEffect(() => {
+         const totalTax = cFilteredData.reduce((currentSum, nextObject) => {
+             return currentSum + +nextObject.total_tax;
+         }, 0);
+         setCTotalTax(totalTax);
+ 
+         const collectedTax = cFilteredData.reduce((currentSum, nextObject) => {
+             return currentSum + +nextObject.collected_tax;
+         }, 0);
+         setCCollectedTax(collectedTax);
+ 
+         const areasTax = cFilteredData.reduce((currentSum, nextObject) => {
+             return currentSum + +nextObject.areas_tax;
+         }, 0);
+         setCAreasTax(areasTax);
+     }, [cFilteredData]) */
 
     // certificate filter
-/*     const handleCPWordFilter = id => {
-        const ccMatchedWord = CCData.filter(data => data.word_no.toString().includes(id));
-        setCCFilteredData(ccMatchedWord);
-
-        const cnMatchedWord = CNData.filter(data => data.word_no.toString().includes(id));
-        setCNFilteredData(cnMatchedWord);
-
-        const coMatchedWord = COData.filter(data => data.word_no.toString().includes(id));
-        setCOFilteredData(coMatchedWord);
-    } */
+    /*     const handleCPWordFilter = id => {
+            const ccMatchedWord = CCData.filter(data => data.word_no.toString().includes(id));
+            setCCFilteredData(ccMatchedWord);
+    
+            const cnMatchedWord = CNData.filter(data => data.word_no.toString().includes(id));
+            setCNFilteredData(cnMatchedWord);
+    
+            const coMatchedWord = COData.filter(data => data.word_no.toString().includes(id));
+            setCOFilteredData(coMatchedWord);
+        } */
 
     // db table
     // useEffect(() => {
@@ -228,6 +232,23 @@ const DBHome = () => {
     }, [residentData])
     */
     // console.log(totalData)
+
+    // spinner
+    if (!isLoading) {
+        return <div className="text-center 100vh pt-5">
+            <Button variant="success" disabled>
+                <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                />
+                Loading...
+            </Button>
+        </div>
+    }
+
     return (
         <Container>
             <Row xs={1} sm={2} lg={4} className="g-4 text-center pb-5">
@@ -259,7 +280,7 @@ const DBHome = () => {
                     <Card className="bg-light">
                         <Card.Body>
                             <Card.Title className="fw-bold">বাণিজ্যিক কর</Card.Title>
-                            <Card.Text>{totalData?.commerce_tax} ৳ </Card.Text>
+                            <Card.Text>{totalData?.commerce_tax} ৳</Card.Text>
                         </Card.Body>
                     </Card>
                 </Col>

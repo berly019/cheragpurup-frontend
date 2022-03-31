@@ -8,6 +8,7 @@ const Intros = () => {
 
     const [editInto, setEditIntro] = React.useState(false);
     const [modalId, setModalId] = React.useState('');
+    const [modalData, setModalData] = React.useState('');
 
     React.useEffect(() => {
         axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/intro')
@@ -18,6 +19,7 @@ const Intros = () => {
         <Container>
             <ShowModal
                 id={modalId}
+                data={modalData}
                 show={editInto}
                 onHide={() => setEditIntro(false)}
             />
@@ -37,10 +39,10 @@ const Intros = () => {
                                     <Image className="w-50" fluid src={int?.image} style={{ borderRadius: '0 0 0 0.90rem', height: "-webkit-fill-available" }} />
                                     <Card.Text className="w-50 p-1 p-md-2" style={{ textAlign: 'justify' }}>
                                         {int?.texts?.slice(0, 4).map(txt =>
-                                            <p className="mb-2">{txt?.serialNo}। {txt?.descText}</p>
+                                            <p key={txt?._id} className="mb-2">{txt?.serialNo}। {txt?.descText}</p>
                                         )}
                                         <div className="text-center">
-                                            <Button size="sm" className="px-4" variant="outline-success" onClick={() => { setEditIntro(true); setModalId(int?._id) }}>সব দেখুন</Button>
+                                            <Button size="sm" className="px-4" variant="outline-success" onClick={() => { setEditIntro(true); setModalId(int?._id); setModalData(int) }}>সব দেখুন</Button>
                                         </div>
                                     </Card.Text>
                                 </Card.Body>

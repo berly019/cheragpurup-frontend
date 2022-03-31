@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { BsEye } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
@@ -12,6 +12,7 @@ import TLDownload from './TLDownload/TLDownload';
 import ReactPaginate from 'react-paginate';
 
 const TreadLicense = () => {
+    const [isLoading, setIsLoading] = React.useState(false);
     const [modalShow, setModalShow] = React.useState(false);
     const [modalEdit, setModalEdit] = React.useState(false);
     const [modalShowF, setModalShowF] = React.useState(false);
@@ -36,6 +37,7 @@ const TreadLicense = () => {
                 setTreasLicenseData(data.data);
                 // console.log(data.data);
                 setFilteredData(data.data);
+                setIsLoading(true);
             })
     }, [modalShow, treasLicenseData?.id]);
 
@@ -70,6 +72,22 @@ const TreadLicense = () => {
                 // console.log(data.data);
                 setFilteredData(data.data);
             })
+    }
+
+    // spinner
+    if (!isLoading) {
+        return <div className="text-center 100vh pt-5">
+            <Button variant="success" disabled>
+                <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                />
+                Loading...
+            </Button>
+        </div>
     }
 
     return (

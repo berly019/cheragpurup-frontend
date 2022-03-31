@@ -100,7 +100,7 @@ const WChairman = () => {
                 </Col>
                 <Col className="d-flex justify-content-end">
                     {show && <Form onSubmit={handleImageSubmit}>
-                        <Form.Control type="file" accept='image/*' onChange={(e) => setImage(e.target.files[0])} required />
+                        <Form.Control type="file" accept='image/*' onChange={(e) => setImage(e.target.files[0])}  />
                         <Button type="submit">Update Image</Button>
                     </Form>}
                 </Col>
@@ -113,7 +113,7 @@ const WChairman = () => {
                             Name
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.name} disabled={isDisabled} required {...register("name", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.name} disabled={isDisabled}  {...register("name")} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextPhoneC">
@@ -121,7 +121,7 @@ const WChairman = () => {
                             Phone Office
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.phone_o} disabled={isDisabled} required {...register("phone_o", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.phone_o} disabled={isDisabled}  {...register("phone_o")} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextPhone">
@@ -129,7 +129,7 @@ const WChairman = () => {
                             Phone
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.phone} disabled={isDisabled} required {...register("phone", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.phone} disabled={isDisabled}  {...register("phone")} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextDane">
@@ -137,7 +137,7 @@ const WChairman = () => {
                             Date of joining
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.doj?.slice(0, 10)} disabled={isDisabled} required {...register("doj", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.doj?.slice(0, 10)} disabled={isDisabled}  {...register("doj")} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextEmail">
@@ -145,7 +145,7 @@ const WChairman = () => {
                             Email
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.email} disabled={isDisabled} required {...register("email", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.email} disabled={isDisabled}  {...register("email")} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextFax">
@@ -153,11 +153,11 @@ const WChairman = () => {
                             Fax
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control type="text" defaultValue={data?.fax} disabled={isDisabled} required {...register("fax", { required: true })} />
+                            <Form.Control type="text" defaultValue={data?.fax} disabled={isDisabled}  {...register("fax")} />
                         </Col>
                     </Form.Group>
                 </Row>
-                {errors.exampleRequired && <span>This field is required</span>}
+                {errors.example && <span>This field is </span>}
                 {show && <div className="text-end">
                     <Button variant="primary mt-5" type="submit">Save</Button>
                 </div>}

@@ -47,9 +47,9 @@ const CreateNotice = props => {
             // },
             body: formData
         })
-            .then(res => res.json())
-            .then(data => {
-                if (data) {
+            .then(res => {
+                res.json()
+                if (res.statusText === "OK") {
                     setSuccess(true)
                 }
             })
@@ -67,6 +67,12 @@ const CreateNotice = props => {
             })
     }, [id])
 
+
+    if (success) {
+        setTimeout(() => {
+            window.location.reload();
+        }, 1500);
+    }
     // const handleInputChange = (e, index) => {
     //     const { name, value } = e.target;
     //     const list = [...inputList];

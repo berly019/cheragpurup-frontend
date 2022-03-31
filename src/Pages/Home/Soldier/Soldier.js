@@ -19,11 +19,13 @@ const Soldier = () => {
                             <Card
                                 text='dark'
                                 style={{ borderRadius: '1rem', backgroundColor: '#F4F4F4' }}
-                                className="mb-2 mx-auto h-100"
+                                className="mx-auto h-100"
                             >
                                 <Card.Header className="fs-4" style={{ backgroundColor: '#F4F4F4', borderRadius: "1rem 1rem 0 0" }}>{pbi?.title}</Card.Header>
-                                <Card.Body className="p-0">
-                                    <Image fluid src={pbi?.image} style={{ borderRadius: '0 0 1rem 1rem', height: '100%' }} />
+                                <Card.Body className="p-0" style={{maxHeight:"250px"}}>
+                                {/* <Card.Body className="p-0"> */}
+                                    <Image fluid src={pbi?.image} style={{ borderRadius: '0 0 1rem 1rem', height: '100%', width: '100%' }}
+                                     />
                                 </Card.Body>
                             </Card>
                         </Col>
