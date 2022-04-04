@@ -9,7 +9,7 @@ import SkeletonLoader from "tiny-skeleton-loader-react";
 const Login = () => {
     const [isLoading, setIsLoading] = React.useState(false);
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/')
             .then(res => {
                 // console.log(res);
                 setIsLoading(true);

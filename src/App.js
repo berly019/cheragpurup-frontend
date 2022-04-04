@@ -21,6 +21,7 @@ import PResident from './Pages/Dashboard/Page/PResident/PResident';
 import PCommerse from './Pages/Dashboard/Page/PCommerse/PCommerse';
 import PContact from './Pages/Dashboard/Page/PContact/PContact';
 import WMember from './Pages/Dashboard/Website/WMember/WMember';
+import Entrepreneur from './Pages/Dashboard/Website/Entrepreneur/Entrepreneur';
 import Wpanel from './Pages/Dashboard/Website/WPanel/WPanel';
 import WChairman from './Pages/Dashboard/Website/WChairman/WChairman';
 import WSacib from './Pages/Dashboard/Website/WSacib/WSacib';
@@ -44,7 +45,7 @@ function App() {
   const token = JSON.parse(sessionStorage.getItem("user"));
   React.useEffect(() => {
     if (token) {
-      fetch('https://khadimpur-mongoose-backend.herokuapp.com/up/db_user/user/token', {
+      fetch('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', {
         method: 'POST',
         headers: { Authorization: 'Bearer ' + token.access_token }
       }).then(response => response.json())
@@ -92,6 +93,7 @@ function App() {
               <Route path='wsacib' element={<PrivateRoute><WSacib /></PrivateRoute>} />
               <Route path='wpanel' element={<PrivateRoute><Wpanel /></PrivateRoute>} />
               <Route path='wmembar' element={<PrivateRoute><WMember /></PrivateRoute>} />
+              <Route path='entrepreneur' element={<PrivateRoute><Entrepreneur /></PrivateRoute>} />
               {/* pages */}
               <Route path='pmain' element={<PrivateRoute><PMain /></PrivateRoute>} />
               <Route path='president' element={<PrivateRoute><PResident /></PrivateRoute>} />
@@ -133,7 +135,7 @@ function App() {
             <div className="delayedShow d-flex flex-column justify-content-center align-items-center">
               <p className="fs-5 text-danger">Your session has been expired!</p>
               <p className="fs-4 text-danger">Page Not Found!</p>
-              <Button variant="outline-danger" as={NavLink} size="sm" to="/login">Go For Login</Button>
+              <Button variant="danger" as={NavLink} size="sm" to="/login">Go For Login</Button>
               <Button className="mt-4" variant="outline-success" size="sm" as={NavLink} to="/home">Go To Home</Button>
             </div>
 

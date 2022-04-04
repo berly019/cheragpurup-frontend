@@ -13,12 +13,12 @@ function CSModalEdit(props) {
     useEffect(() => {
         setIsLoading(true)
         if (id) {
-            fetch(`https://khadimpur-mongoose-backend.herokuapp.com/commerce/single/${id}`)
+            fetch(`https://hasadahoup-mongo-server.herokuapp.com/commerce/single/${id}`)
                 .then(res => res.json())
                 .then(data => {
                     formRef?.current?.reset();
                     formRef?.current?.focus();
-                    console.log(data)
+                    // console.log(data)
                     if (data?.data) setData(data.data);
                 })
         }
@@ -77,7 +77,7 @@ function CSModalEdit(props) {
         // data.areas_tax = areasTax;
         // data.previes_areas_tax = pAreasTax;
 
-        fetch(`https://khadimpur-mongoose-backend.herokuapp.com/commerce/single/update/${id}`, {
+        fetch(`https://hasadahoup-mongo-server.herokuapp.com/commerce/single/update/${id}`, {
             method: 'put',
             headers: {
                 'Content-Type': "application/json"

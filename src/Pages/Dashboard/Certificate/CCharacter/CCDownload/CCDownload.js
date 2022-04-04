@@ -12,14 +12,14 @@ function CCModalShow(props) {
     const [pMData, setPMData] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/character_certificate/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/character_certificate/${id}`)
             .then((data) => {
                 setData(data.data);
                 // console.log(data.data[0]);
             })
     }, [id]);
     useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/pMain')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pMain')
             .then(data => {
                 setPMData(data?.data[0]);
             })

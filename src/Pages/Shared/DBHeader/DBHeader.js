@@ -11,12 +11,12 @@ const DBHeader = () => {
     const token = JSON.parse(sessionStorage.getItem("user"));
     React.useEffect(() => {
         if (token) {
-            fetch('https://khadimpur-mongoose-backend.herokuapp.com/up/db_user/user/token', {
+            fetch('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', {
                 method: 'POST',
                 headers: { Authorization: 'Bearer ' + token.access_token }
             }).then(response => response.json())
                 .then(data => setId(data.data.userId));
-            // axios.post('https://khadimpur-mongoose-backend.herokuapp.com/up/db_user/user/token', { headers: { Authorization: 'Bearer' + ' ' + token.access_token } })
+            // axios.post('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', { headers: { Authorization: 'Bearer' + ' ' + token.access_token } })
             //     .then(res => {
             //         setId(res?.data?.userId);
             //         // setIsDB(true);
@@ -28,12 +28,12 @@ const DBHeader = () => {
     const [data, setData] = React.useState([]);
     // console.log(data);
     React.useEffect(() => {
-        /*         axios.get("https://khadimpur-mongoose-backend.herokuapp.com/up/wchairman", {
+        /*         axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wchairman", {
                     headers: {
                         'token': token
                     }
                 }) */
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/db_user/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/db_user/${id}`)
             .then(res => {
                 // console.log(res)
                 if (res.data.err) {
@@ -55,11 +55,16 @@ const DBHeader = () => {
 
     const [pMData, setPMData] = useState([]);
     useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/pMain')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pMain')
             .then(data => {
                 setPMData(data?.data[0]);
             })
-    }, [])
+    }, []);
+
+    const handleOnClick = index => {
+        sessionStorage.setItem("dPage", JSON.stringify(index));
+        // remove the curly braces
+    };
 
     const handleLogOut = () => {
         // Cookies.remove('userId', { path: '/', domain: '.nilanjona.com.bd' });
@@ -98,13 +103,13 @@ const DBHeader = () => {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu variant="dark" style={{ left: '-60px' }}>
-                                <Dropdown.Item as={NavLink} onClick={handleLogOut} to="/home">লগ আউট</Dropdown.Item>
+                                <Dropdown.Item as={NavLink} to="/home" onClick={() => { handleLogOut(); handleOnClick(0) }}>লগ আউট</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </Nav>
                 </Navbar.Collapse>
             </div>
-        </Navbar>
+        </Navbar >
     );
 };
 

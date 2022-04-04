@@ -2,7 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { Alert, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import EditSubIntro from './EditSubIntro/EditSubIntro';
+import AddSubIntro from './EditSubIntro/AddSubIntro';
 import { FiEdit } from 'react-icons/fi';
+import { AiFillDelete } from 'react-icons/ai';
+import { GoDiffAdded } from 'react-icons/go';
 
 const CreateNotice = props => {
     const id = props.id;
@@ -10,6 +13,10 @@ const CreateNotice = props => {
 
     const [editInto, setEditIntro] = useState(false);
     const [modalId, setModalId] = useState('');
+    const [modalData, setModalData] = useState('');
+
+    const [addInto, setAddIntro] = useState(false);
+    const [modalAddId, setModalAddId] = useState('');
 
     const [success, setSuccess] = React.useState(false);
     const [title, setTitle] = useState('');
@@ -40,7 +47,7 @@ const CreateNotice = props => {
         // formData.append('text5', text5);
         // console.log(formData, inputList);
 
-        fetch(`https://khadimpur-mongoose-backend.herokuapp.com/up/intro/${id}`, {
+        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/intro/${id}`, {
             method: 'PUT',
             // headers: {
             //     'token': token
@@ -60,12 +67,29 @@ const CreateNotice = props => {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/intro/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/intro/${id}`)
             .then((data) => {
                 setData(data.data)
                 formRef?.current?.reset();
             })
     }, [id])
+
+
+    const [warn, setWarn] = useState(false);
+
+    // delete texts
+    const handleDelete = (subId) => {
+        const proceed = window.confirm('Are you sure you want to Confirm?');
+        if (proceed) {
+            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/intro/${subId}/delete`)
+                .then(res => {
+                    // console.log(res);
+                    if (res.data.data) {
+                        setWarn(true)
+                    }
+                })
+        }
+    }
 
 
     if (success) {
@@ -93,7 +117,7 @@ const CreateNotice = props => {
     // };
 
     // get data
-    // axios.get("https://khadimpur-mongoose-backend.herokuapp.com/up/intro")
+    // axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/intro")
     //     .then(data => console.log(data.data));
 
     // new input list
@@ -105,19 +129,30 @@ const CreateNotice = props => {
     //     }, 1000);
     // }
 
+
+
     return (
-        <Modal className="overflow-auto" key={data?._id}
+        <Modal className="overflow-auto"
             {...props}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
             style={{ top: '50px', height: '90vh' }} scrollable="true"
         >
+
             <EditSubIntro
                 id={modalId}
+                data={modalData}
                 show={editInto}
                 onHide={() => setEditIntro(false)}
             />
+
+            <AddSubIntro
+                id={modalAddId}
+                show={addInto}
+                onHide={() => setAddIntro(false)}
+            />
+
             <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
                 <div className="text-center" style={{ width: "96%" }}>
                     <p className="text-success m-0 fs-4">Edit data</p>
@@ -151,14 +186,31 @@ const CreateNotice = props => {
                                 <Col sm={8}>
                                     <Form.Control type="text" defaultValue={txt?.descText} disabled />
                                 </Col>
-                                <Col sm={2}>
+                                <Col md={1} className="d-none d-md-block">
                                     <Button>
-                                        <FiEdit onClick={() => { setEditIntro(true); setModalId(txt?._id) }} />
+                                        <FiEdit onClick={() => { setEditIntro(true); setModalId(txt?._id); setModalData(txt) }} />
                                     </Button>
                                 </Col>
+                                <Col md={1} className="d-none d-md-block">
+                                    <Button>
+                                        <AiFillDelete onClick={() => { handleDelete(txt?._id) }} />
+                                    </Button>
+                                </Col>
+
+                                <div className="d-md-none d-flex align-items-center justify-content-evenly my-2">
+                                    <Button>
+                                        <FiEdit onClick={() => { setEditIntro(true); setModalId(txt?._id); setModalData(txt) }} />
+                                    </Button>
+                                    <Button>
+                                        <AiFillDelete onClick={() => { handleDelete(txt?._id) }} />
+                                    </Button>
+                                </div>
                             </Form.Group>
                         )}
 
+                        <Button>
+                            <GoDiffAdded onClick={() => { setAddIntro(true); setModalAddId(data?._id) }} />
+                        </Button>
                         {/* 
                         < p className="fs-5 pt-3">Add new</p>
                         {inputList.map((x, i) => {
@@ -196,9 +248,6 @@ const CreateNotice = props => {
                         })} */}
 
 
-
-                        {/**/}
-
                         <div className="mt-4 text-end">
                             <Button type="submit" variant="danger" className='px-4'>Save</Button>
                         </div>
@@ -210,6 +259,11 @@ const CreateNotice = props => {
 
                 </Container>
             </Modal.Body>
+            {
+                warn ?
+                    <Alert className="m-2 p-2 text-center">"Data removed"</Alert>
+                    : ''
+            }
             {
                 success ?
                     <Alert className="m-2 p-2 text-center">ডাটাটি সফল ভাবে ডাটাবেজে আপডেট হয়েছে।</Alert>

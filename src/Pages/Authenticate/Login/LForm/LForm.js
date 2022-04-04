@@ -10,13 +10,28 @@ const LForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     // axios.defaults.withCredentials = true;
 
+    // const [role, setRole] = React.useState(undefined);
+    // const token = JSON.parse(sessionStorage.getItem("user"));
+    // React.useEffect(() => {
+    //     if (token) {
+    //         fetch('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', {
+    //             method: 'POST',
+    //             headers: { Authorization: 'Bearer ' + token.access_token }
+    //         }).then(response => response.json())
+    //             .then(data => {
+    //                 setRole(data?.data?.role)
+    //                 // console.log(data?.data?.role)
+    //             });
+    //     }
+    // }, [token]);
+
     function refreshPage() {
         window.location.reload(false);
     }
 
     let navigate = useNavigate();
     const onSubmit = data => {
-        axios.post('https://khadimpur-mongoose-backend.herokuapp.com/up/db_user/login', data)
+        axios.post('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/login', data)
             .then(res => {
                 if (res.data.access_token) {
                     sessionStorage.setItem("user", JSON.stringify(res.data));
@@ -27,14 +42,14 @@ const LForm = () => {
                     // console.log(res.data);
                     setStatus(res.data);
                 }
+                // console.log(res)
             })
-        // console.log(data)
     };
 
     return (
         <Container className="py-5 text-center form-cc">
             <div className="pb-3">
-                <p className="fs-2 fw-bold text-success mb-0">খাদিমপুর এডমিন প্যানেল</p>
+                <p className="fs-2 fw-bold text-success mb-0">হাসাদাহ এডমিন প্যানেল</p>
                 <p className="fs-5">অনুগ্রহ করে আপনার একাউন্টে লগইন করুন</p>
             </div>
 
@@ -58,6 +73,12 @@ const LForm = () => {
                     <Button className="px-5" variant="success" type="submit">
                         লগ ইন
                     </Button>
+
+                    {/* {role ?
+                        <Link to='dashboard'> <Button className="px-5 my-3" variant="success" type="submit">
+                            ড্যাশবোর্ড
+                        </Button></Link> : ''
+                    } */}
 
                 </div>
             </Form>

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Col, Container, Form, Image, Row, Button, Alert, Spinner } from 'react-bootstrap';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
-import WMemberAdd from './WMemberAdd/WMemberAdd';
+import EntrepreneurAdd from './EntrepreneurAdd/EntrepreneurAdd';
 import axios from 'axios';
 import { FiEdit } from 'react-icons/fi';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import WMemberEdit from './WMemberEdit/WMemberEdit'
+import EntrepreneurEdit from './EntrepreneurEdit/EntrepreneurEdit'
 
 const WMember = () => {
     const [isLoading, setIsLoading] = React.useState(false);
@@ -17,7 +17,7 @@ const WMember = () => {
     const [warn, setWarn] = React.useState('');
 
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/wmember')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/entrepreneur')
             .then((res) => {
                 setMember(res.data)
                 setIsLoading(true);
@@ -27,7 +27,7 @@ const WMember = () => {
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
-            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/wmember/${id}`)
+            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/entrepreneur/${id}`)
                 .then((res) => {
                     // console.log(res);
                     if (res.data.affectedRows > 0) {
@@ -60,11 +60,11 @@ const WMember = () => {
             <div className="pb-5 text-end">
                 <Button variant="success" onClick={() => setModalShow(true)}><HiOutlinePlusCircle /> সংযুক্ত করুন</Button>
 
-                <WMemberAdd
+                <EntrepreneurAdd
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                 />
-                <WMemberEdit
+                <EntrepreneurEdit
                     id={modalId}
                     show={modalEdit}
                     onHide={() => setModalEdit(false)}
@@ -76,7 +76,7 @@ const WMember = () => {
                         <Col key={dt?._id}>
                             <div className="bg-light">
                                 <div className="p-3 border rounded d-flex justify-content-between">
-                                    <p className="fs-5 mb-0">মেম্বার</p>
+                                    <p className="fs-5 mb-0">উদ্যোক্তা</p>
                                     <div>
                                         <FiEdit onClick={() => { setModalEdit(true); setModalId(dt._id) }} /> <RiDeleteBinLine className="text-danger" onClick={() => handleDelete(dt._id)} />
                                     </div>

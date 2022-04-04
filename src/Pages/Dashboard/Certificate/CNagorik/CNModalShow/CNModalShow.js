@@ -9,7 +9,7 @@ function CNModalShow(props) {
     const id = props.id;
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/citizen_certificate/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/citizen_certificate/${id}`)
             .then((data) => {
                 setData(data.data);
                 // console.log(data);
@@ -19,7 +19,7 @@ function CNModalShow(props) {
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
-            axios.delete(`https://khadimpur-mongoose-backend.herokuapp.com/up/citizen_certificate/${id}`)
+            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/citizen_certificate/${id}`)
                 .then((res) => {
                     // console.log(res);
                     if (res.data.affectedRows > 0) {

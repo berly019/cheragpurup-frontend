@@ -15,7 +15,7 @@ const PResident = () => {
     // const [success, setSuccess] = React.useState(false);
     const [data, setData] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/president')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/president')
             .then(data => {
                 setData(data.data);
                 setIsLoading(true);
@@ -25,7 +25,7 @@ const PResident = () => {
         const handleDelete = id => {
             const proceed = window.confirm('Are you sure, you want to delete?');
             if (proceed) {
-                axios.delete(`https://khadimpur-mongoose-backend.herokuapp.com/up/president/${id}`)
+                axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/president/${id}`)
                     .then((res) => {
                         console.log(res);
                         if (res.data.affectedRows > 0) {

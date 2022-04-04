@@ -18,14 +18,14 @@ const CreateNotice = props => {
         formData.append('image', image);
         // console.log(formData);
 
-        fetch('https://khadimpur-mongoose-backend.herokuapp.com/up/notice', {
+        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/notice', {
             method: 'POST',
             headers: {},
             body: formData
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data._id) {
                     setSuccess(true)
                 }

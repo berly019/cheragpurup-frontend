@@ -21,7 +21,7 @@ const Dashboard = () => {
 
     React.useEffect(() => {
         if (token) {
-            fetch('https://khadimpur-mongoose-backend.herokuapp.com/up/db_user/user/token', {
+            fetch('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', {
                 method: 'POST',
                 headers: { Authorization: 'Bearer ' + token.access_token }
             }).then(response => response.json())
@@ -32,15 +32,19 @@ const Dashboard = () => {
         }
     }, [token]);
 
-    const [activeIndex, setActiveIndex] = React.useState(0);
+    const pageNo = JSON.parse(sessionStorage.getItem("dPage"));
+
+    const [activeIndex, setActiveIndex] = React.useState(Number(pageNo) ? Number(pageNo) : 0);
+    // console.log(activeIndex)
     const handleOnClick = index => {
         setActiveIndex(index);
+        sessionStorage.setItem("dPage", JSON.stringify(index));
         // remove the curly braces
     };
 
     // useEffect(() => {
     //     if (token) {
-    //         axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/db_user', { headers: { 'Authorization': 'Bearer' + ' ' + token.access_token } })
+    //         axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_user', { headers: { 'Authorization': 'Bearer' + ' ' + token.access_token } })
     //             .then(res => {
     //                 // setCurrentUser(res?.data);
     //                 setRole(res?.data[0]?.role);
@@ -142,6 +146,7 @@ const Dashboard = () => {
                                                     <Nav.Link as={NavLink} className="dropLink" to='wsacib' onClick={() => { setExpanded(false); handleOnClick(2) }} >সচিব</Nav.Link>
                                                     <Nav.Link as={NavLink} className="dropLink" to='wpanel' onClick={() => { setExpanded(false); handleOnClick(2) }} >প্যানেল চেয়ারম্যান</Nav.Link>
                                                     <Nav.Link as={NavLink} className="dropLink" to='wmembar' onClick={() => { setExpanded(false); handleOnClick(2) }}>মেম্বার</Nav.Link>
+                                                    <Nav.Link as={NavLink} className="dropLink" to='entrepreneur' onClick={() => { setExpanded(false); handleOnClick(2) }}>উদ্যোক্তা</Nav.Link>
                                                 </div>
                                             </div>
                                             <div className="dropdown">

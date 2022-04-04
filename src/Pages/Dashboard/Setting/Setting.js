@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import { BsEye } from 'react-icons/bs';
 import { AiOutlineUser } from 'react-icons/ai';
 import { MdLogout } from 'react-icons/md';
@@ -54,7 +54,7 @@ const Setting = () => {
     React.useEffect(() => {
         const token = JSON.parse(sessionStorage.getItem("user"));
         if (token) {
-            axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/db_user', { headers: { 'token': token.access_token } })
+            axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_user', { headers: { 'token': token.access_token } })
                 .then(res => {
                     setId(res?.data?.data?.id);
                     // setIsDB(true);
@@ -64,7 +64,7 @@ const Setting = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
-        axios.post(`https://khadimpur-mongoose-backend.herokuapp.com/up/api/change/${id}`, data)
+        axios.post(`https://hasadahoup-mongo-server.herokuapp.com/up/api/change/${id}`, data)
             .then((res) => {
                 console.log(res)
                 if (res?.data?.affectedRows > 0) {

@@ -21,7 +21,7 @@ const DynamicTable = () => {
     }
 
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/commerce/word/1')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/commerce/word/1')
             .then(data => {
                 // setResidentData(data.data);
                 setFilteredData(data.data);
@@ -32,19 +32,20 @@ const DynamicTable = () => {
     }, []);
 
     const handleAllFilter = () => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/commerce')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/commerce')
             .then(data => {
                 // setCommerceData(data.data);
                 setFilteredData(data.data);
                 setFilteredDataTwo(data.data);
                 setIsLoading(true);
             });
+        setPageNumber(0);
     };
 
     // filter
     const handleWordFilter = id => {
         setId(id);
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/commerce/word/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/commerce/word/${id}`)
             .then(data => {
                 setFilteredData(data.data)
                 setFilteredDataTwo(data.data)
@@ -90,7 +91,7 @@ const DynamicTable = () => {
     }
 
     // const handleReset = () => {
-    //     axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/commerce')
+    //     axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/commerce')
     //         .then(data => {
     //             // setCommerceData(data.data);
     //             setFilteredData(data.data);
@@ -204,12 +205,13 @@ const DynamicTable = () => {
                 </table>
                 {displayData.length === 0 ? <Alert className="text-center">No Data Found</Alert> : ''}
                 <div className="d-flex justify-content-between align-items-center flex-column flex-md-row">
-                    <p>Showing 1 to {displayData.length} of {filteredData.length} entries</p>
+                <p className="mb-0 py-md-0 text-center">Showing {displayData[0]?.holding_no ? displayData[0]?.holding_no : "Undefined"} to {displayData[displayData.length - 1]?.holding_no ? displayData[displayData.length - 1]?.holding_no : "Undefined"} of {filteredData.length} entries</p>
                     <ReactPaginate
                         previousLabel={'<'}
                         nextLabel={'>'}
                         pageCount={pageCount}
                         onPageChange={changePage}
+                        forcePage={pageNumber}
                         containerClassName={'pagination'}
                         pageClassName={'page-item'}
                         pageLinkClassName={'page-link'}

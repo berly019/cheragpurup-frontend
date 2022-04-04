@@ -22,7 +22,7 @@ const CreateNotice = props => {
         formData.append('desc', desc);
         // console.log(formData);
 
-        fetch('https://khadimpur-mongoose-backend.herokuapp.com/up/pmain', {
+        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/pmain', {
             method: 'POST',
             headers: {
                 'token': token

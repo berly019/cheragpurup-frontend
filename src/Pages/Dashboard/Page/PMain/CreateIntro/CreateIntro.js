@@ -26,7 +26,7 @@
 //         formData.append('text5', text5);
 //         // console.log(formData, inputList);
 
-//         fetch('https://khadimpur-mongoose-backend.herokuapp.com/up/intro', {
+//         fetch('https://hasadahoup-mongo-server.herokuapp.com/up/intro', {
 //             method: 'POST',
 //             // headers: {
 //             //     'token': token
@@ -46,7 +46,7 @@
 
 
 //     // get data
-//     // axios.get("https://khadimpur-mongoose-backend.herokuapp.com/up/intro")
+//     // axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/intro")
 //     //     .then(data => console.log(data.data));
 
 //     // new input list
@@ -193,13 +193,13 @@ const CreateNotice = props => {
         formData.append('image', image);
         // console.log(formData, inputList);
 
-        fetch('https://khadimpur-mongoose-backend.herokuapp.com/up/intro/', {
+        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/intro/', {
             method: 'POST',
             body: formData
         })
             .then(res => {
                 res.json()
-                console.log(res);
+                // console.log(res);
                 if (res.statusText === "OK") {
                     setSuccess(true)
                 }
@@ -212,7 +212,7 @@ const CreateNotice = props => {
 
 
     // get data
-    // axios.get("https://khadimpur-mongoose-backend.herokuapp.com/up/intro")
+    // axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/intro")
     //     .then(data => console.log(data.data));
 
     // new input list

@@ -9,7 +9,7 @@ const Banner = () => {
 
     const [pMain, setPMain] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/pmain')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pmain')
             .then(res => {
                 setPMain(res?.data[0]);
                 // console.log(res);
@@ -19,13 +19,13 @@ const Banner = () => {
     const [notice, setNotice] = React.useState([]);
     const [runData, setRunData] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/notice')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/notice')
             .then(data => {
                 setNotice(data?.data);
                 // console.log(data?.data);
                 setIsLoading(true);
             })
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/run_notice')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/run_notice')
             .then(data => {
                 setRunData(data.data);
                 setIsLoading(true);

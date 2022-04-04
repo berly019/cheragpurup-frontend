@@ -19,7 +19,7 @@ const CreateNotice = props => {
         formData.append('location', location);
         // console.log(formData);
 
-        fetch(`https://khadimpur-mongoose-backend.herokuapp.com/up/president/${id}`, {
+        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/president/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -36,7 +36,7 @@ const CreateNotice = props => {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/president/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/president/${id}`)
             .then((data) => {
                 setData(data.data);
                 // console.log(data.data[0]);

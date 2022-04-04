@@ -24,7 +24,7 @@ const WChairman = () => {
         const formData = new FormData();
         formData.append('image', image);
 
-        let response = await fetch(`https://khadimpur-mongoose-backend.herokuapp.com/up/wchairman/image/${id}`, {
+        let response = await fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/wchairman/image/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -38,12 +38,12 @@ const WChairman = () => {
     const [data, setData] = React.useState([]);
     // console.log(data);
     React.useEffect(() => {
-        /*         axios.get("https://khadimpur-mongoose-backend.herokuapp.com/up/wchairman", {
+        /*         axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wchairman", {
                     headers: {
                         'token': token
                     }
                 }) */
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/wchairman`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/wchairman`)
             .then(res => {
                 if (res.data.err) {
                     alert(res.data.err)
@@ -56,7 +56,7 @@ const WChairman = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
-        axios.put(`https://khadimpur-mongoose-backend.herokuapp.com/up/wchairman/${id}`, data)
+        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/wchairman/${id}`, data)
             .then(res => {
                 if (res.data) {
                     setSuccess(true)

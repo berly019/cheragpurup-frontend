@@ -8,7 +8,7 @@ const CreateNotice = props => {
     const id = props.id;
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/notice/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/notice/${id}`)
             .then((data) => {
                 setData(data.data);
                 // console.log(data.data[0]);

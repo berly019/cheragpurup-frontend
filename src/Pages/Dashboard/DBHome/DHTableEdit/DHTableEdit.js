@@ -10,7 +10,7 @@ function DHTableEdit(props) {
     const [data, setData] = useState([]);
     const formRef = useRef();
     useEffect(() => {
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/db_home/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/db_home/${id}`)
             .then((data) => {
                 setData(data.data);
                 formRef?.current?.reset();
@@ -19,7 +19,7 @@ function DHTableEdit(props) {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const onSubmit = data => {
-        axios.put(`https://khadimpur-mongoose-backend.herokuapp.com/up/db_home/${id}`, (data))
+        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/db_home/${id}`, (data))
             .then((res) => {
                 // handle success
                 if (res.data._id) {
@@ -47,7 +47,7 @@ function DHTableEdit(props) {
             <Modal.Header closeButton id="contained-modal-title-vcenter border-bottom" className="border-bottom">
                 {/* <Modal.Title id="contained-modal-title-vcenter"> */}
                 <div className="text-center" style={{ width: "96%" }}>
-                    <p className="text-success m-0 fs-4">১৪ নং খাদিমপুর ইউনিয়ন পরিষদ</p>
+                    <p className="text-success m-0 fs-4">৫ নং হাসাদাহ ইউনিয়ন পরিষদ</p>
                     <p className="text-danger m-0">ওয়ার্ড নং {data?.word_no}</p>
                 </div>
                 {/* </Modal.Title> */}

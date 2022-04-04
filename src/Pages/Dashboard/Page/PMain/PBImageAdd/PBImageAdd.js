@@ -15,7 +15,7 @@ const CreateNotice = props => {
         formData.append('title', title);
         const token = JSON.parse(sessionStorage.getItem("user")).access_token;
 
-        fetch('https://khadimpur-mongoose-backend.herokuapp.com/up/pbimage', {
+        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/pbimage', {
             method: 'POST',
             headers: { Authorization: 'Bearer ' + token },
             body: formData

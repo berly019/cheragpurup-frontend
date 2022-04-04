@@ -6,7 +6,7 @@ const UpMember = () => {
     const [member, setMember] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(false);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/wmember')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/entrepreneur')
             .then((res) => {
                 setMember(res.data)
                 setIsLoading(true);
@@ -30,7 +30,7 @@ const UpMember = () => {
     }
     return (
         <Container className="py-5">
-            <p className="fs-2 fw-bold text-center mx-auto" style={{ borderBottom: '2px solid #ADADAD', width: 'fit-content' }}>হাসাদাহ ইউনিয়নের মেম্বারদের তালিকা</p>
+            <p className="fs-2 fw-bold text-center mx-auto" style={{ borderBottom: '2px solid #ADADAD', width: 'fit-content' }}>হাসাদাহ ইউনিয়নের উদ্যোক্তাদের তালিকা</p>
             <Row xs={1} sm={2} lg={3} className="gy-5 py-5">
                 {
                     member.map(dt =>
@@ -47,7 +47,7 @@ const UpMember = () => {
                                         <div>
                                             <p className="fw-bold m-0">{dt?.name}</p>
                                             <hr className="m-0" style={{ height: "2px", background: '#FFCE00' }} />
-                                            <p className="m-0">মেম্বার</p>
+                                            <p className="m-0">উদ্যোক্তা</p>
                                         </div>
                                     </div>
                                     <Card.Text as='div'>

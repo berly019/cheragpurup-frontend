@@ -29,7 +29,7 @@ function RSModal(props) {
         data.previes_areas_tax = pAreasTax;
         const token = JSON.parse(sessionStorage.getItem("user")).access_token;
 
-        axios.post('https://khadimpur-mongoose-backend.herokuapp.com/up/resident', (data), {
+        axios.post('https://hasadahoup-mongo-server.herokuapp.com/up/resident', (data), {
             headers: { Authorization: 'Bearer ' + token }
         })
             .then((res) => {

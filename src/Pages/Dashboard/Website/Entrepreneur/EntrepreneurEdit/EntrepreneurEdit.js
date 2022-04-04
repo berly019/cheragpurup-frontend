@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useRef } from 'react';
 import { Alert, Button, Col, Form, Modal } from "react-bootstrap";
 
-function WMemberEdit(props) {
+function EntrepreneurEdit(props) {
     const id = props.id;
     const [success, setSuccess] = React.useState(false);
     const [desi, setDesi] = useState('');
@@ -24,7 +24,7 @@ function WMemberEdit(props) {
         formData.append('image', image);
         // console.log(formData);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/wmember/${id}`, {
+        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/entrepreneur/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -41,7 +41,7 @@ function WMemberEdit(props) {
 
     const [member, setMember] = React.useState([]);
     React.useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/wmember/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/entrepreneur/${id}`)
             .then((res) => {
                 setMember(res.data)
                 formRef?.current?.reset();
@@ -68,7 +68,7 @@ function WMemberEdit(props) {
             <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
                 {/* <Modal.Title id="contained-modal-title-vcenter"> */}
                 <div className="text-center" style={{ width: "96%" }}>
-                    <p className="text-success m-0 fs-4">আপডেট মেম্বার</p>
+                    <p className="text-success m-0 fs-4">আপডেট উদ্যোক্তা</p>
                 </div>
                 {/* </Modal.Title> */}
             </Modal.Header>
@@ -135,4 +135,4 @@ function WMemberEdit(props) {
         </Modal>
     );
 }
-export default WMemberEdit;
+export default EntrepreneurEdit;

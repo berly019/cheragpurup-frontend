@@ -17,7 +17,7 @@ const CreateNotice = props => {
         formData.append('location', location);
         const token = JSON.parse(sessionStorage.getItem("user")).access_token;
 
-        fetch('https://khadimpur-mongoose-backend.herokuapp.com/up/pcommerce', {
+        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/pcommerce', {
             method: 'POST',
             headers: {
                 'token': token

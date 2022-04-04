@@ -43,55 +43,55 @@ const DBHome = () => {
     const [pMData, setPMData] = React.useState([]);
 
     // const [dbTaxR, setDBTaxR] = React.useState(0);
-
+   
     const handleApi = () => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/db_home')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_home')
             .then(data => {
                 setHomeData(data?.data);
                 setIsLoading(true);
             });
 
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/db_home/6235e95c87b37a195cb34d64')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_home/6249ebaa4c1ff21f2a664fa2')
             .then(data => {
                 setTotalData(data?.data);
             });
 
-        // axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/resident')
+        // axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/resident')
         //     .then(data => {
         //         setResidentData(data?.data);
         //         setRFilteredData(data?.data);
         //     });
 
-        // axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/commerce')
+        // axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/commerce')
         //     .then(data => {
         //         setCommerceData(data?.data);
         //         setCFilteredData(data?.data);
         //     });
 
-        // axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/tread_license')
+        // axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/tread_license')
         //     .then(data => {
         //         setTreasLicenseData(data?.data);
         //     });
 
-        // axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/character_certificate')
+        // axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/character_certificate')
         //     .then(data => {
         //         setCCData(data?.data);
         //         setCCFilteredData(data?.data);
         //     });
 
-        // axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/citizen_certificate')
+        // axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/citizen_certificate')
         //     .then(data => {
         //         setCNData(data?.data);
         //         setCNFilteredData(data?.data);
         //     });
 
-        // axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/inheritance_certificate')
+        // axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/inheritance_certificate')
         //     .then(data => {
         //         setCOData(data?.data);
         //         setCOFilteredData(data?.data);
         //     });
 
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/pMain')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pMain')
             .then(data => {
                 setPMData(data?.data[0]);
             })

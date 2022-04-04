@@ -10,11 +10,11 @@ const About = () => {
     const [pMain, setPMain] = React.useState([]);
     const [homeData, setHomeData] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/pmain')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pmain')
             .then(res => setPMain(res.data[0]))
     }, []);
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/db_home')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_home')
             .then(data => {
                 setHomeData(data?.data);
                 // console.log(data?.data);
@@ -34,7 +34,7 @@ const About = () => {
                         <p className="fs-1 fw-bold text-center text-md-start">{pMain?.title}</p>
                         <p className="fs-5" style={{ textAlign: 'justify' }}>{pMain?.description?.slice(0,220)} .....</p>
 
-                        <div size="sm" variant="outline-success" onClick={() => { setEditIntro(true) }}>
+                        <div className='mb-4' size="sm" variant="outline-success" onClick={() => { setEditIntro(true) }}>
                             <Button className="px-4"variant="success">আরো পড়ুন <BsArrowRight /></Button>
                         </div>
                     </Col>

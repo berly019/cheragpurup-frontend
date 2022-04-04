@@ -12,7 +12,7 @@ const ChagePass = () => {
     const token = JSON.parse(sessionStorage.getItem("user"));
     React.useEffect(() => {
         if (token) {
-            fetch('https://khadimpur-mongoose-backend.herokuapp.com/up/db_user/user/token', {
+            fetch('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', {
                 method: 'POST',
                 headers: { Authorization: 'Bearer ' + token.access_token }
             }).then(response => response.json())
@@ -23,7 +23,7 @@ const ChagePass = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
         if (data.newPassword === data.newPassword2) {
-            axios.put(`https://khadimpur-mongoose-backend.herokuapp.com/up/db_user/cng_pass/${id}`, (data), { headers: { Authorization: 'Bearer ' + token.access_token } })
+            axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/db_user/cng_pass/${id}`, (data), { headers: { Authorization: 'Bearer ' + token.access_token } })
                 .then((res) => {
                     // console.log(res)
                     if (res?.data?.affectedRows > 0) {

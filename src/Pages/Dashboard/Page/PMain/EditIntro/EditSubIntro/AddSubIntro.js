@@ -3,18 +3,15 @@ import React from 'react';
 import { Alert, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
-const EditSubIntro = (props) => {
+const AddSubIntro = (props) => {
     const subId = props.id;
-    const getData = props.data;
-
-
 
     const [success, setSuccess] = React.useState(false);
 
     const { register, handleSubmit, reset } = useForm();
 
     const onSubmit = data => {
-        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/intro/${subId}/put`, (data))
+        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/intro/${subId}/add`, (data))
             .then((res) => {
                 // handle success
                 if (res) {
@@ -37,15 +34,11 @@ const EditSubIntro = (props) => {
 
             <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
                 <div className="text-center" style={{ width: "96%" }}>
-                    <p className="text-success m-0 fs-4">Edit Sub data</p>
+                    <p className="text-success m-0 fs-4">Add Sub data</p>
                 </div>
             </Modal.Header>
-            <Modal.Body className="px-5" key={getData?._id}>
+            <Modal.Body className="px-5">
                 <Container className="py-5 border-top">
-                    <Row className="border-bottom mb-4 text-center">
-                        <p>Serial No: {getData?.serialNo}</p>
-                        <p>Description: {getData?.descText}</p>
-                    </Row>
                     <Form onSubmit={handleSubmit(onSubmit)}>
                         <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
                             <Form.Label column sm={3}>
@@ -79,4 +72,4 @@ const EditSubIntro = (props) => {
     );
 };
 
-export default EditSubIntro;
+export default AddSubIntro;

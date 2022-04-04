@@ -13,12 +13,12 @@ function CSModalShow(props) {
     useEffect(() => {
         setIsLoading(true)
         if (id) {
-            fetch(`https://khadimpur-mongoose-backend.herokuapp.com/commerce/single/${id}`)
+            fetch(`https://hasadahoup-mongo-server.herokuapp.com/commerce/single/${id}`)
                 .then(res => res.json())
                 .then(data => {
                     formRef?.current?.reset();
                     formRef?.current?.focus();
-                    console.log(data)
+                    // console.log(data)
                     if (data?.data) setData(data.data);
                 })
         }
@@ -28,7 +28,7 @@ function CSModalShow(props) {
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
-            axios.delete(`https://khadimpur-mongoose-backend.herokuapp.com/up/commerce/${id}`)
+            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/commerce/${id}`)
                 .then((res) => {
                     // console.log(res);
                     if (res.data) {

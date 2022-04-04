@@ -10,7 +10,7 @@ const ManiMember = () => {
     // handle chairman
     const [cData, setCData] = React.useState([]);
     React.useEffect(() => {
-        axios.get("https://khadimpur-mongoose-backend.herokuapp.com/up/wchairman")
+        axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wchairman")
             .then(res => {
                 setCData(res.data[0])
                 // console.log(res.data)
@@ -20,21 +20,21 @@ const ManiMember = () => {
     // handle sacib
     const [sData, setSData] = React.useState([]);
     React.useEffect(() => {
-        axios.get("https://khadimpur-mongoose-backend.herokuapp.com/up/wsacib")
+        axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wsacib")
             .then(res => setSData(res.data[0]));
     }, []);
 
     // handle panel
     const [pData, setPData] = React.useState([]);
     React.useEffect(() => {
-        axios.get("https://khadimpur-mongoose-backend.herokuapp.com/up/wpanel")
+        axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wpanel")
             .then(res => setPData(res.data[0]));
     }, []);
 
     // handle image
     const [intro, setIntro] = React.useState([0]);
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/intro')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/intro')
             .then(res => setIntro(res.data));
     }, [])
 
@@ -51,7 +51,7 @@ const ManiMember = () => {
                             >
                                 <Card.Header className="fs-3 p-4" style={{ backgroundColor: '#F4F4F4', borderRadius: "1rem 1rem 0 0" }}>চেয়ারম্যান</Card.Header>
                                 <Card.Body className="px-4 d-lg-flex justify-content-evenly align-items-center fs-5">
-                                    <div className="d-flex flex-column justify-content-center align-items-center">
+                                    <div className="d-flex flex-column justify-content-center align-items-center px-3">
                                         <Image fluid style={{ height: '155px', width: '155px' }} roundedCircle src={cData?.image} />
                                         <div className="position-relative">
                                             <Image fluid src={v2} style={{ height: '50%', width: '15%', top: '-30px', right: '-6px' }} alt="" className="position-absolute" />
@@ -62,7 +62,7 @@ const ManiMember = () => {
                                             <Image fluid src={v1} style={{ height: '50%', width: '15%', bottom: '20px', left: '-5px' }} alt="" className="position-absolute" />
                                         </div>
                                     </div>
-                                    <Card.Text as='div'>
+                                    <Card.Text as='div' className='px-3'>
                                         <p className="fw-bold" style={{ borderBottom: '2px solid black', width: 'fit-content' }}>যোগাযোগ</p>
                                         <p><span className="fw-bold">মোবাইল :</span> {cData?.phone}</p>
                                         <p><span className="fw-bold">ফোন (অফিস) :</span> {cData?.phone_o}</p>

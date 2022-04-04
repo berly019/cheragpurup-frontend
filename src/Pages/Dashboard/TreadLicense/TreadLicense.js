@@ -32,7 +32,7 @@ const TreadLicense = () => {
     }
 
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/tread_license')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/tread_license')
             .then(data => {
                 setTreasLicenseData(data.data);
                 // console.log(data.data);
@@ -43,7 +43,7 @@ const TreadLicense = () => {
 
     const [totalData, setTotalData] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/db_home/6235e95c87b37a195cb34d64')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_home/6249ebaa4c1ff21f2a664fa2')
             .then(data => {
                 setTotalData(data?.data);
             });
@@ -66,7 +66,7 @@ const TreadLicense = () => {
     }
 
     const handleReset = () => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/tread_license')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/tread_license')
             .then(data => {
                 setTreasLicenseData(data.data);
                 // console.log(data.data);

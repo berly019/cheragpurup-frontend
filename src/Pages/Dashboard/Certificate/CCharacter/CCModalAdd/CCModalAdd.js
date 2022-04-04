@@ -16,7 +16,7 @@ function CCModalAdd(props) {
             setStatus("বৈবাহিক স্ট্যাটাস Required!")
         } else {
             data.marital_status = maritalStatus;
-            axios.post('https://khadimpur-mongoose-backend.herokuapp.com/up/character_certificate', (data), {
+            axios.post('https://hasadahoup-mongo-server.herokuapp.com/up/character_certificate', (data), {
                 headers: { Authorization: 'Bearer ' + token }
             })
                 .then((res) => {

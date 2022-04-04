@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, Modal, Alert } from "react-bootstrap";
 
-function WMemberAdd(props) {
+function EntrepreneurAdd(props) {
     const [success, setSuccess] = React.useState(false);
     const [desi, setDesi] = useState('');
     const [name, setName] = useState('');
@@ -21,7 +21,7 @@ function WMemberAdd(props) {
         formData.append('image', image);
         const token = JSON.parse(sessionStorage.getItem("user")).access_token;
 
-        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/wmember', {
+        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/entrepreneur', {
             method: 'POST',
             headers: { Authorization: 'Bearer ' + token },
             body: formData
@@ -56,7 +56,7 @@ function WMemberAdd(props) {
             <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
                 {/* <Modal.Title id="contained-modal-title-vcenter"> */}
                 <div className="text-center" style={{ width: "96%" }}>
-                    <p className="text-success m-0 fs-3 fw-bold">মেম্বার</p>
+                    <p className="text-success m-0 fs-3 fw-bold">উদ্যোক্তা</p>
                 </div>
                 {/* </Modal.Title> */}
             </Modal.Header>
@@ -123,4 +123,4 @@ function WMemberAdd(props) {
         </Modal>
     );
 }
-export default WMemberAdd;
+export default EntrepreneurAdd;

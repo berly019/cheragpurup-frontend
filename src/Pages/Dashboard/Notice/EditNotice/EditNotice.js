@@ -22,7 +22,7 @@ const CreateNotice = props => {
         formData.append('image', image);
         // console.log(formData);
 
-        fetch(`https://khadimpur-mongoose-backend.herokuapp.com/up/notice/${id}`, {
+        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/notice/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -39,7 +39,7 @@ const CreateNotice = props => {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/notice/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/notice/${id}`)
             .then((data) => {
                 setData(data.data);
                 formRef?.current?.reset();

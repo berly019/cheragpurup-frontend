@@ -12,7 +12,7 @@ function COModalAdd(props) {
 
     const onSubmit = data => {
         // data.marital_status = maritalStatus;
-        axios.post('https://khadimpur-mongoose-backend.herokuapp.com/up/inheritance_certificate', (data), {
+        axios.post('https://hasadahoup-mongo-server.herokuapp.com/up/inheritance_certificate', (data), {
             headers: { Authorization: 'Bearer ' + token }
         })
             .then((res) => {

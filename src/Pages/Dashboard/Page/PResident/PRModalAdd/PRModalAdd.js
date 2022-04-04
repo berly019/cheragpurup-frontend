@@ -18,7 +18,7 @@ const CreateNotice = props => {
         formData.append('location', location);
         // console.log(formData);
 
-        fetch('https://khadimpur-mongoose-backend.herokuapp.com/up/president', {
+        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/president', {
             method: 'POST',
             headers: {
                 'token': token

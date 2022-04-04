@@ -20,8 +20,10 @@ const DynamicTable = () => {
         setPageNumber(selected);
     }
 
+    const word = JSON.parse(localStorage.getItem("rfWord"));
+
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/resident/word/1')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/resident/word/1')
             .then(data => {
                 // setResidentData(data.data);
                 setFilteredData(data.data);
@@ -29,10 +31,10 @@ const DynamicTable = () => {
                 setIsLoading(true);
                 // console.log(data.data);
             })
-    }, []);
+    }, [word]);
 
     const handleAllFilter = () => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/resident')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/resident')
             .then(data => {
                 // setResidentData(data.data);
                 setFilteredData(data.data);
@@ -40,17 +42,22 @@ const DynamicTable = () => {
                 setIsLoading(true);
                 // console.log(data.data);
             });
+
+        setPageNumber(0);
     };
 
     // filters
     const handleWordFilter = id => {
+        localStorage.setItem("rfWord", JSON.stringify(id));
+
         setId(id);
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/resident/word/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/resident/word/${id}`)
             .then(data => {
                 setFilteredData(data.data)
                 setFilteredDataTwo(data.data)
             });
-        setPageNumber(0);
+            
+            setPageNumber(0);
         // setFilteredData(matchedWord);
     }
     const handleNameFilter = e => {
@@ -102,7 +109,7 @@ const DynamicTable = () => {
     }
 
     // const handleReset = () => {
-    //     axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/resident')
+    //     axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/resident')
     //         .then(data => {
     //             // setResidentData(data.data);
     //             setFilteredData(data.data);
@@ -215,12 +222,13 @@ const DynamicTable = () => {
                 </table>
                 {displayData.length === 0 ? <Alert className="text-center">No Data Found</Alert> : ''}
                 <div className="d-flex justify-content-between align-items-center flex-column flex-md-row">
-                    <p>Showing 1 to {displayData.length} of {filteredData.length} entries</p>
+                    <p className="mb-0 py-md-0 text-center">Showing {displayData[0]?.holding_no ? displayData[0]?.holding_no : "Undefined"} to {displayData[displayData.length - 1]?.holding_no ? displayData[displayData.length - 1]?.holding_no : "Undefined"} of {filteredData.length} entries</p>
                     <ReactPaginate
                         previousLabel={'<'}
                         nextLabel={'>'}
                         pageCount={pageCount}
                         onPageChange={changePage}
+                        forcePage={pageNumber}
                         containerClassName={'pagination'}
                         pageClassName={'page-item'}
                         pageLinkClassName={'page-link'}

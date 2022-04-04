@@ -25,7 +25,7 @@ function CSModalAdd(props) {
         data.previes_areas_tax = pAreasTax;
         const token = JSON.parse(sessionStorage.getItem("user")).access_token;
 
-        axios.post('https://khadimpur-mongoose-backend.herokuapp.com/up/commerce', (data), {
+        axios.post('https://hasadahoup-mongo-server.herokuapp.com/up/commerce', (data), {
             headers: { Authorization: 'Bearer ' + token }
         })
             .then((res) => {

@@ -10,7 +10,7 @@ const DataTableEdit = (props) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     const onSubmit = data => {
-        axios.put(`https://khadimpur-mongoose-backend.herokuapp.com/up/data_table/${id}`, (data))
+        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/data_table/${id}`, (data))
             .then((res) => {
                 // handle success
                 if (res.data) {
@@ -25,7 +25,7 @@ const DataTableEdit = (props) => {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/data_table/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/data_table/${id}`)
             .then((res) => setData(res.data))
     }, [id])
 

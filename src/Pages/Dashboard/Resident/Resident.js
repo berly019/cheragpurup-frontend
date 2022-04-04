@@ -46,7 +46,7 @@ const Residential = () => {
 
         if (word === "all") {
             async function fetchData() {
-                let data = await axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/resident')
+                let data = await axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/resident')
                 // let data = await res.json();
                 setFilteredData(data.data);
                 setFilteredDataTwo(data.data);
@@ -55,7 +55,7 @@ const Residential = () => {
             fetchData();
         } else {
 
-            axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/resident/word/${word ? word : 1}`)
+            axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/resident/word/${word ? word : 1}`)
                 .then(data => {
                     // setResidentData(data.data);
                     setFilteredData(data.data);
@@ -72,7 +72,7 @@ const Residential = () => {
         localStorage.setItem("rWord", JSON.stringify("all"));
 
         async function fetchData() {
-            let data = await axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/resident')
+            let data = await axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/resident')
             // let data = await res.json();
             setFilteredData(data.data);
             setFilteredDataTwo(data.data);
@@ -96,7 +96,7 @@ const Residential = () => {
 
     // useEffect(() => {
     //     async function fetchData() {
-    //         let res = await axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/resident')
+    //         let res = await axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/resident')
     //         let data = await res.json();
     //             // .then(data => {
     //                 // setResidentData(data.data);
@@ -110,7 +110,7 @@ const Residential = () => {
 
     const [totalData, setTotalData] = React.useState([])
     useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/db_home/6235e95c87b37a195cb34d64')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_home/6249ebaa4c1ff21f2a664fa2')
             .then(data => {
                 setTotalData(data?.data);
             });
@@ -121,11 +121,11 @@ const Residential = () => {
         localStorage.setItem("rWord", JSON.stringify(id));
 
         // const matchedWord = residentData.filter(data => data.word_no.includes(id));
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/resident/word/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/resident/word/${id}`)
             .then(data => {
                 setFilteredData(data.data)
                 setFilteredDataTwo(data.data)
-                console.log(data.data)
+                // console.log(data.data)
             });
         setPageNumber(0);
         setPageOffset(0);
@@ -183,10 +183,10 @@ const Residential = () => {
                 //code for JavaScript-Fetch */
 
                 const apiKey = "81e2KlJ8XZt98Q6N18Ecr88iNNBg2519Hp4DDyGW";
-                const message = `খাদিমপুর ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
+                const message = `হাসাদাহ ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
 
                 // const message = `thank you I am from chitla`
-                // const message = `খাদিমপুর ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
+                // const message = `হাসাদাহ ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
 
                 // send sms
                 fetch(`https://api.sms.net.bd/sendsms?api_key=${apiKey}&msg=${message}&to=880${num}`)
@@ -198,7 +198,7 @@ const Residential = () => {
                     .catch(error => console.log('error', error));
 
                 // data.sms = '< MdOutlineMarkEmailRead />';
-                axios.put(`https://khadimpur-mongoose-backend.herokuapp.com/up/resident/sms/${id}`, (data))
+                axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/resident/sms/${id}`, (data))
                     .then((res) => {
                         // setSuccess(true);
                         // handle success
@@ -213,9 +213,9 @@ const Residential = () => {
                 data.sms = 'yes';
 
                 const apiKey = "81e2KlJ8XZt98Q6N18Ecr88iNNBg2519Hp4DDyGW";
-                const message = `খাদিমপুর ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
+                const message = `হাসাদাহ ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
 
-                // const message = `খাদিমপুর ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
+                // const message = `হাসাদাহ ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
 
                 // send sms
                 fetch(`https://api.sms.net.bd/sendsms?api_key=${apiKey}&msg=${message}&to=88${num}`)
@@ -228,7 +228,7 @@ const Residential = () => {
                     .catch(error => console.log('error', error));
 
                 // data.sms = '< MdOutlineMarkEmailRead />';
-                axios.put(`https://khadimpur-mongoose-backend.herokuapp.com/up/resident/sms/${id}`, (data))
+                axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/resident/sms/${id}`, (data))
                     .then((res) => {
                         // setSuccess(true);
                         // handle success
@@ -258,7 +258,7 @@ const Residential = () => {
         }, [residentData]) */
 
     const handleReset = () => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/resident')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/resident')
             .then(data => {
                 // setResidentData(data.data);
                 setFilteredData(data.data);
@@ -482,7 +482,7 @@ const Residential = () => {
 
                 {/* <div className="d-flex px-0 py-3 justify-content-center align-items-center flex-column flex-md-row"> */}
                 <div className="pagi-control">
-                    <p className="mb-0 py-md-0 text-center">Showing 1 to {displayData.length} of {filteredData.length} entries</p>
+                    <p className="mb-0 py-md-0 text-center">Showing {displayData[0]?.holding_no ? displayData[0]?.holding_no : "Undefined"} to {displayData[displayData.length - 1]?.holding_no ? displayData[displayData.length - 1]?.holding_no : "Undefined"} of {filteredData.length} entries</p>
                     <div className="c-table">
                         <ReactPaginate
                             previousLabel={'<'}

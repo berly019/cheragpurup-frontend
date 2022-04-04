@@ -10,7 +10,7 @@ const CreateRunNotice = props => {
 
     const onSubmit = data => {
         // console.log(data);
-        axios.post('https://khadimpur-mongoose-backend.herokuapp.com/up/run_notice', data)
+        axios.post('https://hasadahoup-mongo-server.herokuapp.com/up/run_notice', data)
             .then(res => {
                 // handle success
                 // console.log(res);

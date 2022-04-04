@@ -50,7 +50,7 @@ const Commercial = () => {
         localStorage.setItem("cPage", JSON.stringify(pageNumber));
         if (word === "all") {
             async function fetchData() {
-                let data = await axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/commerce')
+                let data = await axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/commerce')
                 // let data = await res.json();
                 setFilteredData(data.data);
                 setFilteredDataTwo(data.data);
@@ -58,7 +58,7 @@ const Commercial = () => {
             }
             fetchData();
         } else {
-            axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/commerce/word/${word ? word : 1}`)
+            axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/commerce/word/${word ? word : 1}`)
                 .then(data => {
                     setFilteredData(data.data)
                     setFilteredDataTwo(data.data)
@@ -71,7 +71,7 @@ const Commercial = () => {
 
     const [totalData, setTotalData] = React.useState([])
     React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/db_home/6235e95c87b37a195cb34d64')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_home/6249ebaa4c1ff21f2a664fa2')
             .then(data => {
                 setTotalData(data?.data);
             });
@@ -81,7 +81,7 @@ const Commercial = () => {
     const handleWordFilter = id => {
         localStorage.setItem("cWord", JSON.stringify(id));
 
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/commerce/word/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/commerce/word/${id}`)
             .then(data => {
                 setFilteredData(data.data)
                 setFilteredDataTwo(data.data)
@@ -93,7 +93,7 @@ const Commercial = () => {
         localStorage.setItem("cWord", JSON.stringify("all"));
 
         async function fetchData() {
-            let data = await axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/commerce')
+            let data = await axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/commerce')
             // let data = await res.json();
             setFilteredData(data.data);
             setFilteredDataTwo(data.data);
@@ -121,7 +121,7 @@ const Commercial = () => {
     // const handleValue = e => {
     //     e.target.value = "";
 
-    //     axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/commerce')
+    //     axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/commerce')
     //         .then(data => {
     //             setCommerceData(data.data);
     //             setFilteredData(data.data);
@@ -172,9 +172,9 @@ const Commercial = () => {
                         //code for JavaScript-Fetch */
 
                 const apiKey = "81e2KlJ8XZt98Q6N18Ecr88iNNBg2519Hp4DDyGW";
-                const message = `খাদিমপুর ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
+                const message = `হাসাদাহ ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
 
-                // const message = `খাদিমপুর ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । বকেয়া করঃ ${areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
+                // const message = `হাসাদাহ ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । বকেয়া করঃ ${areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
 
                 /*          const number = num;
                          const numLength = number.length;
@@ -201,7 +201,7 @@ const Commercial = () => {
                     .catch(error => console.log('error', error));
 
                 // data.sms = '< MdOutlineMarkEmailRead />';
-                axios.put(`https://khadimpur-mongoose-backend.herokuapp.com/up/commerce/sms/${id}`, (data))
+                axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/commerce/sms/${id}`, (data))
                     .then((res) => {
                         // setSuccess(true);
                         // handle success
@@ -215,7 +215,7 @@ const Commercial = () => {
                 data.sms = 'yes';
 
                 const apiKey = "81e2KlJ8XZt98Q6N18Ecr88iNNBg2519Hp4DDyGW";
-                const message = `খাদিমপুর ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
+                const message = `হাসাদাহ ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
 
                 // send sms
                 fetch(`https://api.sms.net.bd/sendsms?api_key=${apiKey}&msg=${message}&to=88${num}`)
@@ -224,7 +224,7 @@ const Commercial = () => {
                     .catch(error => console.log('error', error));
 
                 // data.sms = '< MdOutlineMarkEmailRead />';
-                axios.put(`https://khadimpur-mongoose-backend.herokuapp.com/up/commerce/sms/${id}`, (data))
+                axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/commerce/sms/${id}`, (data))
                     .then((res) => {
                         // setSuccess(true);
                         // handle success
@@ -252,7 +252,7 @@ const Commercial = () => {
      }, [commerceData]) */
 
     const handleReset = () => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/commerce')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/commerce')
             .then(data => {
                 setFilteredData(data.data);
                 setFilteredDataTwo(data.data);
@@ -474,7 +474,7 @@ const Commercial = () => {
                 {displayData.length === 0 ? <Alert className="text-center">No Data Found</Alert> : ''}
 
                 <div className="pagi-control">
-                    <p className="mb-0 py-md-0 text-center">Showing 1 to {displayData.length} of {filteredData.length} entries</p>
+                    <p className="mb-0 py-md-0 text-center">Showing {displayData[0]?.holding_no ? displayData[0]?.holding_no : "Undefined"} to {displayData[displayData.length - 1]?.holding_no ? displayData[displayData.length - 1]?.holding_no : "Undefined"} of {filteredData.length} entries</p>
                     <div className="c-table">
                         <ReactPaginate
                             previousLabel={'<'}

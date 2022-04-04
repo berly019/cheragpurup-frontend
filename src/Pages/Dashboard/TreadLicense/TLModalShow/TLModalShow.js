@@ -10,7 +10,7 @@ function TLModalShow(props) {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/tread_license/${id}`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/tread_license/${id}`)
             .then((data) => {
                 setData(data.data);
                 // console.log(data);
@@ -21,7 +21,7 @@ function TLModalShow(props) {
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
-            axios.delete(`https://khadimpur-mongoose-backend.herokuapp.com/up/tread_license/${id}`)
+            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/tread_license/${id}`)
                 .then((res) => {
                     if (res.data.affectedRows > 0) {
                         setSuccess(true);

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 const Footer = () => {
     const [pMData, setPMData] = useState([]);
     useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com/up/pMain')
+        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pMain')
             .then(data => {
                 setPMData(data?.data[0]);
             })

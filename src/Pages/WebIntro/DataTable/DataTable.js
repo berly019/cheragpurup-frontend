@@ -7,7 +7,7 @@ const DataTable = () => {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://khadimpur-mongoose-backend.herokuapp.com/up/data_table`)
+        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/data_table`)
             .then((res) => setData(res.data[0]))
     }, [])
     return (
