@@ -7,7 +7,7 @@ const ShowModal = (props) => {
 
     // const [data, setData] = useState([]);
     // useEffect(() => {
-    //     axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/intro/${id}`)
+    //     axios.get(`${process.env.REACT_APP_BASE_URL}/up/intro/${id}`)
     //         .then((data) => {
     //             setData(data.data);
     //         })

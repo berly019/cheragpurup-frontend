@@ -21,7 +21,7 @@ const DynamicTable = () => {
     }
 
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/commerce/word/1')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/commerce/word/1`)
             .then(data => {
                 // setResidentData(data.data);
                 setFilteredData(data.data);
@@ -32,7 +32,7 @@ const DynamicTable = () => {
     }, []);
 
     const handleAllFilter = () => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/commerce')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/commerce`)
             .then(data => {
                 // setCommerceData(data.data);
                 setFilteredData(data.data);
@@ -45,7 +45,7 @@ const DynamicTable = () => {
     // filter
     const handleWordFilter = id => {
         setId(id);
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/commerce/word/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/commerce/word/${id}`)
             .then(data => {
                 setFilteredData(data.data)
                 setFilteredDataTwo(data.data)
@@ -91,7 +91,7 @@ const DynamicTable = () => {
     }
 
     // const handleReset = () => {
-    //     axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/commerce')
+    //     axios.get('${process.env.REACT_APP_BASE_URL}/up/commerce')
     //         .then(data => {
     //             // setCommerceData(data.data);
     //             setFilteredData(data.data);

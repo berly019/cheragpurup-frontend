@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Alert, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 // import { useForm } from 'react-hook-form';
 
-const CreateNotice = props => {
+const PBImageAdd = props => {
     const [success, setSuccess] = React.useState(false);
     const [image, setImage] = useState(null);
     const [title, setTitle] = useState('');
@@ -15,7 +15,7 @@ const CreateNotice = props => {
         formData.append('title', title);
         const token = JSON.parse(sessionStorage.getItem("user")).access_token;
 
-        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/pbimage', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/pbimage`, {
             method: 'POST',
             headers: { Authorization: 'Bearer ' + token },
             body: formData
@@ -80,4 +80,4 @@ const CreateNotice = props => {
     );
 };
 
-export default CreateNotice;
+export default PBImageAdd;

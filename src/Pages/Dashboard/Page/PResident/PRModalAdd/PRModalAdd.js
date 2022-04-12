@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Alert, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 // import { useForm } from 'react-hook-form';
 
-const CreateNotice = props => {
+const PRModalAdd = props => {
     const [success, setSuccess] = React.useState(false);
     const [image, setImage] = useState(null);
     const [name, setName] = useState('');
@@ -18,7 +18,7 @@ const CreateNotice = props => {
         formData.append('location', location);
         // console.log(formData);
 
-        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/president', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/president`, {
             method: 'POST',
             headers: {
                 'token': token
@@ -88,4 +88,4 @@ const CreateNotice = props => {
     );
 };
 
-export default CreateNotice;
+export default PRModalAdd;

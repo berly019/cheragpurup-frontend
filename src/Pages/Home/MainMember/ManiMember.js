@@ -10,7 +10,7 @@ const ManiMember = () => {
     // handle chairman
     const [cData, setCData] = React.useState([]);
     React.useEffect(() => {
-        axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wchairman")
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/wchairman`)
             .then(res => {
                 setCData(res.data[0])
                 // console.log(res.data)
@@ -20,21 +20,21 @@ const ManiMember = () => {
     // handle sacib
     const [sData, setSData] = React.useState([]);
     React.useEffect(() => {
-        axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wsacib")
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/wsacib`)
             .then(res => setSData(res.data[0]));
     }, []);
 
     // handle panel
     const [pData, setPData] = React.useState([]);
     React.useEffect(() => {
-        axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wpanel")
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/wpanel`)
             .then(res => setPData(res.data[0]));
     }, []);
 
     // handle image
     const [intro, setIntro] = React.useState([0]);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/intro')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/intro`)
             .then(res => setIntro(res.data));
     }, [])
 

@@ -7,7 +7,7 @@ import { FiEdit } from 'react-icons/fi';
 import { AiFillDelete } from 'react-icons/ai';
 import { GoDiffAdded } from 'react-icons/go';
 
-const CreateNotice = props => {
+const EditIntro = props => {
     const id = props.id;
     const formRef = useRef();
 
@@ -47,7 +47,7 @@ const CreateNotice = props => {
         // formData.append('text5', text5);
         // console.log(formData, inputList);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/intro/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/intro/${id}`, {
             method: 'PUT',
             // headers: {
             //     'token': token
@@ -67,7 +67,7 @@ const CreateNotice = props => {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/intro/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/intro/${id}`)
             .then((data) => {
                 setData(data.data)
                 formRef?.current?.reset();
@@ -81,7 +81,7 @@ const CreateNotice = props => {
     const handleDelete = (subId) => {
         const proceed = window.confirm('Are you sure you want to Confirm?');
         if (proceed) {
-            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/intro/${subId}/delete`)
+            axios.delete(`${process.env.REACT_APP_BASE_URL}/up/intro/${subId}/delete`)
                 .then(res => {
                     // console.log(res);
                     if (res.data.data) {
@@ -117,7 +117,7 @@ const CreateNotice = props => {
     // };
 
     // get data
-    // axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/intro")
+    // axios.get("${process.env.REACT_APP_BASE_URL}/up/intro")
     //     .then(data => console.log(data.data));
 
     // new input list
@@ -273,4 +273,4 @@ const CreateNotice = props => {
     );
 };
 
-export default CreateNotice;
+export default EditIntro;

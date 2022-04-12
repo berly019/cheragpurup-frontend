@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { Alert, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 
-const CreateNotice = props => {
+const PBImageEdit = props => {
     const id = props.id;
     const [success, setSuccess] = React.useState(false);
     const [image, setImage] = useState(null);
@@ -16,7 +16,7 @@ const CreateNotice = props => {
         formData.append('title', title);
         // console.log(formData);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/pbimage/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/pbimage/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -34,7 +34,7 @@ const CreateNotice = props => {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/pbimage/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pbimage/${id}`)
             .then((data) => {
                 setData(data.data[0]);
                 formRef?.current?.reset();
@@ -95,4 +95,4 @@ const CreateNotice = props => {
     );
 };
 
-export default CreateNotice;
+export default PBImageEdit;

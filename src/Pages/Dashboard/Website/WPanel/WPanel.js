@@ -21,7 +21,7 @@ const WPanel = () => {
         const formData = new FormData();
         formData.append('image', image);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/wpanel/image/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/wpanel/image/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -41,7 +41,7 @@ const WPanel = () => {
     // handle data
     const [data, setData] = React.useState([]);
     React.useEffect(() => {
-        axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wpanel")
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/wpanel`)
             .then(res => {
                 setData(res.data[0])
                 setId(res.data[0]._id)
@@ -50,7 +50,7 @@ const WPanel = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
-        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/wpanel/${id}`, data)
+        axios.put(`${process.env.REACT_APP_BASE_URL}/up/wpanel/${id}`, data)
             .then(res => {
                 if (res.data.affectedRows > 0) {
                     setSuccess(true)

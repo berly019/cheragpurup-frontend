@@ -9,7 +9,7 @@ function COModalShow(props) {
     const id = props.id;
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/inheritance_certificate/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/inheritance_certificate/${id}`)
             .then((data) => {
                 setData(data.data);
                 // console.log(data);
@@ -19,7 +19,7 @@ function COModalShow(props) {
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
-            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/inheritance_certificate/${id}`)
+            axios.delete(`${process.env.REACT_APP_BASE_URL}/up/inheritance_certificate/${id}`)
                 .then((res) => {
                     // console.log(res);
                     if (res.data.affectedRows > 0) {

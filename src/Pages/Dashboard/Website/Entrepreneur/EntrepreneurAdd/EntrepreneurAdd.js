@@ -21,7 +21,7 @@ function EntrepreneurAdd(props) {
         formData.append('image', image);
         const token = JSON.parse(sessionStorage.getItem("user")).access_token;
 
-        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/entrepreneur', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/entrepreneur`, {
             method: 'POST',
             headers: { Authorization: 'Bearer ' + token },
             body: formData

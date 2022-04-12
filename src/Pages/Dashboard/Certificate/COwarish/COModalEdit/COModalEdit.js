@@ -11,7 +11,7 @@ function COModalEdit(props) {
     const formRef = useRef();
 
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/inheritance_certificate/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/inheritance_certificate/${id}`)
             .then((data) => {
                 setData(data.data);
                 formRef?.current?.reset();
@@ -20,7 +20,7 @@ function COModalEdit(props) {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
-        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/inheritance_certificate/${id}`, (data))
+        axios.put(`${process.env.REACT_APP_BASE_URL}/up/inheritance_certificate/${id}`, (data))
             .then((res) => {
                 // handle success
                 if (res.data.affectedRows > 0) {

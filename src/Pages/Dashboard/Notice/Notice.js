@@ -28,14 +28,14 @@ const Notice = () => {
     const [data, setData] = useState([]);
     const [runData, setRunData] = useState([]);
     useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/notice')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/notice`)
             .then(data => {
                 setData(data.data);
                 setIsLoading(true);
                 // console.log(data.data);
             })
 
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/run_notice')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/run_notice`)
             .then(data => {
                 setRunData(data.data);
                 setIsLoading(true);
@@ -46,7 +46,7 @@ const Notice = () => {
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
-            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/notice/${id}`)
+            axios.delete(`${process.env.REACT_APP_BASE_URL}/up/notice/${id}`)
                 .then((res) => {
                     // console.log(res);
                     if (res.data) {
@@ -58,7 +58,7 @@ const Notice = () => {
     const handleRunDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
-            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/run_notice/${id}`)
+            axios.delete(`${process.env.REACT_APP_BASE_URL}/up/run_notice/${id}`)
                 .then((res) => {
                     // console.log(res)
                     // console.log(res);

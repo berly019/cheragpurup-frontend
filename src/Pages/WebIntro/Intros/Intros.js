@@ -11,7 +11,7 @@ const Intros = () => {
     const [modalData, setModalData] = React.useState('');
 
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/intro')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/intro`)
             .then(res => setIntro(res.data))
     }, [])
 

@@ -6,7 +6,7 @@ const Soldier = () => {
     // handle image
     const [pbImage, setpbImage] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pbimage')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pbimage`)
             .then(res => setpbImage(res.data))
     }, []);
 

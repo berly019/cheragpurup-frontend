@@ -10,11 +10,11 @@ const About = () => {
     const [pMain, setPMain] = React.useState([]);
     const [homeData, setHomeData] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pmain')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pmain`)
             .then(res => setPMain(res.data[0]))
     }, []);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_home')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home`)
             .then(data => {
                 setHomeData(data?.data);
                 // console.log(data?.data);

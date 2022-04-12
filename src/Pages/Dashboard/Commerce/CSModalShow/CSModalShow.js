@@ -13,7 +13,7 @@ function CSModalShow(props) {
     useEffect(() => {
         setIsLoading(true)
         if (id) {
-            fetch(`https://hasadahoup-mongo-server.herokuapp.com/commerce/single/${id}`)
+            fetch(`${process.env.REACT_APP_BASE_URL}/commerce/single/${id}`)
                 .then(res => res.json())
                 .then(data => {
                     formRef?.current?.reset();
@@ -28,7 +28,7 @@ function CSModalShow(props) {
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
-            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/commerce/${id}`)
+            axios.delete(`${process.env.REACT_APP_BASE_URL}/up/commerce/${id}`)
                 .then((res) => {
                     // console.log(res);
                     if (res.data) {

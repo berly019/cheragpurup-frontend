@@ -17,7 +17,7 @@ const WMember = () => {
     const [warn, setWarn] = React.useState('');
 
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/entrepreneur')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/entrepreneur`)
             .then((res) => {
                 setMember(res.data)
                 setIsLoading(true);
@@ -27,7 +27,7 @@ const WMember = () => {
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
-            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/entrepreneur/${id}`)
+            axios.delete(`${process.env.REACT_APP_BASE_URL}/up/entrepreneur/${id}`)
                 .then((res) => {
                     // console.log(res);
                     if (res.data.affectedRows > 0) {

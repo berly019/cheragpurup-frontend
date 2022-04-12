@@ -32,7 +32,7 @@ const COwarish = () => {
     }
 
     useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/inheritance_certificate')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/inheritance_certificate`)
             .then(data => {
                 setCOData(data.data);
                 setFilteredData(data.data);
@@ -43,7 +43,7 @@ const COwarish = () => {
 
     const [totalData, setTotalData] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_home/6249ebaa4c1ff21f2a664fa2')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home/624ef59fab75a0cf27de3f8d`)
             .then(data => {
                 setTotalData(data?.data);
             });
@@ -71,7 +71,7 @@ const COwarish = () => {
     }
 
     const handleReset = () => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/inheritance_certificate')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/inheritance_certificate`)
             .then(data => {
                 setCOData(data.data);
                 setFilteredData(data.data);

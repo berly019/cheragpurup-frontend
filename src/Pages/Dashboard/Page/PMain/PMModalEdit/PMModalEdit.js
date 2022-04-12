@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Alert, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 
-const CreateNotice = props => {
+const PMModalEdit = props => {
     const id = props.id;
     const [success, setSuccess] = React.useState(false);
     const [image, setImage] = useState(null);
@@ -21,7 +21,7 @@ const CreateNotice = props => {
         formData.append('description', description);
         // console.log(formData);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/pmain/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/pmain/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -58,7 +58,7 @@ const CreateNotice = props => {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/pmain/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pmain/${id}`)
             .then((data) => {
                 setData(data.data);
             })
@@ -137,4 +137,4 @@ const CreateNotice = props => {
     );
 };
 
-export default CreateNotice;
+export default PMModalEdit;

@@ -7,7 +7,7 @@ const DataTable = () => {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/data_table`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/data_table`)
             .then((res) => setData(res.data[0]))
     }, [])
     return (

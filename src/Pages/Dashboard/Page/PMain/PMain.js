@@ -27,7 +27,7 @@ const PMain = () => {
 
     const [pMain, setPMain] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pmain')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pmain`)
             .then(res => {
                 // console.log(res)
                 setPMain(res?.data[0])
@@ -37,14 +37,14 @@ const PMain = () => {
 
     const [pbImage, setpbImage] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pbimage')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pbimage`)
             .then(res => setpbImage(res?.data))
     }, [warn, pbImage._id]);
 
     const [intro, setIntro] = React.useState([]);
 
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/intro')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/intro`)
             .then(res => setIntro(res?.data))
     }, [warn, intro._id])
 
@@ -69,7 +69,7 @@ const PMain = () => {
     /*     const handleDelete = id => {
             const proceed = window.confirm('Are you sure, you want to delete?');
             if (proceed) {
-                axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/pmain/${id}`)
+                axios.delete(`${process.env.REACT_APP_BASE_URL}/up/pmain/${id}`)
                     .then((res) => {
                         console.log(res);
                         if (res.data.affectedRows > 0) {
@@ -82,7 +82,7 @@ const PMain = () => {
     const handleImageDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete this image?');
         if (proceed) {
-            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/pbimage/${id}`)
+            axios.delete(`${process.env.REACT_APP_BASE_URL}/up/pbimage/${id}`)
                 .then((res) => {
                     // console.log(res);
                     if (res.data) {
@@ -95,7 +95,7 @@ const PMain = () => {
     const handleInstallationDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete this image?');
         if (proceed) {
-            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/intro/${id}`)
+            axios.delete(`${process.env.REACT_APP_BASE_URL}/up/intro/${id}`)
                 .then((res) => {
                     // console.log(res);
                     if (res.data) {
@@ -114,7 +114,7 @@ const PMain = () => {
     // data table
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/data_table`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/data_table`)
             .then((res) => setData(res.data[0]))
     }, [data?._id, warn])
 

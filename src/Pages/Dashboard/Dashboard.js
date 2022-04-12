@@ -21,7 +21,7 @@ const Dashboard = () => {
 
     React.useEffect(() => {
         if (token) {
-            fetch('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', {
+            fetch(`${process.env.REACT_APP_BASE_URL}/up/db_user/user/token`, {
                 method: 'POST',
                 headers: { Authorization: 'Bearer ' + token.access_token }
             }).then(response => response.json())
@@ -44,7 +44,7 @@ const Dashboard = () => {
 
     // useEffect(() => {
     //     if (token) {
-    //         axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_user', { headers: { 'Authorization': 'Bearer' + ' ' + token.access_token } })
+    //         axios.get('${process.env.REACT_APP_BASE_URL}/up/db_user', { headers: { 'Authorization': 'Bearer' + ' ' + token.access_token } })
     //             .then(res => {
     //                 // setCurrentUser(res?.data);
     //                 setRole(res?.data[0]?.role);

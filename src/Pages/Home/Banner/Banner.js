@@ -9,7 +9,7 @@ const Banner = () => {
 
     const [pMain, setPMain] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pmain')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pmain`)
             .then(res => {
                 setPMain(res?.data[0]);
                 // console.log(res);
@@ -19,13 +19,13 @@ const Banner = () => {
     const [notice, setNotice] = React.useState([]);
     const [runData, setRunData] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/notice')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/notice`)
             .then(data => {
                 setNotice(data?.data);
                 // console.log(data?.data);
                 setIsLoading(true);
             })
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/run_notice')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/run_notice`)
             .then(data => {
                 setRunData(data.data);
                 setIsLoading(true);
@@ -72,7 +72,7 @@ const Banner = () => {
             </section>
             <div className="mt-3 d-flex fs-5 fw-bold" style={{ backgroundColor: '#C4C4C4' }}>
                 <p className="px-4 bg-white py-3" style={{ margin: '1px 0px 1px 0px' }}>নোটিশ</p>
-                {isLoading ? <Marquee pauseOnHover gradient={false} className="py-3 overflow-hidden">{runData?.map(dt => dt?.notice)}</Marquee> : <Marquee pauseOnHover gradient={false} className="py-3 overflow-hidden">"Loading"</Marquee>}
+                {isLoading ? <Marquee pauseOnHover gradient={false} className="py-3 overflow-hidden">{runData?.map(dt => dt?.notice)}</Marquee> : ''}
             </div>
         </>
     );

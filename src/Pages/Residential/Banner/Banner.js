@@ -6,7 +6,7 @@ import '../../Home/Banner/Banner.css';
 const Banner = () => {
     const [data, setData] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/president')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/president`)
             .then(data => {
                 setData(data.data[0]);
             })

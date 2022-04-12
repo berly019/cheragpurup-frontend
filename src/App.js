@@ -45,7 +45,7 @@ function App() {
   const token = JSON.parse(sessionStorage.getItem("user"));
   React.useEffect(() => {
     if (token) {
-      fetch('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', {
+      fetch(`${process.env.REACT_APP_BASE_URL}/up/db_user/user/token`, {
         method: 'POST',
         headers: { Authorization: 'Bearer ' + token.access_token }
       }).then(response => response.json())

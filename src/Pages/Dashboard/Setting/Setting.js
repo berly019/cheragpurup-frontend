@@ -54,7 +54,7 @@ const Setting = () => {
     React.useEffect(() => {
         const token = JSON.parse(sessionStorage.getItem("user"));
         if (token) {
-            axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_user', { headers: { 'token': token.access_token } })
+            axios.get('${process.env.REACT_APP_BASE_URL}/up/db_user', { headers: { 'token': token.access_token } })
                 .then(res => {
                     setId(res?.data?.data?.id);
                     // setIsDB(true);
@@ -64,7 +64,7 @@ const Setting = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
-        axios.post(`https://hasadahoup-mongo-server.herokuapp.com/up/api/change/${id}`, data)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/up/api/change/${id}`, data)
             .then((res) => {
                 console.log(res)
                 if (res?.data?.affectedRows > 0) {

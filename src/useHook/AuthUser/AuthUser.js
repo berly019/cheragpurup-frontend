@@ -8,7 +8,7 @@ const AuthUser = () => {
 
     useEffect(() => {
         const token = JSON.parse(sessionStorage.getItem("user")).access_token;
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_user', { headers: { 'token': token } })
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_user`, { headers: { 'token': token } })
             .then(res => {
                 setCurrentUser(res?.data);
                 setRole(res?.data?.data?.role);

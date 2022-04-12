@@ -13,7 +13,7 @@ const AboutImageEdit = (props) => {
         formData.append('f_image', image);
         // console.log(formData);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/pmain/b_image/f_image/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/pmain/b_image/f_image/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -35,7 +35,7 @@ const AboutImageEdit = (props) => {
         formData.append('s_image', sImage);
         // console.log(formData);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/pmain/b_image/s_image/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/pmain/b_image/s_image/${id}`, {
             method: 'PUT',
             body: formData
         })

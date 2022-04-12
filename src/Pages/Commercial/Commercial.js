@@ -9,7 +9,7 @@ import axios from 'axios';
 const Commercial = () => {
     const [isLoading, setIsLoading] = React.useState(false);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/')
+        axios.get(`${process.env.REACT_APP_BASE_URL}`)
             .then(res => {
                 // console.log(res);
                 setIsLoading(true);

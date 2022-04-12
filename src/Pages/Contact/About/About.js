@@ -10,7 +10,7 @@ const About = () => {
     // handle chairman
     const [cData, setCData] = React.useState([]);
     React.useEffect(() => {
-        axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wchairman")
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/wchairman`)
             .then(res => {
                 setCData(res.data[0])
                 setIsLoading(true);
@@ -20,7 +20,7 @@ const About = () => {
     // handle sacib
     const [sData, setSData] = React.useState([]);
     React.useEffect(() => {
-        axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wsacib")
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/wsacib`)
             .then(res => {
                 setSData(res.data[0])
                 setIsLoading(true);
@@ -30,7 +30,7 @@ const About = () => {
     // handle panel
     const [pData, setPData] = React.useState([]);
     React.useEffect(() => {
-        axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wpanel")
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/wpanel`)
             .then(res => {
                 setPData(res.data[0])
                 setIsLoading(true);
@@ -56,7 +56,7 @@ const About = () => {
     return (
         <Container className="py-5">
             <div className="text-center pt-5">
-                <p className="fs-2 fw-bold m-0">হাসাদাহ ইউনিয়ন পরিষদ</p>
+                <p className="fs-2 fw-bold m-0">দুবলহাটি ইউনিয়ন পরিষদ</p>
                 <p className="fs-5">চেয়ারম্যান, সচিব এবং মেম্বার পরিচিতি</p>
             </div>
             <Row className='gy-5 py-5 align-items-center'>

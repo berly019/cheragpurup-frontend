@@ -15,7 +15,7 @@ const PResident = () => {
     // const [success, setSuccess] = React.useState(false);
     const [data, setData] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pcontact')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pcontact`)
             .then(data => {
                 setData(data.data);
                 setIsLoading(true);
@@ -26,7 +26,7 @@ const PResident = () => {
         const handleDelete = id => {
             const proceed = window.confirm('Are you sure, you want to delete?');
             if (proceed) {
-                axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/pcontact/${id}`)
+                axios.delete(`${process.env.REACT_APP_BASE_URL}/up/pcontact/${id}`)
                     .then((res) => {
                         console.log(res);
                         if (res.data.affectedRows > 0) {

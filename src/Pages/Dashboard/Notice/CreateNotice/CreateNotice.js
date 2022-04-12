@@ -18,9 +18,8 @@ const CreateNotice = props => {
         formData.append('image', image);
         // console.log(formData);
 
-        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/notice', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/notice`, {
             method: 'POST',
-            headers: {},
             body: formData
         })
             .then(res => res.json())

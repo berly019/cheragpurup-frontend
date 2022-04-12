@@ -14,7 +14,7 @@ const EditSubIntro = (props) => {
     const { register, handleSubmit, reset } = useForm();
 
     const onSubmit = data => {
-        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/intro/${subId}/put`, (data))
+        axios.put(`${process.env.REACT_APP_BASE_URL}/up/intro/${subId}/put`, (data))
             .then((res) => {
                 // handle success
                 if (res) {

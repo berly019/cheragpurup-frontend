@@ -13,7 +13,7 @@ function CSModalEdit(props) {
     useEffect(() => {
         setIsLoading(true)
         if (id) {
-            fetch(`https://hasadahoup-mongo-server.herokuapp.com/commerce/single/${id}`)
+            fetch(`${process.env.REACT_APP_BASE_URL}/commerce/single/${id}`)
                 .then(res => res.json())
                 .then(data => {
                     formRef?.current?.reset();
@@ -77,7 +77,7 @@ function CSModalEdit(props) {
         // data.areas_tax = areasTax;
         // data.previes_areas_tax = pAreasTax;
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/commerce/single/update/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/commerce/single/update/${id}`, {
             method: 'put',
             headers: {
                 'Content-Type': "application/json"

@@ -24,7 +24,7 @@ function EntrepreneurEdit(props) {
         formData.append('image', image);
         // console.log(formData);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/entrepreneur/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/entrepreneur/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -41,7 +41,7 @@ function EntrepreneurEdit(props) {
 
     const [member, setMember] = React.useState([]);
     React.useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/entrepreneur/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/entrepreneur/${id}`)
             .then((res) => {
                 setMember(res.data)
                 formRef?.current?.reset();

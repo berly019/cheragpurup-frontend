@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Col, Form, Modal, Row } from "react-bootstrap";
 import { RiDeleteBinLine } from 'react-icons/ri';
 
-function CNModalShow(props) {
+const CNModalShow = (props) => {
+    const id = props?.id;
     const [success, setSuccess] = useState(false);
     const [warn, setWarn] = useState('');
-    const id = props.id;
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({});
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/citizen_certificate/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/citizen_certificate/${id}`)
             .then((data) => {
                 setData(data.data);
                 // console.log(data);
@@ -19,7 +19,7 @@ function CNModalShow(props) {
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
-            axios.delete(`https://hasadahoup-mongo-server.herokuapp.com/up/citizen_certificate/${id}`)
+            axios.delete(`${process.env.REACT_APP_BASE_URL}/up/citizen_certificate/${id}`)
                 .then((res) => {
                     // console.log(res);
                     if (res.data.affectedRows > 0) {
@@ -36,6 +36,7 @@ function CNModalShow(props) {
             window.location.reload();
         }, 1500);
     }
+
     return (
         <Modal className="overflow-auto"
             {...props}

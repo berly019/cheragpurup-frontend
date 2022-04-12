@@ -11,12 +11,12 @@ const DBHeader = () => {
     const token = JSON.parse(sessionStorage.getItem("user"));
     React.useEffect(() => {
         if (token) {
-            fetch('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', {
+            fetch(`${process.env.REACT_APP_BASE_URL}/up/db_user/user/token`, {
                 method: 'POST',
                 headers: { Authorization: 'Bearer ' + token.access_token }
             }).then(response => response.json())
                 .then(data => setId(data.data.userId));
-            // axios.post('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', { headers: { Authorization: 'Bearer' + ' ' + token.access_token } })
+            // axios.post('${process.env.REACT_APP_BASE_URL}/up/db_user/user/token', { headers: { Authorization: 'Bearer' + ' ' + token.access_token } })
             //     .then(res => {
             //         setId(res?.data?.userId);
             //         // setIsDB(true);
@@ -28,12 +28,12 @@ const DBHeader = () => {
     const [data, setData] = React.useState([]);
     // console.log(data);
     React.useEffect(() => {
-        /*         axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wchairman", {
+        /*         axios.get("${process.env.REACT_APP_BASE_URL}/up/wchairman", {
                     headers: {
                         'token': token
                     }
                 }) */
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/db_user/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_user/${id}`)
             .then(res => {
                 // console.log(res)
                 if (res.data.err) {
@@ -55,7 +55,7 @@ const DBHeader = () => {
 
     const [pMData, setPMData] = useState([]);
     useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pMain')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pMain`)
             .then(data => {
                 setPMData(data?.data[0]);
             })

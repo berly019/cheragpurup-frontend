@@ -12,7 +12,7 @@ const EditRunNotice = props => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     const onSubmit = data => {
-        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/run_notice/${id}`, data)
+        axios.put(`${process.env.REACT_APP_BASE_URL}/up/run_notice/${id}`, data)
             .then(res => {
                 // handle success
                 if (res.data) {
@@ -25,7 +25,7 @@ const EditRunNotice = props => {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/run_notice/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/run_notice/${id}`)
             .then(result => {
                 setData(result.data)
                 componentRef?.current?.reset();

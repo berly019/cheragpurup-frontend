@@ -32,7 +32,7 @@ const CNagorik = () => {
     }
 
     useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/citizen_certificate')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/citizen_certificate`)
             .then(data => {
                 setCNData(data.data);
                 // console.log(data.data);
@@ -43,7 +43,7 @@ const CNagorik = () => {
 
     const [totalData, setTotalData] = React.useState([]);
     React.useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/db_home/6249ebaa4c1ff21f2a664fa2')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home/624ef59fab75a0cf27de3f8d`)
             .then(data => {
                 setTotalData(data?.data);
             });
@@ -71,7 +71,7 @@ const CNagorik = () => {
     }
 
     const handleReset = () => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/citizen_certificate')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/citizen_certificate`)
             .then(data => {
                 setCNData(data.data);
                 // console.log(data.data);

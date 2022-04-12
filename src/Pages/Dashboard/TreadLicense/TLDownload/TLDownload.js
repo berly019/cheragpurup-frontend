@@ -11,13 +11,13 @@ function CCModalShow(props) {
     const [pMData, setPMData] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/tread_license/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/tread_license/${id}`)
             .then((data) => {
                 setData(data.data);
             })
     }, [id]);
     useEffect(() => {
-        axios.get('https://hasadahoup-mongo-server.herokuapp.com/up/pMain')
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pMain`)
             .then(data => {
                 setPMData(data?.data[0]);
             })

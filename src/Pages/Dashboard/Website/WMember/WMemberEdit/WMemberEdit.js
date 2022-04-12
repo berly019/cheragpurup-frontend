@@ -24,7 +24,7 @@ function WMemberEdit(props) {
         formData.append('image', image);
         // console.log(formData);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/wmember/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/wmember/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -41,7 +41,7 @@ function WMemberEdit(props) {
 
     const [member, setMember] = React.useState([]);
     React.useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/wmember/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/wmember/${id}`)
             .then((res) => {
                 setMember(res.data)
                 formRef?.current?.reset();

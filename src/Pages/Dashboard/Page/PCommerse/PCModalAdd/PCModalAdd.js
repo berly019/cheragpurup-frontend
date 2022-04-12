@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Alert, Button, Col, Form, Modal, Row } from 'react-bootstrap';
 // import { useForm } from 'react-hook-form';
 
-const CreateNotice = props => {
+const PCModalAdd = props => {
     const [success, setSuccess] = React.useState(false);
     const [image, setImage] = useState(null);
     const [name, setName] = useState('');
@@ -17,7 +17,7 @@ const CreateNotice = props => {
         formData.append('location', location);
         const token = JSON.parse(sessionStorage.getItem("user")).access_token;
 
-        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/pcommerce', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/pcommerce`, {
             method: 'POST',
             headers: {
                 'token': token
@@ -85,4 +85,4 @@ const CreateNotice = props => {
     );
 };
 
-export default CreateNotice;
+export default PCModalAdd;

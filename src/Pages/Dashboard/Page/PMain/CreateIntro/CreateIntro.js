@@ -1,7 +1,7 @@
 // import React, { useState } from 'react';
 // import { Alert, Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 
-// const CreateNotice = props => {
+// const CreateIntro = props => {
 //     const [success, setSuccess] = React.useState(false);
 //     const [title, setTitle] = useState('');
 //     const [image, setImage] = useState(null);
@@ -26,7 +26,7 @@
 //         formData.append('text5', text5);
 //         // console.log(formData, inputList);
 
-//         fetch('https://hasadahoup-mongo-server.herokuapp.com/up/intro', {
+//         fetch('${process.env.REACT_APP_BASE_URL}/up/intro', {
 //             method: 'POST',
 //             // headers: {
 //             //     'token': token
@@ -46,7 +46,7 @@
 
 
 //     // get data
-//     // axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/intro")
+//     // axios.get("${process.env.REACT_APP_BASE_URL}/up/intro")
 //     //     .then(data => console.log(data.data));
 
 //     // new input list
@@ -154,7 +154,7 @@
 //     );
 // };
 
-// export default CreateNotice;
+// export default CreateIntro;
 
 
 
@@ -178,7 +178,7 @@
 import React, { useState } from 'react';
 import { Alert, Button, Col, Form, Modal, Row, Stack } from 'react-bootstrap';
 
-const CreateNotice = props => {
+const CreateIntro = props => {
     const [success, setSuccess] = React.useState(false);
     const [title, setTitle] = useState('');
     const [inputList, setInputList] = useState([{ serialNo: '', descText: '' },]);
@@ -193,7 +193,7 @@ const CreateNotice = props => {
         formData.append('image', image);
         // console.log(formData, inputList);
 
-        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/intro/', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/intro/`, {
             method: 'POST',
             body: formData
         })
@@ -212,7 +212,7 @@ const CreateNotice = props => {
 
 
     // get data
-    // axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/intro")
+    // axios.get("${process.env.REACT_APP_BASE_URL}/up/intro")
     //     .then(data => console.log(data.data));
 
     // new input list
@@ -282,7 +282,7 @@ const CreateNotice = props => {
                         {/* input lists */}
                         {inputList.map((x, i) => {
                             return (
-                                <Row className="d-flex">
+                                <Row key={i} className="d-flex">
                                     <Form.Group as={Row} className="mb-3" controlId="formHorizontalPassword">
                                         <Form.Label column sm={2} md={2}>
                                             Serial No
@@ -338,4 +338,4 @@ const CreateNotice = props => {
     );
 };
 
-export default CreateNotice;
+export default CreateIntro;

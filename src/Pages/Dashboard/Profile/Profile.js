@@ -28,7 +28,7 @@ const Profile = () => {
     const token = JSON.parse(sessionStorage.getItem("user"));
     React.useEffect(() => {
         if (token) {
-            fetch('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', {
+            fetch(`${process.env.REACT_APP_BASE_URL}/up/db_user/user/token`, {
                 method: 'POST',
                 headers: { Authorization: 'Bearer ' + token.access_token }
             }).then(response => response.json())
@@ -43,7 +43,7 @@ const Profile = () => {
         const formData = new FormData();
         formData.append('image', image);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/db_user/edit/image/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/db_user/edit/image/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -63,12 +63,12 @@ const Profile = () => {
     const [data, setData] = React.useState([]);
     // console.log(data);
     React.useEffect(() => {
-        /*         axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wchairman", {
+        /*         axios.get("${process.env.REACT_APP_BASE_URL}/up/wchairman", {
                     headers: {
                         'token': token
                     }
                 }) */
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/db_user/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_user/${id}`)
             .then(res => {
                 if (res.data.err) {
                     alert(res.data.err)
@@ -80,7 +80,7 @@ const Profile = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
-        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/db_user/edit/profile/${id}`, data)
+        axios.put(`${process.env.REACT_APP_BASE_URL}/up/db_user/edit/profile/${id}`, data)
             .then(res => {
                 if (res.data) {
                     setSuccess(true)

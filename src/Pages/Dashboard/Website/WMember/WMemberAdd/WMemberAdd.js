@@ -21,7 +21,7 @@ function WMemberAdd(props) {
         formData.append('image', image);
         const token = JSON.parse(sessionStorage.getItem("user")).access_token;
 
-        fetch('https://hasadahoup-mongo-server.herokuapp.com/up/wmember', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/wmember`, {
             method: 'POST',
             headers: { Authorization: 'Bearer ' + token },
             body: formData

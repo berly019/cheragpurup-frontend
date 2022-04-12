@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { Col, Container, Form, Image, Modal, Row } from 'react-bootstrap';
 // import { useForm } from 'react-hook-form';
 
-const CreateNotice = props => {
+const ShowNotice = props => {
     const id = props.id;
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/notice/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/notice/${id}`)
             .then((data) => {
                 setData(data.data);
                 // console.log(data.data[0]);
@@ -62,4 +62,4 @@ const CreateNotice = props => {
     );
 };
 
-export default CreateNotice;
+export default ShowNotice;

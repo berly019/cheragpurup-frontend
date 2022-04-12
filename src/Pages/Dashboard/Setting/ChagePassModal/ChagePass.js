@@ -12,7 +12,7 @@ const ChagePass = () => {
     const token = JSON.parse(sessionStorage.getItem("user"));
     React.useEffect(() => {
         if (token) {
-            fetch('https://hasadahoup-mongo-server.herokuapp.com/up/db_user/user/token', {
+            fetch(`${process.env.REACT_APP_BASE_URL}/up/db_user/user/token`, {
                 method: 'POST',
                 headers: { Authorization: 'Bearer ' + token.access_token }
             }).then(response => response.json())
@@ -23,7 +23,7 @@ const ChagePass = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
         if (data.newPassword === data.newPassword2) {
-            axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/db_user/cng_pass/${id}`, (data), { headers: { Authorization: 'Bearer ' + token.access_token } })
+            axios.put(`${process.env.REACT_APP_BASE_URL}/up/db_user/cng_pass/${id}`, (data), { headers: { Authorization: 'Bearer ' + token.access_token } })
                 .then((res) => {
                     // console.log(res)
                     if (res?.data?.affectedRows > 0) {
@@ -58,7 +58,7 @@ const ChagePass = () => {
                             <Form.Control type="password" {...register("oldPassword", { required: true })} />
                         </Col>
                     </Form.Group>
-                    <Form.Group as={Row} className="mb-3" controlId="formHorizontalPassword">
+                    <Form.Group as={Row} className="mb-3" controlId="formHorizontalPasswordNew">
                         <Form.Label column className="fs-5" sm={4}>
                             নতুন পাসওয়ার্ড
                         </Form.Label>
@@ -66,7 +66,7 @@ const ChagePass = () => {
                             <Form.Control type="password" {...register("newPassword", { required: true })} />
                         </Col>
                     </Form.Group>
-                    <Form.Group as={Row} className="mb-3" controlId="formHorizontalPassword">
+                    <Form.Group as={Row} className="mb-3" controlId="formHorizontalPasswordNew2">
                         <Form.Label column className="fs-5" sm={4}>
                             নিশ্চিত কর নতুন পাসওয়ার্ড
                         </Form.Label>

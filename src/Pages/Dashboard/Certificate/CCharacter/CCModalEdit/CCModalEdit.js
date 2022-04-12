@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Alert, Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useForm } from 'react-hook-form';
 
-function CCModalEdit(props) {
+const CCModalEdit = (props) => {
     const id = props.id;
     const [success, setSuccess] = React.useState(false);
     const [warn, setWarn] = React.useState(false);
@@ -12,7 +12,7 @@ function CCModalEdit(props) {
     const formRef = useRef();
 
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/character_certificate/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/character_certificate/${id}`)
             .then((data) => {
                 setData(data.data);
                 formRef?.current?.reset();
@@ -23,7 +23,7 @@ function CCModalEdit(props) {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
         data.marital_status = maritalStatus;
-        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/character_certificate/${id}`, (data))
+        axios.put(`${process.env.REACT_APP_BASE_URL}/up/character_certificate/${id}`, (data))
             .then((res) => {
                 // handle success
                 if (res.data.affectedRows > 0) {

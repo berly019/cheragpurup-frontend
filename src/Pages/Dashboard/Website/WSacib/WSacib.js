@@ -21,7 +21,7 @@ const WSacib = () => {
         const formData = new FormData();
         formData.append('image', image);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/wsacib/image/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/wsacib/image/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -42,7 +42,7 @@ const WSacib = () => {
     const [data, setData] = React.useState([]);
     // console.log(data);
     React.useEffect(() => {
-        axios.get("https://hasadahoup-mongo-server.herokuapp.com/up/wsacib")
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/wsacib`)
             .then(res => {
                 setData(res.data[0]);
                 setId(res.data[0]._id);
@@ -51,7 +51,7 @@ const WSacib = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
-        axios.put(`https://hasadahoup-mongo-server.herokuapp.com/up/wsacib/${id}`, data)
+        axios.put(`${process.env.REACT_APP_BASE_URL}/up/wsacib/${id}`, data)
             .then(res => {
                 // console.log(res)
                 if (res.data > 0) {

@@ -10,7 +10,7 @@ function TLModalAdd(props) {
     const token = JSON.parse(sessionStorage.getItem("user")).access_token;
 
     const onSubmit = data => {
-        axios.post('https://hasadahoup-mongo-server.herokuapp.com/up/tread_license', (data), {
+        axios.post(`${process.env.REACT_APP_BASE_URL}/up/tread_license`, (data), {
             headers: { Authorization: 'Bearer ' + token }
         })
             .then((res) => {

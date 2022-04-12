@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Alert, Button, Col, Form, Modal, Row } from 'react-bootstrap';
 // import { useForm } from 'react-hook-form';
 
-const CreateNotice = props => {
+const EditNotice = props => {
     const id = props.id;
     const [success, setSuccess] = React.useState(false);
     const [title, setTitle] = useState('');
@@ -22,7 +22,7 @@ const CreateNotice = props => {
         formData.append('image', image);
         // console.log(formData);
 
-        fetch(`https://hasadahoup-mongo-server.herokuapp.com/up/notice/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/up/notice/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -39,7 +39,7 @@ const CreateNotice = props => {
 
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get(`https://hasadahoup-mongo-server.herokuapp.com/up/notice/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/up/notice/${id}`)
             .then((data) => {
                 setData(data.data);
                 formRef?.current?.reset();
@@ -116,4 +116,4 @@ const CreateNotice = props => {
     );
 };
 
-export default CreateNotice;
+export default EditNotice;
