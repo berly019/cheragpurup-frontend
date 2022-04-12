@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import './Footer.css';
 
 const Footer = () => {
     const [pMData, setPMData] = useState([]);
@@ -12,7 +13,7 @@ const Footer = () => {
     return (
         <div className="p-5 bg-success text-white text-center">
             <p className="fs-5">{pMData?.name} - {pMData?.location}</p>
-            <p className="fs-5"><em>Copyright © 2021 </em><span className="text-white">Be Developer</span></p>
+            <p className="fs-5">© 2022. All rights reserved by <a style={{ textDecoration: 'none' }} href="https://makereal.io/" className="text-white copyright">Make Real.</a></p>
         </div>
     );
 };
