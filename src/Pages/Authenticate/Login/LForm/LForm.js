@@ -57,9 +57,11 @@ const LForm = () => {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Control type="text" defaultValue={uname ? uname : ""} placeholder="আপনার নাম" {...register("email", { required: true })} />
                 </Form.Group>
+                {errors.email && <span>User name is required</span>}
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Control type="password"  defaultValue={pword ? pword : ''}placeholder="পাসওয়ার্ড" {...register("pass", { required: true })} />
                 </Form.Group>
+                {errors.pass && <span>Password is required</span>}
                 <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-3">
                     <Form.Group className="mb-0 mb-md-3" controlId="formBasicCheckbox">
                         <Form.Check type="checkbox" label="মনে রাখুন" name="rememberme" onClick={handleClick} checked={checked}  />
@@ -67,7 +69,7 @@ const LForm = () => {
                     {/* <Button className="p-0" variant="outline" size="sm" onClick={refreshPage} data-toggle="tooltip" data-placement="bottom" title="Refresh Page"><AiOutlineReload /></Button> */}
                     <p>পাসওয়ার্ড ভুলে গেছেন?</p>
                 </div>
-                {errors.exampleRequired && <span>This field is required</span>}
+
                 <div className="text-center d-flex flex-column justify-content-center align-items-center">
 
                     <Button className="px-5" variant="success" type="submit">
@@ -84,7 +86,7 @@ const LForm = () => {
             </Form>
 
             {status ? <Alert className="mt-5">{status}</Alert> : ''}
-        </Container>
+        </Container >
     );
 };
 
