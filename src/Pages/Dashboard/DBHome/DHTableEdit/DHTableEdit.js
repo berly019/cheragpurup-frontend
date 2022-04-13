@@ -47,7 +47,7 @@ function DHTableEdit(props) {
             <Modal.Header closeButton id="contained-modal-title-vcenter border-bottom" className="border-bottom">
                 {/* <Modal.Title id="contained-modal-title-vcenter"> */}
                 <div className="text-center" style={{ width: "96%" }}>
-                    <p className="text-success m-0 fs-4">৬ নং দুবলহাটি ইউনিয়ন পরিষদ</p>
+                    <p className="text-success m-0 fs-4">৬ নং ইউনিয়ন পরিষদ</p>
                     <p className="text-danger m-0">ওয়ার্ড নং {data?.word_no}</p>
                 </div>
                 {/* </Modal.Title> */}

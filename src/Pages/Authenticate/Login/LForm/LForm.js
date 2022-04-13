@@ -49,7 +49,7 @@ const LForm = () => {
     return (
         <Container className="py-5 text-center form-cc">
             <div className="pb-3">
-                <p className="fs-2 fw-bold text-success mb-0">দুবলহাটি এডমিন প্যানেল</p>
+                <p className="fs-2 fw-bold text-success mb-0">এডমিন প্যানেল</p>
                 <p className="fs-5">অনুগ্রহ করে আপনার একাউন্টে লগইন করুন</p>
             </div>
 

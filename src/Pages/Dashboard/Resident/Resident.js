@@ -183,10 +183,10 @@ const Residential = () => {
                 //code for JavaScript-Fetch */
 
                 const apiKey = "81e2KlJ8XZt98Q6N18Ecr88iNNBg2519Hp4DDyGW";
-                const message = `দুবলহাটি ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
+                const message = `ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
 
                 // const message = `thank you I am from chitla`
-                // const message = `দুবলহাটি ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
+                // const message = `ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
 
                 // send sms
                 fetch(`https://api.sms.net.bd/sendsms?api_key=${apiKey}&msg=${message}&to=880${num}`)
@@ -213,9 +213,9 @@ const Residential = () => {
                 data.sms = 'yes';
 
                 const apiKey = "81e2KlJ8XZt98Q6N18Ecr88iNNBg2519Hp4DDyGW";
-                const message = `দুবলহাটি ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
+                const message = `ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
 
-                // const message = `দুবলহাটি ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
+                // const message = `ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
 
                 // send sms
                 fetch(`https://api.sms.net.bd/sendsms?api_key=${apiKey}&msg=${message}&to=88${num}`)
