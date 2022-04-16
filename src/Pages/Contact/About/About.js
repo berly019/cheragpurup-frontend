@@ -56,7 +56,7 @@ const About = () => {
     return (
         <Container className="py-5">
             <div className="text-center pt-5">
-                <p className="fs-2 fw-bold m-0">ইউনিয়ন পরিষদ</p>
+                <p className="fs-2 fw-bold m-0">দুবলহাটি ইউনিয়ন পরিষদ</p>
                 <p className="fs-5">চেয়ারম্যান, সচিব এবং মেম্বার পরিচিতি</p>
             </div>
             <Row className='gy-5 py-5 align-items-center'>

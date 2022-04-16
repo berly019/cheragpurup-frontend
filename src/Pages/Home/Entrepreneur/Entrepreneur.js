@@ -30,7 +30,7 @@ const UpMember = () => {
     }
     return (
         <Container className="py-5">
-            <p className="fs-2 fw-bold text-center mx-auto" style={{ borderBottom: '2px solid #ADADAD', width: 'fit-content' }}>ইউনিয়নের উদ্যোক্তাদের তালিকা</p>
+            <p className="fs-2 fw-bold text-center mx-auto" style={{ borderBottom: '2px solid #ADADAD', width: 'fit-content' }}>দুবলহাটি ইউনিয়নের উদ্যোক্তাদের তালিকা</p>
             <Row xs={1} sm={2} lg={3} className="gy-5 py-5">
                 {
                     member.map(dt =>
@@ -40,7 +40,7 @@ const UpMember = () => {
                                 style={{ width: '18rem', borderRadius: '1rem', backgroundColor: '#F4F4F4' }}
                                 className="mb-2 mx-auto border-0"
                             >
-                                <Card.Header className="fs-4" style={{ backgroundColor: '#F4F4F4', borderRadius: "1rem 1rem 0 0" }}>ইউনিয়নের সদস্য</Card.Header>
+                                <Card.Header className="fs-4" style={{ backgroundColor: '#F4F4F4', borderRadius: "1rem 1rem 0 0" }}>দুবলহাটি ইউনিয়নের সদস্য</Card.Header>
                                 <Card.Body className="px-4">
                                     <div className="d-flex justify-content-between align-items-center pb-3">
                                         <Image fluid style={{ height: '85px', width: '85px' }} roundedCircle src={dt?.image} />
