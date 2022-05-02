@@ -1,17 +1,10 @@
-import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Card, Col, Container, Image, Row, Spinner } from 'react-bootstrap';
+import { DataContext } from '../../../contexts/DataContext';
 
 const UpMember = () => {
-    const [member, setMember] = React.useState([]);
-    const [isLoading, setIsLoading] = React.useState(false);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/wmember`)
-            .then((res) => {
-                setMember(res.data)
-                setIsLoading(true);
-            })
-    }, []);
+
+    const { isLoading, wMemberData } = useContext(DataContext);
 
     // spinner
     if (!isLoading) {
@@ -33,7 +26,7 @@ const UpMember = () => {
             <p className="fs-2 fw-bold text-center mx-auto" style={{ borderBottom: '2px solid #ADADAD', width: 'fit-content' }}>দুবলহাটি ইউনিয়নের মেম্বারদের তালিকা</p>
             <Row xs={1} sm={2} lg={3} className="gy-5 py-5">
                 {
-                    member.map(dt =>
+                    wMemberData.map(dt =>
                         <Col key={dt._id}>
                             <Card
                                 text='dark'

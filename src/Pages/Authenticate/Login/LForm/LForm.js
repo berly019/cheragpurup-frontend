@@ -5,8 +5,11 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 // import { AiOutlineReload } from "react-icons/ai";
 import Cookies from 'js-cookie'
+// import useUser from "../../../../hooks/useUser";
 
 const LForm = () => {
+    // const { role, user } = useUser();
+
     const [status, setStatus] = React.useState('');
     const { register, handleSubmit, formState: { errors } } = useForm();
     // axios.defaults.withCredentials = true;
@@ -46,6 +49,11 @@ const LForm = () => {
             })
     };
 
+    // const handleToken = () => {
+    //     navigate('/dashboard/db-home');
+    //     window.location.reload()
+    // }
+
     return (
         <Container className="py-5 text-center form-cc">
             <div className="pb-3">
@@ -59,28 +67,28 @@ const LForm = () => {
                 </Form.Group>
                 {errors.email && <span>User name is required</span>}
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Control type="password"  defaultValue={pword ? pword : ''}placeholder="পাসওয়ার্ড" {...register("pass", { required: true })} />
+                    <Form.Control type="password" defaultValue={pword ? pword : ''} placeholder="পাসওয়ার্ড" {...register("pass", { required: true })} />
                 </Form.Group>
                 {errors.pass && <span>Password is required</span>}
                 <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-3">
                     <Form.Group className="mb-0 mb-md-3" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="মনে রাখুন" name="rememberme" onClick={handleClick} checked={checked}  />
+                        <Form.Check type="checkbox" label="মনে রাখুন" name="rememberme" onClick={handleClick} checked={checked} />
                     </Form.Group>
                     {/* <Button className="p-0" variant="outline" size="sm" onClick={refreshPage} data-toggle="tooltip" data-placement="bottom" title="Refresh Page"><AiOutlineReload /></Button> */}
                     <p>পাসওয়ার্ড ভুলে গেছেন?</p>
                 </div>
 
                 <div className="text-center d-flex flex-column justify-content-center align-items-center">
+                    {/* {user && role ?
+                        <Button className="px-5" variant="success" onClick={handleToken}>
+                            ড্যাশবোর্ড
+                        </Button>
+                        :
+                    } */}
 
                     <Button className="px-5" variant="success" type="submit">
                         লগ ইন
                     </Button>
-
-                    {/* {role ?
-                        <Link to='dashboard'> <Button className="px-5 my-3" variant="success" type="submit">
-                            ড্যাশবোর্ড
-                        </Button></Link> : ''
-                    } */}
 
                 </div>
             </Form>

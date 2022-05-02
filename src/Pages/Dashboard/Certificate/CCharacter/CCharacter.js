@@ -1,99 +1,88 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
-import { BsEye } from 'react-icons/bs';
-import { CgPushDown } from 'react-icons/cg';
-import { FiEdit } from 'react-icons/fi';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Button, Card, Col, Container, Form, Modal, Row, Spinner } from 'react-bootstrap';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import ReactPaginate from 'react-paginate';
-import CCModalAdd from './CCModalAdd/CCModalAdd';
-import CCModalEdit from './CCModalEdit/CCModalEdit';
-import CCModalShow from './CCModalShow/CCModalShow';
-import CCDownload from './CCDownload/CCDownload';
+import { DataContext } from '../../../../contexts/DataContext';
+import CCharacterTable from './Actions/CCharacterTable';
+import CCModalAdd from './Actions/CCModalAdd';
 
 const CCharacter = () => {
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [modalShow, setModalShow] = React.useState(false);
-    const [modalEdit, setModalEdit] = React.useState(false);
-    const [modalShowF, setModalShowF] = React.useState(false);
-    const [modalPushDown, setModalPushDown] = React.useState(false);
-    const [modalId, setModalId] = React.useState('');
-    const [CCData, setCCData] = React.useState([]);
-    const [filteredData, setFilteredData] = React.useState([]);
+
+    const { isLoading, totalData, cCharacterData, chFilteredData, setChCharacterData } = useContext(DataContext);
+
 
     const [selectValue, setSelectValue] = useState(10);
     const [pageNumber, setPageNumber] = React.useState(0);
     const dataPerPage = selectValue;
     const dataVisited = pageNumber * dataPerPage;
-    const displayData = filteredData.slice(dataVisited, dataVisited + dataPerPage);
-    const pageCount = Math.ceil(filteredData.length / dataPerPage);
+    const displayData = chFilteredData.slice(dataVisited, dataVisited + dataPerPage);
+    const pageCount = Math.ceil(chFilteredData.length / dataPerPage);
     const changePage = ({ selected }) => {
         setPageNumber(selected);
     }
 
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/character_certificate`)
-            .then(data => {
-                setCCData(data.data);
-                setFilteredData(data.data);
-                // console.log(data.data);
-                setIsLoading(true);
-            })
-    }, [modalShow, CCData?._id]);
 
-    const [totalData, setTotalData] = React.useState([]);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home/624ef59fab75a0cf27de3f8d`)
-            .then(data => {
-                setTotalData(data?.data);
-            });
-    }, []);
+    const [showAlert, setShowAlert] = useState(false);
+
+    // for add modal
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+
+    const handleShowAlert = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 1000)
+    }
+    // const [rerender, setRerender] = useState(false);
+
+    useEffect(() => {
+        handleClose();
+
+        return () => {
+            handleShowAlert();
+        }
+    }, [cCharacterData]);
+
 
     const handleMemorandumFilter = e => {
         const name = e.target.value;
-        const matchedName = CCData.filter(data => data?.memorandum_no?.toString().includes(name));
-        setFilteredData(matchedName);
+        const matchedName = cCharacterData.filter(data => data?.memorandum_no?.toString().includes(name));
+        setChCharacterData(matchedName);
     }
     const handleNameFilter = e => {
         const name = e.target.value;
-        const matchedName = CCData.filter(data => data?.applicant_name?.includes(name));
-        setFilteredData(matchedName);
+        const matchedName = cCharacterData.filter(data => data?.applicant_name?.includes(name));
+        setChCharacterData(matchedName);
     }
     const handleWordFilter = e => {
         const holding = e.target.value;
-        const matchedHolding = CCData?.filter(data => data?.word_no?.toString().includes(holding));
-        setFilteredData(matchedHolding);
+        const matchedHolding = cCharacterData?.filter(data => data?.word_no?.toString().includes(holding));
+        setChCharacterData(matchedHolding);
     }
     const handleVillageFilter = e => {
         const village = e.target.value;
-        const matchedMobile = CCData.filter(data => data?.village?.includes(village));
-        setFilteredData(matchedMobile);
+        const matchedMobile = cCharacterData.filter(data => data?.village?.includes(village));
+        setChCharacterData(matchedMobile);
     }
 
-    const handleReset = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/character_certificate`)
-            .then(data => {
-                setCCData(data.data);
-                setFilteredData(data.data);
-                // console.log(data.data);
-            })
-    }
 
-        // spinner
-        if (!isLoading) {
-            return <div className="text-center 100vh pt-5">
-                <Button variant="success" disabled>
-                    <Spinner
-                        as="span"
-                        animation="grow"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                    />
-                    Loading...
-                </Button>
-            </div>
-        }
+    // spinner
+    if (!isLoading) {
+        return <div className="text-center 100vh pt-5">
+            <Button variant="success" disabled>
+                <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                />
+                Loading...
+            </Button>
+        </div>
+    }
 
     return (
         <Container>
@@ -108,27 +97,6 @@ const CCharacter = () => {
                     </Card>
                 </Col>
                 {/* <Col className="position-absolute" style={{ textAlign: 'right' }}> */}
-                <Col style={{ textAlign: 'right' }}>
-                    <CCModalAdd
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                    />
-                    <CCModalEdit
-                        id={modalId}
-                        show={modalEdit}
-                        onHide={() => setModalEdit(false)}
-                    />
-                    <CCModalShow
-                        id={modalId}
-                        show={modalShowF}
-                        onHide={() => setModalShowF(false)}
-                    />
-                    <CCDownload
-                        id={modalId}
-                        show={modalPushDown}
-                        onHide={() => setModalPushDown(false)}
-                    />
-                </Col>
             </Row>
 
 
@@ -142,7 +110,7 @@ const CCharacter = () => {
                     </select>
                 </div>
                 <Form>
-                    <Row xs={2} md={2} lg={5} className="flex-column flex-sm-row align-items-center">
+                    <Row xs={2} md={2} lg={4} className="flex-column flex-sm-row align-items-center">
                         <Form.Group as={Col} className="mb-3 d-flex flex-column justify-content-center align-items-center flex-sm-row" controlId="formPlaintextPassword">
                             <Form.Label column sm="4">
                                 স্মারক নংঃ
@@ -175,10 +143,6 @@ const CCharacter = () => {
                                 <Form.Control type="text" onChange={handleVillageFilter} />
                             </Col>
                         </Form.Group>
-                        {/* <Button type="submit" variant="danger" className='px-4' size="sm">Search</Button> */}
-                        <Col className="mb-3 text-center">
-                            <Button type="reset" variant="outline-success" onClick={handleReset}>Clear</Button>
-                        </Col>
                     </Row>
                 </Form>
             </Row>
@@ -196,7 +160,7 @@ const CCharacter = () => {
                         <p className="m-0  fs-5 fw-bold">Entries</p>
                     </div>
                     <div>
-                        <Button className="mt-3 mt-sm-0" variant="success" onClick={() => setModalShow(true)} size="sm"><HiOutlinePlusCircle /> সংযুক্ত করুন</Button>
+                        <Button className="mt-3 mt-sm-0" variant="success" onClick={() => handleShow()} size="sm"><HiOutlinePlusCircle /> সংযুক্ত করুন</Button>
                     </div>
                 </div>
                 <table className="table table-striped table-hover fs-6 text-center table-bordered overflow-auto">
@@ -213,13 +177,7 @@ const CCharacter = () => {
                         {
                             displayData.map(data =>
                                 <tr key={data._id}>
-                                    <th scope="row">{data.memorandum_no}</th>
-                                    <td>{data.applicant_name}</td>
-                                    <td>{data.word_no}</td>
-                                    <td>{data.village}</td>
-                                    <td className='text-danger' style={{ cursor: 'pointer' }} >
-                                        <BsEye onClick={() => { setModalShowF(true); setModalId(data._id) }} /> <FiEdit className="mx-4" onClick={() => { setModalEdit(true); setModalId(data._id) }} />  <CgPushDown onClick={() => { setModalPushDown(true); setModalId(data._id) }} />
-                                    </td>
+                                    <CCharacterTable data={data} />
                                 </tr>
                             )
                         }
@@ -230,7 +188,7 @@ const CCharacter = () => {
             </Row>
             <Row className='overflow-auto'>
                 <div className="d-flex py-1 justify-content-between align-items-center flex-column flex-md-row pt-2">
-                    <p className="mb-0 py-2 py-md-0">Showing 1 to {displayData.length} of {filteredData.length} entries</p>
+                    <p className="mb-0 py-2 py-md-0">Showing 1 to {displayData.length} of {chFilteredData.length} entries</p>
                     <ReactPaginate
                         previousLabel={'<'}
                         nextLabel={'>'}
@@ -253,7 +211,30 @@ const CCharacter = () => {
                     />
                 </div>
             </Row>
-            {/* <RSModal /> */}
+
+            {/* add data */}
+            <Modal className="overflow-auto" show={show} onHide={handleClose}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
+                    {/* <Modal.Title id="contained-modal-title-vcenter"> */}
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-4">চারিত্রিক সনদপত্র</p>
+                    </div>
+                    {/* </Modal.Title> */}
+                </Modal.Header>
+                <Modal.Body className="px-5">
+                    <CCModalAdd />
+                </Modal.Body>
+            </Modal>
+
+            <Alert className="alertCss" show={showAlert} variant="light">
+                Character Certificate List Updated Successfully!
+            </Alert>
+
         </Container>
     );
 };

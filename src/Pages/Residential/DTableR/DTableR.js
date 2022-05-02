@@ -1,96 +1,48 @@
-import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
+import { DataContext } from '../../../contexts/DataContext';
 
 const DynamicTable = () => {
-    // const [residentData, setResidentData] = React.useState([]);
-    const [filteredData, setFilteredData] = React.useState([]);
-    const [filteredDataTwo, setFilteredDataTwo] = React.useState([]);
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [id, setId] = React.useState(1);
+
+    const { isLoading, pageROffset, pageRNumber, setPageRNumber, residentData, rFilteredData, handleRWordFilter, handleRAllFilter, setRFilteredData } = useContext(DataContext)
 
     const [selectValue, setSelectValue] = React.useState(10);
-    const [pageNumber, setPageNumber] = React.useState(0);
     const dataPerPage = selectValue;
-    const dataVisited = pageNumber * dataPerPage;
-    const displayData = filteredDataTwo?.slice(dataVisited, dataVisited + dataPerPage);
-    const pageCount = Math.ceil(filteredDataTwo?.length / dataPerPage);
+    const dataVisited = pageRNumber * dataPerPage;
+    const displayData = rFilteredData?.slice(dataVisited, dataVisited + dataPerPage);
+    const pageCount = Math.ceil(rFilteredData?.length / dataPerPage);
     const changePage = ({ selected }) => {
-        setPageNumber(selected);
+        setPageRNumber(selected);
     }
 
-    const word = JSON.parse(localStorage.getItem("rfWord"));
-
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/resident/word/1`)
-            .then(data => {
-                // setResidentData(data.data);
-                setFilteredData(data.data);
-                setFilteredDataTwo(data.data);
-                setIsLoading(true);
-                // console.log(data.data);
-            })
-    }, [word]);
-
-    const handleAllFilter = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/resident`)
-            .then(data => {
-                // setResidentData(data.data);
-                setFilteredData(data.data);
-                setFilteredDataTwo(data.data);
-                setIsLoading(true);
-                // console.log(data.data);
-            });
-
-        setPageNumber(0);
-    };
 
     // filters
-    const handleWordFilter = id => {
-        localStorage.setItem("rfWord", JSON.stringify(id));
-
-        setId(id);
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/resident/word/${id}`)
-            .then(data => {
-                setFilteredData(data.data)
-                setFilteredDataTwo(data.data)
-            });
-            
-            setPageNumber(0);
-        // setFilteredData(matchedWord);
-    }
     const handleNameFilter = e => {
         const name = e.target.value;
-        const matchedName = filteredData?.filter(data => data?.payer_name?.includes(name));
-        setFilteredDataTwo(matchedName);
+        const matchedName = residentData?.filter(data => data?.payer_name?.includes(name));
+        setRFilteredData(matchedName);
     }
     const handleHoldingFilter = e => {
         const holding = e.target.value;
-        const matchedHolding = filteredData?.filter(data => data?.holding_no?.toString().includes(holding));
-        setFilteredDataTwo(matchedHolding);
+        const matchedHolding = residentData?.filter(data => data?.holding_no?.toString().includes(holding));
+        setRFilteredData(matchedHolding);
     }
     const handlePhoneFilter = e => {
         const mobile = e.target.value;
-        const matchedMobile = filteredData.filter(data => data?.mobile_no?.toString().includes(mobile));
-        setFilteredDataTwo(matchedMobile);
+        const matchedMobile = residentData.filter(data => data?.mobile_no?.toString().includes(mobile));
+        setRFilteredData(matchedMobile);
     }
 
-    const [activeIndex, setActiveIndex] = React.useState(1);
+    const word = JSON.parse(localStorage.getItem("rWord"));
+
+    const [id, setId] = React.useState(word ? word : 1);
+    const [activeIndex, setActiveIndex] = React.useState(word ? word : 1);
     const handleOnClick = index => {
+        setId(index);
         setActiveIndex(index);
         // remove the curly braces
     };
-
-    // active class
-    // const btns = document.getElementsByClassName("btn-sub");
-    // for (let i = 0; i < btns.length; i++) {
-    //     btns[i].addEventListener("click", function () {
-    //         const current = document.getElementsByClassName("color-active");
-    //         current[0].className = current[0].className.replace(" color-active", "");
-    //         this.className += " color-active";
-    //     });
-    // }
 
     // spinner
     if (!isLoading) {
@@ -126,15 +78,15 @@ const DynamicTable = () => {
     return (
         <Container>
             <Row xs="auto" className="gy-5 text-center my-5 pb-5 justify-content-center align-items-center">
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(1); handleWordFilter(1) }} className={`rounded-3 px-4 ${activeIndex === 1 ? "active" : ""}`}>ওয়ার্ড নং ১</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(2); handleWordFilter(2) }} className={`rounded-3 px-4 ${activeIndex === 2 ? "active" : ""}`}>ওয়ার্ড নং ২</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(3); handleWordFilter(3) }} className={`rounded-3 px-4 ${activeIndex === 3 ? "active" : ""}`}>ওয়ার্ড নং ৩</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(4); handleWordFilter(4) }} className={`rounded-3 px-4 ${activeIndex === 4 ? "active" : ""}`}>ওয়ার্ড নং ৪</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(5); handleWordFilter(5) }} className={`rounded-3 px-4 ${activeIndex === 5 ? "active" : ""}`}>ওয়ার্ড নং ৫</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(6); handleWordFilter(6) }} className={`rounded-3 px-4 ${activeIndex === 6 ? "active" : ""}`}>ওয়ার্ড নং ৬</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(7); handleWordFilter(7) }} className={`rounded-3 px-4 ${activeIndex === 7 ? "active" : ""}`}>ওয়ার্ড নং ৭</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(8); handleWordFilter(8) }} className={`rounded-3 px-4 ${activeIndex === 8 ? "active" : ""}`}>ওয়ার্ড নং ৮</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(9); handleWordFilter(9) }} className={`rounded-3 px-4 ${activeIndex === 9 ? "active" : ""}`}>ওয়ার্ড নং ৯</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(1); handleRWordFilter(1) }} className={`rounded-3 px-4 ${activeIndex === 1 ? "active" : ""}`}>ওয়ার্ড নং ১</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(2); handleRWordFilter(2) }} className={`rounded-3 px-4 ${activeIndex === 2 ? "active" : ""}`}>ওয়ার্ড নং ২</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(3); handleRWordFilter(3) }} className={`rounded-3 px-4 ${activeIndex === 3 ? "active" : ""}`}>ওয়ার্ড নং ৩</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(4); handleRWordFilter(4) }} className={`rounded-3 px-4 ${activeIndex === 4 ? "active" : ""}`}>ওয়ার্ড নং ৪</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(5); handleRWordFilter(5) }} className={`rounded-3 px-4 ${activeIndex === 5 ? "active" : ""}`}>ওয়ার্ড নং ৫</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(6); handleRWordFilter(6) }} className={`rounded-3 px-4 ${activeIndex === 6 ? "active" : ""}`}>ওয়ার্ড নং ৬</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(7); handleRWordFilter(7) }} className={`rounded-3 px-4 ${activeIndex === 7 ? "active" : ""}`}>ওয়ার্ড নং ৭</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(8); handleRWordFilter(8) }} className={`rounded-3 px-4 ${activeIndex === 8 ? "active" : ""}`}>ওয়ার্ড নং ৮</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(9); handleRWordFilter(9) }} className={`rounded-3 px-4 ${activeIndex === 9 ? "active" : ""}`}>ওয়ার্ড নং ৯</Button></Col>
             </Row>
 
             <Row className="justify-content-center fs-5 mx-auto">
@@ -186,7 +138,7 @@ const DynamicTable = () => {
                         <p className="m-0 fs-md-5 fw-bold">Entries</p>
                     </div>
                     <div>
-                        <Button variant="outline-success" onClick={() => { handleAllFilter(); handleOnClick("all"); }} className={`${activeIndex === "all" ? "active" : ""}`}>সকল ওয়ার্ড</Button>
+                        <Button variant="outline-success" onClick={() => { handleRAllFilter(); handleOnClick("all"); }} className={`${activeIndex === "all" ? "active" : ""}`}>সকল ওয়ার্ড</Button>
                     </div>
                 </Col>
 
@@ -222,13 +174,13 @@ const DynamicTable = () => {
                 </table>
                 {displayData.length === 0 ? <Alert className="text-center">No Data Found</Alert> : ''}
                 <div className="d-flex justify-content-between align-items-center flex-column flex-md-row">
-                    <p className="mb-0 py-md-0 text-center">Showing {displayData[0]?.holding_no ? displayData[0]?.holding_no : "Undefined"} to {displayData[displayData.length - 1]?.holding_no ? displayData[displayData.length - 1]?.holding_no : "Undefined"} of {filteredData.length} entries</p>
+                    <p className="mb-0 py-md-0 text-center">Showing {displayData[0]?.holding_no ? displayData[0]?.holding_no : "Undefined"} to {displayData[displayData.length - 1]?.holding_no ? displayData[displayData.length - 1]?.holding_no : "Undefined"} of {residentData.length} entries</p>
                     <ReactPaginate
                         previousLabel={'<'}
                         nextLabel={'>'}
                         pageCount={pageCount}
                         onPageChange={changePage}
-                        forcePage={pageNumber}
+                        forcePage={pageROffset}
                         containerClassName={'pagination'}
                         pageClassName={'page-item'}
                         pageLinkClassName={'page-link'}

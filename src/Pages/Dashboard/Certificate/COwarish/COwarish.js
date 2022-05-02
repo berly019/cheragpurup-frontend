@@ -1,82 +1,95 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
-import { BsEye } from 'react-icons/bs';
-import { CgPushDown } from 'react-icons/cg';
-import { FiEdit } from 'react-icons/fi';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Button, Card, Col, Container, Form, Modal, Row, Spinner } from 'react-bootstrap';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
-import COModalAdd from './COModalAdd/COModalAdd';
-import COModalShow from './COModalShow/COModalShow';
-import COModalEdit from './COModalEdit/COModalEdit';
-import CODownload from './CODownload/CODownload';
+import COModalAdd from './Actions/COModalAdd';
 import ReactPaginate from 'react-paginate';
+import COwarishTable from './Actions/COwarishTable';
+import { DataContext } from '../../../../contexts/DataContext';
 
 const COwarish = () => {
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [modalShow, setModalShow] = React.useState(false);
-    const [modalEdit, setModalEdit] = React.useState(false);
-    const [modalShowF, setModalShowF] = React.useState(false);
-    const [modalPushDown, setModalPushDown] = React.useState(false);
-    const [modalId, setModalId] = React.useState('');
-    const [COData, setCOData] = React.useState([]);
-    const [filteredData, setFilteredData] = React.useState([]);
+
+    const { isLoading, totalData, cOwarishData, cOFilteredData, setCOFilteredData, } = useContext(DataContext);
+
+    // const [isLoading, setIsLoading] = React.useState(false);
+    // const [modalShow, setModalShow] = React.useState(false);
+    // const [modalEdit, setModalEdit] = React.useState(false);
+    // const [modalShowF, setModalShowF] = React.useState(false);
+    // const [modalPushDown, setModalPushDown] = React.useState(false);
+    // const [modalId, setModalId] = React.useState('');
+    // const [COData, setCOData] = React.useState([]);
+    // const [filteredData, setFilteredData] = React.useState([]);
 
     const [selectValue, setSelectValue] = useState(10);
     const [pageNumber, setPageNumber] = React.useState(0);
     const dataPerPage = selectValue;
     const dataVisited = pageNumber * dataPerPage;
-    const displayData = filteredData.slice(dataVisited, dataVisited + dataPerPage);
-    const pageCount = Math.ceil(filteredData.length / dataPerPage);
+    const displayData = cOFilteredData.slice(dataVisited, dataVisited + dataPerPage);
+    const pageCount = Math.ceil(cOFilteredData.length / dataPerPage);
     const changePage = ({ selected }) => {
         setPageNumber(selected);
     }
 
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/inheritance_certificate`)
-            .then(data => {
-                setCOData(data.data);
-                setFilteredData(data.data);
-                // console.log(data.data);
-                setIsLoading(true);
-            })
-    }, [modalShow]);
 
-    const [totalData, setTotalData] = React.useState([]);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home/624ef59fab75a0cf27de3f8d`)
-            .then(data => {
-                setTotalData(data?.data);
-            });
-    }, []);
+    const [showAlert, setShowAlert] = useState(false);
+
+    // for add modal
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+
+    const handleShowAlert = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 1000)
+    }
+    // const [rerender, setRerender] = useState(false);
+
+    useEffect(() => {
+        handleClose();
+
+        return () => {
+            handleShowAlert();
+        }
+    }, [cOwarishData]);
+
+    // useEffect(() => {
+    //     axios.get(`${process.env.REACT_APP_BASE_URL}/up/inheritance_certificate`)
+    //         .then(data => {
+    //             setCOData(data.data);
+    //             setFilteredData(data.data);
+    //             // console.log(data.data);
+    //             setIsLoading(true);
+    //         })
+    // }, [modalShow]);
+
+    // const [totalData, setTotalData] = React.useState([]);
+    // React.useEffect(() => {
+    //     axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home/624ef59fab75a0cf27de3f8d`)
+    //         .then(data => {
+    //             setTotalData(data?.data);
+    //         });
+    // }, []);
 
     const handleMemorandumFilter = e => {
         const name = e.target.value;
-        const matchedName = COData.filter(data => data?.memorandum_no?.includes(name));
-        setFilteredData(matchedName);
+        const matchedName = cOwarishData.filter(data => data?.memorandum_no?.toString().includes(name));
+        setCOFilteredData(matchedName);
     }
     const handleNameFilter = e => {
         const name = e.target.value;
-        const matchedName = COData.filter(data => data?.applicant_name?.includes(name));
-        setFilteredData(matchedName);
+        const matchedName = cOwarishData.filter(data => data?.applicant_name?.includes(name));
+        setCOFilteredData(matchedName);
     }
     const handleWordFilter = e => {
         const holding = e.target.value;
-        const matchedHolding = COData?.filter(data => data?.word_no?.includes(holding));
-        setFilteredData(matchedHolding);
+        const matchedHolding = cOwarishData?.filter(data => data?.word_no?.toString().includes(holding));
+        setCOFilteredData(matchedHolding);
     }
     const handleVillageFilter = e => {
         const village = e.target.value;
-        const matchedMobile = COData.filter(data => data?.village?.includes(village));
-        setFilteredData(matchedMobile);
-    }
-
-    const handleReset = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/inheritance_certificate`)
-            .then(data => {
-                setCOData(data.data);
-                setFilteredData(data.data);
-                // console.log(data.data);
-            })
+        const matchedMobile = cOwarishData.filter(data => data?.village?.includes(village));
+        setCOFilteredData(matchedMobile);
     }
 
     // spinner
@@ -106,7 +119,7 @@ const COwarish = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-                <div style={{ textAlign: 'right' }}>
+                {/* <div style={{ textAlign: 'right' }}>
                     <COModalAdd
                         show={modalShow}
                         onHide={() => setModalShow(false)}
@@ -126,7 +139,7 @@ const COwarish = () => {
                         show={modalPushDown}
                         onHide={() => setModalPushDown(false)}
                     />
-                </div>
+                </div> */}
             </Row>
 
 
@@ -141,7 +154,7 @@ const COwarish = () => {
                 </div>
                 <Col>
                     <Form>
-                        <Row xs={2} md={2} lg={5} className="flex-column flex-md-row align-items-center">
+                        <Row xs={2} md={2} lg={4} className="flex-column flex-md-row align-items-center">
                             <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row align-items-center" controlId="formPlaintextPassword">
                                 <Form.Label column sm="4">
                                     স্মারক নংঃ
@@ -174,9 +187,6 @@ const COwarish = () => {
                                     <Form.Control type="text" onChange={handleVillageFilter} />
                                 </Col>
                             </Form.Group>
-                            <Col className="mb-3 text-center">
-                                <Button type="reset" variant="outline-success" onClick={handleReset}>Clear</Button>
-                            </Col>
                         </Row>
                     </Form>
                 </Col>
@@ -195,7 +205,7 @@ const COwarish = () => {
                         <p className="m-0  fs-5 fw-bold">Entries</p>
                     </div>
                     <div>
-                        <Button className="mt-3 mt-sm-0" variant="success" onClick={() => setModalShow(true)} size="sm"><HiOutlinePlusCircle /> সংযুক্ত করুন</Button>
+                        <Button className="mt-3 mt-sm-0" variant="success" onClick={() => handleShow()} size="sm"><HiOutlinePlusCircle /> সংযুক্ত করুন</Button>
                     </div>
                 </div>
                 <table className="table table-striped table-hover fs-6 text-center table-bordered">
@@ -212,13 +222,7 @@ const COwarish = () => {
                         {
                             displayData.map(data =>
                                 <tr key={data._id}>
-                                    <th scope="row">{data.memorandum_no}</th>
-                                    <td>{data.applicant_name}</td>
-                                    <td>{data.word_no}</td>
-                                    <td>{data.village}</td>
-                                    <td className='text-danger' style={{ cursor: 'pointer' }}>
-                                        <BsEye onClick={() => { setModalShowF(true); setModalId(data._id) }} /> <FiEdit className="mx-4" onClick={() => { setModalEdit(true); setModalId(data._id) }} />  <CgPushDown onClick={() => { setModalPushDown(true); setModalId(data._id) }} />
-                                    </td>
+                                    <COwarishTable data={data} />
                                 </tr>
                             )
                         }
@@ -228,7 +232,7 @@ const COwarish = () => {
             </Row>
             <Row className='overflow-auto'>
                 <div className="d-flex py-1 justify-content-between align-items-center flex-column flex-md-row pt-2">
-                    <p className="mb-0 py-2 py-md-0">Showing 1 to {displayData.length} of {filteredData.length} entries</p>
+                    <p className="mb-0 py-2 py-md-0">Showing 1 to {displayData.length} of {cOFilteredData.length} entries</p>
                     <ReactPaginate
                         previousLabel={'<'}
                         nextLabel={'>'}
@@ -251,7 +255,31 @@ const COwarish = () => {
                     />
                 </div>
             </Row>
-            {/* <RSModal /> */}
+
+
+            {/* add data */}
+            <Modal className="overflow-auto" show={show} onHide={handleClose}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
+                    {/* <Modal.Title id="contained-modal-title-vcenter"> */}
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-4">ওয়ারিশ সনদপত্র</p>
+                    </div>
+                    {/* </Modal.Title> */}
+                </Modal.Header>
+                <Modal.Body className="px-5">
+                    <COModalAdd />
+                </Modal.Body>
+            </Modal>
+
+            <Alert className="alertCss" show={showAlert} variant="light">
+                Inheritance Certificate List Updated Successfully!
+            </Alert>
+
         </Container>
     );
 };

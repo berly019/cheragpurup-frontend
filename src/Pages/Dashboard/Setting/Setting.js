@@ -17,7 +17,7 @@ const Setting = () => {
                 <Button className="w-50 py-2 my-4" as={Link} to="/dashboard/change_pass" variant="outline-success"><BsEye /> পাসওয়ার্ড পরিবর্তন করুন</Button>
                 {/* </Col> */}
                 {/* <Col className="text-center"> */}
-                <Button className="w-50 py-2" as={Link} to="/dashboard/profile" variant="outline-success"><AiOutlineUser /> প্রোফাইল পরিবর্তন করুন</Button>
+                <Button className="w-50 py-2" as={Link} to="/dashboard/add_user" variant="outline-success"><AiOutlineUser /> নতুন ইউসার তৈরি করুন</Button>
                 {/* </Col> */}
                 {/* <Col className="text-center py-2"> */}
                 <Button className="w-50 py-2 my-4" as={Link} onClick={handleLogOut} to="/home" variant="outline-danger"><MdLogout /> লগ আউট করুন</Button>

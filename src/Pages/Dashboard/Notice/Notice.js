@@ -1,47 +1,74 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Button, Col, Container, Image, Row, Spinner, Table, } from 'react-bootstrap';
-import { BsEye } from 'react-icons/bs';
+import React, { useEffect, useState, useContext } from 'react';
+import { Alert, Button, Col, Container, Image, Modal, Row, Spinner, Table, } from 'react-bootstrap';
+// import { BsEye } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 import { MdOutlineDashboardCustomize } from 'react-icons/md';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import axios from 'axios';
 import CreateNotice from './CreateNotice/CreateNotice';
 import EditNotice from './EditNotice/EditNotice';
-import ShowNotice from './ShowNotice/ShowNotice';
-
+// import ShowNotice from './ShowNotice/ShowNotice';
 import CreateRunNotice from './CreateRunNotice/CreateRunNotice';
 import EditRunNotice from './EditRunNotice/EditRunNotice';
 // import ShowNotice from './ShowNotice/ShowNotice';
+import { DataContext } from '../../../contexts/DataContext';
 
 const Notice = () => {
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [modalShow, setModalShow] = React.useState(false);
-    const [modalShowF, setModalShowF] = React.useState(false);
-    const [modalEdit, setModalEdit] = React.useState(false);
 
-    const [modalRunShow, setModalRunShow] = React.useState(false);
-    const [modalRunEdit, setModalRunEdit] = React.useState(false);
+    const { isLoading, notice, setNotice, runNotice, setRunNotice } = useContext(DataContext);
 
-    const [modalId, setModalId] = React.useState('');
-    const [modalRunId, setModalRunId] = React.useState('');
-    const [success, setSuccess] = React.useState('')
-    const [data, setData] = useState([]);
-    const [runData, setRunData] = useState([]);
+    const [showAlert, setShowAlert] = useState(false);
+
+    const [modalEData, setModalEData] = React.useState('');
+    const [modalREData, setModalREData] = React.useState('');
+
+    // for notice modal
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+    // for run modal
+    const [showR, setShowR] = useState(false);
+    const handleShowR = () => setShowR(true);
+    const handleCloseR = () => setShowR(false);
+    // for edit notice
+    const [showE, setShowE] = useState(false);
+    const handleShowE = () => setShowE(true);
+    const handleCloseE = () => setShowE(false);
+    // for edit run notice
+    const [showRE, setShowRE] = useState(false);
+    const handleShowRE = () => setShowRE(true);
+    const handleCloseRE = () => setShowRE(false);
+
+
+    const handleShowAlert = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 1000)
+    }
+
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/notice`)
-            .then(data => {
-                setData(data.data);
-                setIsLoading(true);
-                // console.log(data.data);
-            })
+        handleClose();
+        handleCloseE();
+        handleCloseR();
+        handleCloseRE();
 
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/run_notice`)
-            .then(data => {
-                setRunData(data.data);
-                setIsLoading(true);
-                // console.log(data.data);
-            })
-    }, [modalShow, data?.id, success]);
+        return () => {
+            handleShowAlert();
+        }
+    }, [notice, runNotice])
+
+    // const [isLoading, setIsLoading] = React.useState(false);
+    // const [modalShow, setModalShow] = React.useState(false);
+    // const [modalShowF, setModalShowF] = React.useState(false);
+    // const [modalEdit, setModalEdit] = React.useState(false);
+
+    // const [modalRunShow, setModalRunShow] = React.useState(false);
+    // const [modalRunEdit, setModalRunEdit] = React.useState(false);
+
+    // const [modalId, setModalId] = React.useState('');
+    // const [modalRunId, setModalRunId] = React.useState('');
+    // const [success, setSuccess] = React.useState('')
 
     const handleDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
@@ -50,7 +77,8 @@ const Notice = () => {
                 .then((res) => {
                     // console.log(res);
                     if (res.data) {
-                        setSuccess(true);
+                        const remain = (notice?.filter(Resident => Resident._id !== id))
+                        setNotice(remain);
                     }
                 });
         }
@@ -60,10 +88,10 @@ const Notice = () => {
         if (proceed) {
             axios.delete(`${process.env.REACT_APP_BASE_URL}/up/run_notice/${id}`)
                 .then((res) => {
-                    // console.log(res)
-                    // console.log(res);
                     if (res.data) {
-                        setSuccess(true);
+                        // console.log(res.data)
+                        const remain = (runNotice?.filter(Resident => Resident._id !== id))
+                        setRunNotice(remain);
                     }
                 });
         }
@@ -92,43 +120,13 @@ const Notice = () => {
 
     return (
         <Container>
-            <div>
-
-
-                <CreateNotice
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
-                />
-
-                <EditNotice
-                    id={modalId}
-                    show={modalEdit}
-                    onHide={() => setModalEdit(false)}
-                />
-                <ShowNotice
-                    id={modalId}
-                    show={modalShowF}
-                    onHide={() => setModalShowF(false)}
-                />
-
-                <CreateRunNotice
-                    show={modalRunShow}
-                    onHide={() => setModalRunShow(false)}
-                />
-                <EditRunNotice
-                    id={modalRunId}
-                    show={modalRunEdit}
-                    onHide={() => setModalRunEdit(false)}
-                />
-            </div>
-
             {/* data table */}
             <Row>
                 <Col className="d-flex align-items-center justify-content-center text-center">
-                    <p className="fw-bold fs-5" style={{ borderBottom: "2px solid #00AA55", width: "fit-content" }}>ক্যারজেল এর মত নোটিশ</p>
+                    <p className="fw-bold fs-5" style={{ borderBottom: "2px solid #00AA55", width: "fit-content" }}>ব্যানার নোটিশ</p>
                 </Col>
                 <div className="text-end">
-                    <Button variant="success" className="rounded-3 px-2" onClick={() => setModalShow(true)} size="sm"><MdOutlineDashboardCustomize /> সংযুক্ত করুন</Button>
+                    <Button variant="success" className="rounded-3 px-2" onClick={() => handleShow()} size="sm"><MdOutlineDashboardCustomize /> সংযুক্ত করুন</Button>
                 </div>
             </Row>
             <Row className="overflow-auto px-2 px-md-0 py-3">
@@ -144,20 +142,16 @@ const Notice = () => {
                     </thead>
                     <tbody>
                         {
-                            data.map(data => <tr key={data._id}>
+                            notice.map(data => <tr key={data._id}>
                                 <td><Image fluid style={{ height: '52px', width: '97px' }} src={data.image} /></td>
                                 <td>{data.title}</td>
                                 <td>{data.subtitle}</td>
                                 <td>{data.desc}</td>
-                                <td className='text-danger' style={{ cursor: 'pointer' }}><BsEye onClick={() => { setModalShowF(true); setModalId(data._id) }} /> <FiEdit className="mx-4" onClick={() => { setModalEdit(true); setModalId(data._id) }} /> <RiDeleteBinLine onClick={() => handleDelete(data._id)} /></td>
+                                <td className='text-danger' style={{ cursor: 'pointer' }}> <FiEdit className="mx-4" onClick={() => { handleShowE(); setModalEData(data) }} /> <RiDeleteBinLine onClick={() => handleDelete(data._id)} /></td>
                             </tr>)
                         }
                     </tbody>
                 </Table>
-
-                {success ?
-                    <Alert className="m-2 p-2 text-center w-50 mx-auto">Data Successfully Deleted!</Alert>
-                    : ''}
             </Row>
 
             {/* notice table */}
@@ -166,7 +160,7 @@ const Notice = () => {
                     <p className="fw-bold fs-5" style={{ borderBottom: "2px solid #00AA55", width: "fit-content" }}>চলমান নোটিশ</p>
                 </Col>
                 <div className="text-end">
-                    <Button variant="success" className="rounded-3 px-2" onClick={() => setModalRunShow(true)} size="sm"><MdOutlineDashboardCustomize /> সংযুক্ত করুন</Button>
+                    <Button variant="success" className="rounded-3 px-2" onClick={() => handleShowR()} size="sm"><MdOutlineDashboardCustomize /> সংযুক্ত করুন</Button>
                 </div>
             </Row>
             <Row className="overflow-auto px-2 px-md-0 py-3">
@@ -180,20 +174,89 @@ const Notice = () => {
                     </thead>
                     <tbody>
                         {
-                            runData.map(data =>
+                            runNotice.map(data =>
                                 <tr key={data._id}>
                                     <td>{data.title}</td>
                                     <td>{data.notice}</td>
-                                    <td className='text-danger' style={{ cursor: 'pointer' }}><FiEdit className="mx-4" onClick={() => { setModalRunEdit(true); setModalRunId(data?._id) }} /> <RiDeleteBinLine onClick={() => handleRunDelete(data?._id)} /></td>
+                                    <td className='text-danger' style={{ cursor: 'pointer' }}><FiEdit className="mx-4" onClick={() => { handleShowRE(); setModalREData(data) }} /> <RiDeleteBinLine onClick={() => handleRunDelete(data?._id)} /></td>
                                 </tr>)
                         }
                     </tbody>
                 </Table>
-
-                {success ?
-                    <Alert className="m-2 p-2 text-center w-50 mx-auto">Data Successfully Deleted!</Alert>
-                    : ''}
             </Row>
+
+            {/* add notices */}
+            <Modal className="overflow-auto" show={show} onHide={handleClose}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-4">Create Notice</p>
+                    </div>
+                </Modal.Header>
+                <Modal.Body className="px-5">
+                    <CreateNotice />
+                </Modal.Body>
+            </Modal>
+
+            {/* edit notice */}
+            <Modal className="overflow-auto" show={showE} onHide={handleCloseE}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-4">Edit Notice</p>
+                    </div>
+                </Modal.Header>
+                <Modal.Body className="px-5">
+                    <EditNotice data={modalEData} />
+                </Modal.Body>
+            </Modal>
+
+            {/* add run notices */}
+            <Modal className="overflow-auto" show={showR} onHide={handleCloseR}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-4">Create Run Notice</p>
+                    </div>
+                </Modal.Header>
+                <Modal.Body className="px-4">
+                    <CreateRunNotice />
+                </Modal.Body>
+            </Modal>
+
+            {/* edit run notice */}
+            <Modal className="overflow-auto" show={showRE} onHide={handleCloseRE}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-4">Update Run Notice</p>
+                    </div>
+                </Modal.Header>
+                <Modal.Body className="px-5">
+                    <EditRunNotice data={modalREData} />
+                </Modal.Body>
+            </Modal>
+
+            <Alert className="alertCss" show={showAlert} variant="light">
+                Notice Page Updated Successfully!
+            </Alert>
+
         </Container>
     );
 };

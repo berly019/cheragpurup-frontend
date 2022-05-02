@@ -1,19 +1,15 @@
-import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { DataContext } from '../../../contexts/DataContext';
 import ShowModal from './ShowModal';
 
 const Intros = () => {
-    const [intro, setIntro] = React.useState([]);
+
+    const { intro } = useContext(DataContext);
 
     const [editInto, setEditIntro] = React.useState(false);
     const [modalId, setModalId] = React.useState('');
     const [modalData, setModalData] = React.useState('');
-
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/intro`)
-            .then(res => setIntro(res.data))
-    }, [])
 
     return (
         <Container>

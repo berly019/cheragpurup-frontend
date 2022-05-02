@@ -1,51 +1,41 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Col, Container, Image, Row, Table } from 'react-bootstrap';
-import axios from 'axios';
 import ShowAbout from './ShowAbout';
 import { BsArrowRight } from 'react-icons/bs';
+import { DataContext } from '../../../contexts/DataContext';
 
 const About = () => {
+
+    const { pMainData,homeData } = useContext(DataContext);
+
     const [editInto, setEditIntro] = React.useState(false);
 
-    const [pMain, setPMain] = React.useState([]);
-    const [homeData, setHomeData] = React.useState([]);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pmain`)
-            .then(res => setPMain(res.data[0]))
-    }, []);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home`)
-            .then(data => {
-                setHomeData(data?.data);
-                // console.log(data?.data);
-            })
-    }, [])
     return (
         <>
             <Container className="py-5">
-            <ShowAbout
-                show={editInto}
-                title={pMain?.title}
-                data={pMain?.description}
-                onHide={() => setEditIntro(false)}
-            />
+                <ShowAbout
+                    show={editInto}
+                    title={pMainData?.title}
+                    data={pMainData?.description}
+                    onHide={() => setEditIntro(false)}
+                />
                 <Row className="my-5 py-5 align-items-center flex-column flex-md-row">
                     <Col>
-                        <p className="fs-1 fw-bold text-center text-md-start">{pMain?.title}</p>
-                        <p className="fs-5" style={{ textAlign: 'justify' }}>{pMain?.description?.slice(0,220)} .....</p>
+                        <p className="fs-1 fw-bold text-center text-md-start">{pMainData?.title}</p>
+                        <p className="fs-5" style={{ textAlign: 'justify' }}>{pMainData?.description?.slice(0, 220)} .....</p>
 
                         <div className='mb-4' size="sm" variant="outline-success" onClick={() => { setEditIntro(true) }}>
-                            <Button className="px-4"variant="success">আরো পড়ুন <BsArrowRight /></Button>
+                            <Button className="px-4" variant="success">আরো পড়ুন <BsArrowRight /></Button>
                         </div>
                     </Col>
                     <Col xs lg="4" className="d-flex flex-column ps-md-5">
-                        <Image fluid className="pb-5" src={pMain?.f_image}></Image>
-                        <Image fluid src={pMain?.s_image}></Image>
+                        <Image fluid className="pb-5" src={pMainData?.f_image}></Image>
+                        <Image fluid src={pMainData?.s_image}></Image>
                     </Col>
                 </Row>
 
                 <Row className="px-2 px-md-0 pt-5">
-                    <p className="fs-2 fw-bold text-center">এক নজরে {pMain?.name}</p>
+                    <p className="fs-2 fw-bold text-center">এক নজরে {pMainData?.name}</p>
                     <Table responsive className="table table-striped table-hover">
                         <thead className="bg-success text-white rounded-3 text-center">
                             <tr>

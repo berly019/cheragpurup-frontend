@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar, Button, Image } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../../media/logo.png';
-import './Header.css'
+import './Header.css';
+import useUser from "../../../hooks/useUser";
 
 const Header = () => {
     const style = {
         height: '40px',
         width: '40px',
         marginRight: '10px',
+    }
+
+    const { user, role } = useUser();
+    // console.log(user, role);
+
+    let navigate = useNavigate();
+    const handleToken = () => {
+        navigate('/dashboard/db-home');
+        window.location.reload()
     }
 
     // change nav color
@@ -42,7 +52,12 @@ const Header = () => {
                     </Nav>
                     <span className="text-white pe-5 d-none d-lg-block">|</span>
                     <div>
-                        <Button as={NavLink} className="btn btn-success fs-5 m-3 py-0 border" to="/login">লগ ইন</Button>
+                        {user && role ?
+                            <Button className="btn btn-success fs-5 m-3 py-0 border" onClick={handleToken}>
+                                ড্যাশবোর্ড
+                            </Button> :
+                            <Button as={NavLink} className="btn btn-success fs-5 m-3 py-0 border" to="/login">লগ ইন</Button>
+                        }
                     </div>
                 </Navbar.Collapse>
             </Container>

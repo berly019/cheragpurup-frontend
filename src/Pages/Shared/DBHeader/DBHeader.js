@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Dropdown, Image, Nav, Navbar } from 'react-bootstrap';
 import logo from '../../../media/logo.png'
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import './DBHeader.css'
+import { DataContext } from '../../../contexts/DataContext';
 
 const DBHeader = () => {
+
+    const { pMainData } = useContext(DataContext)
+
     // get user id
     const [id, setId] = React.useState(undefined);
     const token = JSON.parse(sessionStorage.getItem("user"));
@@ -53,14 +57,6 @@ const DBHeader = () => {
         width: '35px',
     }
 
-    const [pMData, setPMData] = useState([]);
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pMain`)
-            .then(data => {
-                setPMData(data?.data[0]);
-            })
-    }, []);
-
     const handleOnClick = index => {
         sessionStorage.setItem("dPage", JSON.stringify(index));
         // remove the curly braces
@@ -70,6 +66,7 @@ const DBHeader = () => {
         // Cookies.remove('userId', { path: '/', domain: '.nilanjona.com.bd' });
         sessionStorage.removeItem("user");
     }
+
     return (
         <Navbar collapseOnSelect expand="lg" style={{ backgroundColor: ' #1A1D21', zIndex: 9999 }} variant="dark" className="text-white text-center nav-mid py-1" sticky="top">
             <div style={containerDB} className="d-flex align-items-center justify-content-between mx-auto">
@@ -80,8 +77,8 @@ const DBHeader = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <div className="mx-auto text-success">
-                        <p className="fs-4 m-0">{pMData?.name}</p>
-                        <p className="m-0">{pMData?.location}</p>
+                        <p className="fs-4 m-0">{pMainData?.name}</p>
+                        <p className="m-0">{pMainData?.location}</p>
 
                     </div>
                     <div className="me-lg-5">

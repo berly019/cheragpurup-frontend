@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Button, Card, Col, Container, Form, Image, Row, Spinner } from 'react-bootstrap';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Button, Card, Col, Container, Form, Image, Modal, Row, Spinner } from 'react-bootstrap';
 import { FiEdit } from 'react-icons/fi';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import PMModalEdit from './PMModalEdit/PMModalEdit';
@@ -9,44 +9,61 @@ import PBImageAdd from './PBImageAdd/PBImageAdd';
 import PBImageEdit from './PBImageEdit/PBImageEdit';
 import CreateIntro from './CreateIntro/CreateIntro';
 import DataTableEdit from './DataTableEdit/DataTableEdit';
-import EditIntro from './EditIntro/EditIntro'
-import AboutImageEdit from './AboutImageEdit/AboutImageEdit'
+import EditIntro from './EditIntro/EditIntro';
+import AboutImageEdit from './AboutImageEdit/AboutImageEdit';
+import { DataContext } from '../../../../contexts/DataContext';
 
 const PMain = () => {
+
+    const { isLoading, pMainData,  pbImage, setpbImage, intro, setIntro, dataTable } = useContext(DataContext);
+
     const [modalShow, setModalShow] = React.useState(false);
     const [dataEdit, setDataEdit] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [modalEdit, setModalEdit] = React.useState(false);
     const [PBShow, setPBShow] = React.useState(false);
     const [PBEdit, setPBEdit] = React.useState(false);
     const [aiEdit, setAIEdit] = React.useState(false);
     const [editInto, setEditIntro] = React.useState(false);
     const [modalId, setModalId] = React.useState('');
-    const [success, setSuccess] = React.useState('');
-    const [warn, setWarn] = React.useState('');
 
-    const [pMain, setPMain] = React.useState([]);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pmain`)
-            .then(res => {
-                // console.log(res)
-                setPMain(res?.data[0])
-                setIsLoading(true)
-            })
-    }, [success, pMain?._id, warn]);
+    const [modalEData, setModalEData] = React.useState('');
 
-    const [pbImage, setpbImage] = React.useState([]);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pbimage`)
-            .then(res => setpbImage(res?.data))
-    }, [warn, pbImage._id]);
+    const [showAlert, setShowAlert] = useState(false);
 
-    const [intro, setIntro] = React.useState([]);
+    // for edit modal
+    const [showE, setShowE] = useState(false);
+    const handleShowE = () => setShowE(true);
+    const handleCloseE = () => setShowE(false);
 
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/intro`)
-            .then(res => setIntro(res?.data))
-    }, [warn, intro._id])
+
+
+    const handleShowAlert = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 1000)
+    }
+    // const [rerender, setRerender] = useState(false);
+
+    useEffect(() => {
+        handleCloseE();
+
+        return () => {
+            handleShowAlert();
+        }
+    }, [pMainData, pbImage, intro, dataTable]);
+
+
+    // const [pbImage, setpbImage] = React.useState([]);
+    // React.useEffect(() => {
+    //     axios.get(`${process.env.REACT_APP_BASE_URL}/up/pbimage`)
+    //         .then(res => setpbImage(res?.data))
+    // }, [warn, pbImage._id]);
+
+    // const [intro, setIntro] = React.useState([]);
+    // React.useEffect(() => {
+    //     axios.get(`${process.env.REACT_APP_BASE_URL}/up/intro`)
+    //         .then(res => setIntro(res?.data))
+    // }, [warn, intro._id])
 
 
     /*  const [pdf, setPdf] = useState([]);
@@ -79,14 +96,15 @@ const PMain = () => {
             }
         }; */
 
+    // soldier image delete
     const handleImageDelete = id => {
         const proceed = window.confirm('Are you sure, you want to delete this image?');
         if (proceed) {
             axios.delete(`${process.env.REACT_APP_BASE_URL}/up/pbimage/${id}`)
                 .then((res) => {
-                    // console.log(res);
                     if (res.data) {
-                        setWarn(res.data);
+                        const remain = (pbImage?.filter(Commerce => Commerce._id !== id))
+                        setpbImage(remain);
                     }
                 });
         }
@@ -97,26 +115,14 @@ const PMain = () => {
         if (proceed) {
             axios.delete(`${process.env.REACT_APP_BASE_URL}/up/intro/${id}`)
                 .then((res) => {
-                    // console.log(res);
+                    // console.log(res);    
                     if (res.data) {
-                        setSuccess(true);
+                        const remain = (intro?.filter(Commerce => Commerce._id !== id))
+                        setIntro(remain);
                     }
                 });
         }
     };
-
-    if (success) {
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
-    }
-
-    // data table
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/data_table`)
-            .then((res) => setData(res.data[0]))
-    }, [data?._id, warn])
 
     // spinner
     if (!isLoading) {
@@ -134,19 +140,19 @@ const PMain = () => {
         </div>
     }
 
-    if (warn) {
-        setTimeout(() => {
-            window.location.reload();
-        }, 1500);
-    }
+    // if (warn) {
+    //     setTimeout(() => {
+    //         window.location.reload();
+    //     }, 1500);
+    // }
 
     return (
         <Container>
-            <PMModalEdit
-                id={modalId}
+            {/* <PMModalEdit
+                data={modalEData}
                 show={modalEdit}
                 onHide={() => setModalEdit(false)}
-            />
+            /> */}
             <PBImageAdd
                 show={PBShow}
                 onHide={() => setPBShow(false)}
@@ -173,12 +179,12 @@ const PMain = () => {
 
                 <Col className="text-end pb-3">
                     {/* <FiEdit className="text-danger" style={{ cursor: 'pointer' }} onClick={() => { setModalEdit(true); setModalId(pMain?._id) }} /> */}
-                    <Button variant="success" onClick={() => { setModalEdit(true); setModalId(pMain?._id) }} size="sm"><FiEdit /> Edit</Button>
-                    {/* <RiDeleteBinLine onClick={() => handleDelete(pMain?.id)} className="text-danger" /> */}
+                    <Button variant="success" onClick={() => { handleShowE(); setModalEData(pMainData) }} size="sm"><FiEdit /> Edit</Button>
+                    {/* <RiDeleteBinLine onClick={() => handleDelete(pMainData?.id)} className="text-danger" /> */}
                 </Col>
                 <Row className="border p-3 rounded-3" md={2}>
                     <Col md={8} className="d-flex flex-column flex-md-row align-items-center">
-                        <Image src={pMain?.image} fluid style={{ width: '216px', height: '132px' }} required />
+                        <Image src={pMainData?.image} fluid style={{ width: '216px', height: '132px' }} required />
                         <p className="ms-md-3">File name: image-321922-1593666104.jpg<br />
                             File type: image/jpeg<br />
                             Uploaded on: October 16, 2020<br />
@@ -200,7 +206,7 @@ const PMain = () => {
                                     Name
                                 </Form.Label>
                                 <Col sm="8">
-                                    <Form.Control type="text" defaultValue={pMain?.name} required disabled />
+                                    <Form.Control type="text" value={pMainData?.name} required disabled />
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextPassword">
@@ -208,14 +214,14 @@ const PMain = () => {
                                     Location
                                 </Form.Label>
                                 <Col sm="8">
-                                    <Form.Control type="text" defaultValue={pMain?.location} required disabled />
+                                    <Form.Control type="text" value={pMainData?.location} required disabled />
                                 </Col>
                             </Form.Group>
                         </Form>
                     </Col>
                 </Row>
             </div>
-            {success && <Alert>Data Deleted</Alert>}
+
             <div className="pb-5">
                 <Col className="d-flex align-items-center justify-content-center text-center">
                     <p className="fw-bold fs-5" style={{ borderBottom: "2px solid #00AA55", width: "fit-content" }}>About Text</p>
@@ -228,7 +234,7 @@ const PMain = () => {
                                     Title
                                 </Form.Label>
                                 <Col sm="8">
-                                    <Form.Control type="text" defaultValue={pMain?.title} required disabled />
+                                    <Form.Control type="text" value={pMainData?.title} required disabled />
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextPassword">
@@ -236,7 +242,7 @@ const PMain = () => {
                                     Description
                                 </Form.Label>
                                 <Col sm="8">
-                                    <Form.Control type="text" defaultValue={pMain?.description} as="textarea" style={{ height: '100px' }} required disabled />
+                                    <Form.Control type="text" value={pMainData?.description} as="textarea" style={{ height: '100px' }} required disabled />
                                 </Col>
                             </Form.Group>
                         </Form>
@@ -251,13 +257,13 @@ const PMain = () => {
                 </Col>
 
                 <Col className="text-end pb-3">
-                    <FiEdit onClick={() => { setAIEdit(true); setModalId(pMain?._id) }} />
+                    <FiEdit onClick={() => { setAIEdit(true); setModalId(pMainData?._id) }} />
                 </Col>
                 <Row className="rounded-3 g-4" xs="auto" sm={2} md={3} lg={3}>
 
                     <Col md={6} className="position-relative" >
                         <div className='border p-3 rounded-3'>
-                            <Image src={pMain?.f_image} fluid style={{ width: '160px', height: '99px' }} />
+                            <Image src={pMainData?.f_image} fluid style={{ width: '160px', height: '99px' }} />
                             <p>File name: image-321922-1593666104.jpg<br />
                                 File type: image/jpeg<br />
                                 Uploaded on: October 16, 2020<br />
@@ -266,12 +272,12 @@ const PMain = () => {
                         </div>
                         <div className="position-absolute" style={{ top: '5px', right: '20px', cursor: 'pointer' }}>
 
-                            {/* <RiDeleteBinLine onClick={() => handleImageDelete(pMain?._id)} className="text-danger" /> */}
+                            {/* <RiDeleteBinLine onClick={() => handleImageDelete(pMainData?._id)} className="text-danger" /> */}
                         </div>
                     </Col>
                     <Col md={6} className="position-relative" >
                         <div className='border p-3 rounded-3'>
-                            <Image src={pMain?.s_image} fluid style={{ width: '160px', height: '99px' }} />
+                            <Image src={pMainData?.s_image} fluid style={{ width: '160px', height: '99px' }} />
                             <p>File name: image-321922-1593666104.jpg<br />
                                 File type: image/jpeg<br />
                                 Uploaded on: October 16, 2020<br />
@@ -279,7 +285,7 @@ const PMain = () => {
                             </p>
                         </div>
                         <div className="position-absolute" style={{ top: '5px', right: '20px', cursor: 'pointer' }}>
-                            {/* <RiDeleteBinLine onClick={() => handleImageDelete(pMain?._id)} className="text-danger" /> */}
+                            {/* <RiDeleteBinLine onClick={() => handleImageDelete(pMainData?._id)} className="text-danger" /> */}
                         </div>
                     </Col>
                 </Row>
@@ -345,7 +351,7 @@ const PMain = () => {
                     <DataTableEdit
                         show={dataEdit}
                         onHide={() => setDataEdit(false)}
-                        id={data?._id}
+                        id={dataTable?._id}
                     />
                 </div>
                 <Row className="px-md-4 overflow-auto">
@@ -365,15 +371,15 @@ const PMain = () => {
                             </tr>
                             <tr className="dlinfo hover01">
                                 {/* <td className="dlinfo hover01">One</td> */}
-                                <td className="dlinfo hover01 p-2">{data?.post_office} টি</td>
-                                <td className='dlinfo hover01 p-2'>{data?.village} টি</td>
-                                <td className='dlinfo hover01 p-2'>{data?.mouza} টি</td>
-                                <td className='dlinfo hover01 p-2'>{data?.bazar} টি</td>
-                                <td className='dlinfo hover01 p-2'>{data?.mosque} টি</td>
-                                <td className='dlinfo hover01 p-2'>{data.edu_institute} টি</td>
-                                <td className='dlinfo hover01 p-2'>{data?.grove} টি</td>
-                                <td className='dlinfo hover01 p-2'>{data?.eid_gah} টি</td>
-                                <td className='dlinfo hover01 p-2'>{data?.mondir} টি</td>
+                                <td className="dlinfo hover01 p-2">{dataTable?.post_office} টি</td>
+                                <td className='dlinfo hover01 p-2'>{dataTable?.village} টি</td>
+                                <td className='dlinfo hover01 p-2'>{dataTable?.mouza} টি</td>
+                                <td className='dlinfo hover01 p-2'>{dataTable?.bazar} টি</td>
+                                <td className='dlinfo hover01 p-2'>{dataTable?.mosque} টি</td>
+                                <td className='dlinfo hover01 p-2'>{dataTable.edu_institute} টি</td>
+                                <td className='dlinfo hover01 p-2'>{dataTable?.grove} টি</td>
+                                <td className='dlinfo hover01 p-2'>{dataTable?.eid_gah} টি</td>
+                                <td className='dlinfo hover01 p-2'>{dataTable?.mondir} টি</td>
                             </tr>
                         </tbody>
                     </table>
@@ -408,7 +414,7 @@ const PMain = () => {
                     </Table> */}
                 </Row>
             </div>
-            {warn ? <Alert>{warn}</Alert> : ''}
+
             {/* Installation Image */}
             <div className="pt-5">
                 <div>
@@ -462,9 +468,29 @@ const PMain = () => {
                 </Row>
             </div>
 
-            {/* <div>
-                <img src={`data:application/pdf;base64,${pdf}`} alt="isdnfjksd sdjfk " />
-            </div> */}
+
+            {/* PM edit data */}
+            <Modal className="overflow-auto" show={showE} onHide={handleCloseE}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-4">Update Main Page</p>
+                    </div>
+                </Modal.Header>
+                <Modal.Body className="px-5">
+                    <Container className="py-5 border-top">
+                        <PMModalEdit data={modalEData} />
+                    </Container>
+                </Modal.Body>
+            </Modal>
+
+            <Alert className="alertCss" show={showAlert} variant="light">
+                Main Page Updated Successfully!
+            </Alert>
         </Container>
     );
 };

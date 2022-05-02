@@ -1,75 +1,45 @@
-import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
+import { DataContext } from '../../../contexts/DataContext';
 
 const DynamicTable = () => {
-    // const [commerceData, setCommerceData] = React.useState([]);
-    const [filteredData, setFilteredData] = React.useState([]);
-    const [filteredDataTwo, setFilteredDataTwo] = React.useState([]);
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [id, setId] = React.useState(1);
+
+    const { isLoading, pageOffset, pageNumber, setPageNumber, commerceData, cFilteredData, handleCWordFilter, handleCAllFilter, setCFilteredData } = useContext(DataContext);
+
 
     const [selectValue, setSelectValue] = React.useState(10);
-    const [pageNumber, setPageNumber] = React.useState(0);
     const dataPerPage = selectValue;
     const dataVisited = pageNumber * dataPerPage;
-    const displayData = filteredDataTwo?.slice(dataVisited, dataVisited + dataPerPage);
-    const pageCount = Math.ceil(filteredDataTwo?.length / dataPerPage);
+    const displayData = cFilteredData?.slice(dataVisited, dataVisited + dataPerPage);
+    const pageCount = Math.ceil(cFilteredData?.length / dataPerPage);
     const changePage = ({ selected }) => {
         setPageNumber(selected);
     }
 
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/commerce/word/1`)
-            .then(data => {
-                // setResidentData(data.data);
-                setFilteredData(data.data);
-                setFilteredDataTwo(data.data);
-                setIsLoading(true);
-                // console.log(data.data);
-            })
-    }, []);
-
-    const handleAllFilter = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/commerce`)
-            .then(data => {
-                // setCommerceData(data.data);
-                setFilteredData(data.data);
-                setFilteredDataTwo(data.data);
-                setIsLoading(true);
-            });
-        setPageNumber(0);
-    };
-
-    // filter
-    const handleWordFilter = id => {
-        setId(id);
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/commerce/word/${id}`)
-            .then(data => {
-                setFilteredData(data.data)
-                setFilteredDataTwo(data.data)
-            });
-        setPageNumber(0);
-    }
+    //   filter
     const handleNameFilter = e => {
         const name = e.target.value;
-        const matchedName = filteredData?.filter(data => data?.payer_name?.includes(name));
-        setFilteredDataTwo(matchedName);
+        const matchedName = commerceData?.filter(data => data?.payer_name?.includes(name));
+        setCFilteredData(matchedName);
     }
     const handleHoldingFilter = e => {
         const holding = e.target.value;
-        const matchedHolding = filteredData?.filter(data => data?.holding_no?.toString().includes(holding));
-        setFilteredDataTwo(matchedHolding);
+        const matchedHolding = commerceData?.filter(data => data?.holding_no?.toString().includes(holding));
+        setCFilteredData(matchedHolding);
     }
     const handlePhoneFilter = e => {
         const mobile = e.target.value;
-        const matchedMobile = filteredData.filter(data => data?.mobile_no?.toString().includes(mobile));
-        setFilteredDataTwo(matchedMobile);
+        const matchedMobile = commerceData.filter(data => data?.mobile_no?.toString().includes(mobile));
+        setCFilteredData(matchedMobile);
     }
 
-    const [activeIndex, setActiveIndex] = React.useState(1);
+    const cWord = JSON.parse(localStorage.getItem("cWord"));
+
+    const [id, setId] = React.useState(cWord ? cWord : 1);
+    const [activeIndex, setActiveIndex] = React.useState(cWord ? cWord : 1);
     const handleOnClick = index => {
+        setId(index);
         setActiveIndex(index);
         // remove the curly braces
     };
@@ -112,15 +82,15 @@ const DynamicTable = () => {
     return (
         <Container>
             <Row xs="auto" className="gy-5 text-center my-5 pb-5 justify-content-center align-items-center">
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(1); handleWordFilter(1) }} className={`rounded-3 px-4 ${activeIndex === 1 ? "active" : ""}`}>ওয়ার্ড নং ১</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(2); handleWordFilter(2) }} className={`rounded-3 px-4 ${activeIndex === 2 ? "active" : ""}`}>ওয়ার্ড নং ২</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(3); handleWordFilter(3) }} className={`rounded-3 px-4 ${activeIndex === 3 ? "active" : ""}`}>ওয়ার্ড নং ৩</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(4); handleWordFilter(4) }} className={`rounded-3 px-4 ${activeIndex === 4 ? "active" : ""}`}>ওয়ার্ড নং ৪</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(5); handleWordFilter(5) }} className={`rounded-3 px-4 ${activeIndex === 5 ? "active" : ""}`}>ওয়ার্ড নং ৫</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(6); handleWordFilter(6) }} className={`rounded-3 px-4 ${activeIndex === 6 ? "active" : ""}`}>ওয়ার্ড নং ৬</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(7); handleWordFilter(7) }} className={`rounded-3 px-4 ${activeIndex === 7 ? "active" : ""}`}>ওয়ার্ড নং ৭</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(8); handleWordFilter(8) }} className={`rounded-3 px-4 ${activeIndex === 8 ? "active" : ""}`}>ওয়ার্ড নং ৮</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(9); handleWordFilter(9) }} className={`rounded-3 px-4 ${activeIndex === 9 ? "active" : ""}`}>ওয়ার্ড নং ৯</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(1); handleCWordFilter(1) }} className={`rounded-3 px-4 ${activeIndex === 1 ? "active" : ""}`}>ওয়ার্ড নং ১</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(2); handleCWordFilter(2) }} className={`rounded-3 px-4 ${activeIndex === 2 ? "active" : ""}`}>ওয়ার্ড নং ২</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(3); handleCWordFilter(3) }} className={`rounded-3 px-4 ${activeIndex === 3 ? "active" : ""}`}>ওয়ার্ড নং ৩</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(4); handleCWordFilter(4) }} className={`rounded-3 px-4 ${activeIndex === 4 ? "active" : ""}`}>ওয়ার্ড নং ৪</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(5); handleCWordFilter(5) }} className={`rounded-3 px-4 ${activeIndex === 5 ? "active" : ""}`}>ওয়ার্ড নং ৫</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(6); handleCWordFilter(6) }} className={`rounded-3 px-4 ${activeIndex === 6 ? "active" : ""}`}>ওয়ার্ড নং ৬</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(7); handleCWordFilter(7) }} className={`rounded-3 px-4 ${activeIndex === 7 ? "active" : ""}`}>ওয়ার্ড নং ৭</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(8); handleCWordFilter(8) }} className={`rounded-3 px-4 ${activeIndex === 8 ? "active" : ""}`}>ওয়ার্ড নং ৮</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(9); handleCWordFilter(9) }} className={`rounded-3 px-4 ${activeIndex === 9 ? "active" : ""}`}>ওয়ার্ড নং ৯</Button></Col>
             </Row>
 
             <Row className="justify-content-center fs-5 mx-auto">
@@ -136,10 +106,10 @@ const DynamicTable = () => {
                             </Col>
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row justify-content-center align-items-center" controlId="formPlaintextPassword">
-                            <Form.Label column sm="4" lg="5">
+                            <Form.Label column sm="4" lg="4">
                                 হোল্ডিং নংঃ
                             </Form.Label>
-                            <Col sm="8" lg="7">
+                            <Col sm="8" lg="8">
                                 <Form.Control type="number" className="myInput" onChange={handleHoldingFilter} />
                             </Col>
                         </Form.Group>
@@ -170,7 +140,7 @@ const DynamicTable = () => {
                         <p className="m-0  fs-md-5 fw-bold">Entries</p>
                     </div>
                     <div>
-                        <Button variant="outline-success" onClick={() => { handleAllFilter(); handleOnClick("all"); }} className={`${activeIndex === "all" ? "active" : ""}`}>সকল ওয়ার্ড</Button>
+                        <Button variant="outline-success" onClick={() => { handleCAllFilter(); handleOnClick("all"); }} className={`${activeIndex === "all" ? "active" : ""}`}>সকল ওয়ার্ড</Button>
                     </div>
                 </Col>
                 <table className="table table-striped table-hover fs-6 text-center">
@@ -205,13 +175,13 @@ const DynamicTable = () => {
                 </table>
                 {displayData.length === 0 ? <Alert className="text-center">No Data Found</Alert> : ''}
                 <div className="d-flex justify-content-between align-items-center flex-column flex-md-row">
-                <p className="mb-0 py-md-0 text-center">Showing {displayData[0]?.holding_no ? displayData[0]?.holding_no : "Undefined"} to {displayData[displayData.length - 1]?.holding_no ? displayData[displayData.length - 1]?.holding_no : "Undefined"} of {filteredData.length} entries</p>
+                    <p className="mb-0 py-md-0 text-center">Showing {displayData[0]?.holding_no ? displayData[0]?.holding_no : "Undefined"} to {displayData[displayData.length - 1]?.holding_no ? displayData[displayData.length - 1]?.holding_no : "Undefined"} of {commerceData.length} entries</p>
                     <ReactPaginate
                         previousLabel={'<'}
                         nextLabel={'>'}
                         pageCount={pageCount}
                         onPageChange={changePage}
-                        forcePage={pageNumber}
+                        forcePage={pageOffset}
                         containerClassName={'pagination'}
                         pageClassName={'page-item'}
                         pageLinkClassName={'page-link'}

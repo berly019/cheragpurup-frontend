@@ -1,88 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Button, Card, Col, Container, Form, Modal, Row, Spinner } from 'react-bootstrap';
 import './Resident.css';
-import { HiOutlinePlusCircle } from 'react-icons/hi';
-import { BsEye } from 'react-icons/bs';
-import { FiEdit } from 'react-icons/fi';
-import RSModalAdd from './RSModalAdd/RSModalAdd';
-import RSModalEdit from './RSModalEdit/RSModalEdit';
-import axios from 'axios';
-import RSModalShow from './RSModalShow/RSModalShow';
-import { MdOutlineMailOutline, MdOutlineMarkEmailRead } from 'react-icons/md';
+import { HiOutlinePlusCircle, HiPrinter } from 'react-icons/hi';
+import RSModalAdd from './Actions/RSModalAdd';
 import ReactPaginate from 'react-paginate';
+import BillPrint from './Actions/BillPrint';
+import { DataContext } from '../../../contexts/DataContext';
+import ResidentTable from './Actions/ResidentTable';
+
 
 const Residential = () => {
-    const [isLoading, setIsLoading] = React.useState(false);
-    // const [success, setSuccess] = useState(false);
-    const [modalShow, setModalShow] = React.useState(false);
-    const [modalEdit, setModalEdit] = React.useState(false);
-    const [modalShowF, setModalShowF] = React.useState(false);
-    const [modalId, setModalId] = React.useState('');
-    const [modalEId, setModalEId] = React.useState('');
-    // const [modalEId, setModalEId] = React.useState('');
-    // const [residentData, setResidentData] = React.useState([]);
-    const [filteredData, setFilteredData] = React.useState([]);
-    const [filteredDataTwo, setFilteredDataTwo] = React.useState([]);
-    const word = JSON.parse(localStorage.getItem("rWord"));
-    const pageNo = JSON.parse(localStorage.getItem("rPage"));
 
-    // const [totalTax, setTotalTax] = React.useState(0);
-    // const [collectedTax, setCollectedTax] = React.useState(0);
-    // const [areasTax, setAreasTax] = React.useState(0);
+    const { isLoading, pageROffset, pageRNumber, setPageRNumber, totalData, residentData, rFilteredData, handleRWordFilter, handleRAllFilter, setRFilteredData } = useContext(DataContext);
+
+    const [showAlert, setShowAlert] = useState(false);
+
+    // for add modal
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+
+
+    const handleShowAlert = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 1000)
+    }
+    // const [rerender, setRerender] = useState(false);
+
+    useEffect(() => {
+        handleClose();
+
+        return () => {
+            handleShowAlert();
+        }
+    }, [residentData]);
+
+
+    const [billPrint, setBillPrint] = React.useState(false);
+
+    const word = JSON.parse(localStorage.getItem("rWord"));
 
     const [selectValue, setSelectValue] = useState(10);
-    const [pageNumber, setPageNumber] = React.useState(Number(pageNo) ? Number(pageNo) : 0);
-    const [pageOffset, setPageOffset] = useState(0);
     const dataPerPage = selectValue;
-    const dataVisited = pageNumber * dataPerPage;
-    const displayData = filteredDataTwo?.slice(dataVisited, dataVisited + dataPerPage);
-    const pageCount = Math.ceil(filteredDataTwo?.length / dataPerPage);
+    const dataVisited = pageRNumber * dataPerPage;
+    const displayData = rFilteredData?.slice(dataVisited, dataVisited + dataPerPage);
+    const pageCount = Math.ceil(rFilteredData?.length / dataPerPage);
     const changePage = ({ selected }) => {
-        setPageNumber(selected);
+        setPageRNumber(selected);
     }
-
-    React.useEffect(() => {
-        localStorage.setItem("rPage", JSON.stringify(pageNumber));
-
-        if (word === "all") {
-            async function fetchData() {
-                let data = await axios.get(`${process.env.REACT_APP_BASE_URL}/up/resident`)
-                // let data = await res.json();
-                setFilteredData(data.data);
-                setFilteredDataTwo(data.data);
-                setIsLoading(true);
-            }
-            fetchData();
-        } else {
-
-            axios.get(`${process.env.REACT_APP_BASE_URL}/up/resident/word/${word ? word : 1}`)
-                .then(data => {
-                    // setResidentData(data.data);
-                    setFilteredData(data.data);
-                    setFilteredDataTwo(data.data);
-                    setIsLoading(true);
-                    // console.log(data.data);
-                })
-        }
-
-        setPageOffset(Number(pageNo) ? Number(pageNo) : 0);
-    }, [word, pageNumber, pageNo]);
-
-    const handleAllFilter = () => {
-        localStorage.setItem("rWord", JSON.stringify("all"));
-
-        async function fetchData() {
-            let data = await axios.get(`${process.env.REACT_APP_BASE_URL}/up/resident`)
-            // let data = await res.json();
-            setFilteredData(data.data);
-            setFilteredDataTwo(data.data);
-            setIsLoading(true);
-        }
-        fetchData();
-
-        setPageNumber(0);
-        setPageOffset(0);
-    };
 
     const [activeIndex, setActiveIndex] = React.useState(word ? word : 1);
     const handleOnClick = index => {
@@ -90,199 +57,38 @@ const Residential = () => {
         // remove the curly braces
     };
 
-    const handleEditOnClick = id => {
-        setModalEId(id);
-    }
-
-    // useEffect(() => {
-    //     async function fetchData() {
-    //         let res = await axios.get('${process.env.REACT_APP_BASE_URL}/up/resident')
-    //         let data = await res.json();
-    //             // .then(data => {
-    //                 // setResidentData(data.data);
-    //                 setFilteredData(data.data);
-    //                 setFilteredDataTwo(data.data);
-    //                 setIsLoading(true);
-    //             // })
-    //     }
-    //     fetchChar()
-    // }, []);
-
-    const [totalData, setTotalData] = React.useState([])
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home/624ef59fab75a0cf27de3f8d`)
-            .then(data => {
-                setTotalData(data?.data);
-            });
-    }, []);
-
-    // filters
-    const handleWordFilter = id => {
-        localStorage.setItem("rWord", JSON.stringify(id));
-
-        // const matchedWord = residentData.filter(data => data.word_no.includes(id));
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/resident/word/${id}`)
-            .then(data => {
-                setFilteredData(data.data)
-                setFilteredDataTwo(data.data)
-                // console.log(data.data)
-            });
-        setPageNumber(0);
-        setPageOffset(0);
-    }
-    const handleNameFilter = e => {
+    const handleRNameFilter = e => {
         const name = e.target.value;
-        const matchedName = filteredData?.filter(data => data?.payer_name?.includes(name));
-        setFilteredDataTwo(matchedName);
+        const matchedName = residentData?.filter(data => data?.payer_name?.includes(name));
+        setRFilteredData(matchedName);
     }
-    const handleHoldingFilter = e => {
-        let holding = e.target.value;
-        const matchedHolding = filteredData?.filter(data => data?.holding_no?.toString().includes(holding));
-        setFilteredDataTwo(matchedHolding);
+    const handleRHoldingFilter = e => {
+        const holding = e.target.value;
+        const matchedHolding = residentData?.filter(data => data?.holding_no?.toString().includes(holding));
+        setRFilteredData(matchedHolding);
     }
-    const handlePhoneFilter = e => {
+    const handleRPhoneFilter = e => {
         const mobile = e.target.value;
-        const matchedMobile = filteredData?.filter(data => data?.mobile_no?.toString().includes(mobile));
-        setFilteredDataTwo(matchedMobile);
+        const matchedMobile = residentData.filter(data => data?.mobile_no?.toString().includes(mobile));
+        setRFilteredData(matchedMobile);
     }
 
-    // handle messages
-    const handleMessageCheck = (data) => {
-        const id = data._id;
-        const num = data?.mobile_no;
-        const word = data?.word_no;
-        const holding = data?.holding_no;
-        const previes_areas_tax = data?.previes_areas_tax;
-        const assign_tax = data?.assign_tax;
-        const collected_tax = data?.collected_tax;
-        const areas_tax = data?.areas_tax;
-        const total = data?.total_tax;
-
-        if (num?.toString()?.length < 10) {
-            window.alert('Invalid phone number')
-        } else if (num?.toString()?.length === 10) {
-            const proceed = window.confirm('Are you sure you want to send message?');
-            if (proceed) {
-                const data = {};
-                data.sms = 'yes';
-
-                /* //code for JavaScript-Fetch
-                let myHeaders = new Headers();
-                myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-                const raw = "";
-                const requestOptions = {
-                    method: 'POST',
-                    headers: myHeaders,
-                    body: raw,
-                    redirect: 'follow'
-                };
-                fetch(`http://66.45.237.70/api.php?username=01789228396&password=2YVHA9G3&number=88${num}&message=Test API`, requestOptions)
-                    .then(response => response.text())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('error', error));
-                //code for JavaScript-Fetch */
-
-                const apiKey = "81e2KlJ8XZt98Q6N18Ecr88iNNBg2519Hp4DDyGW";
-                const message = `দুবলহাটি ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
-
-                // const message = `thank you I am from chitla`
-                // const message = `দুবলহাটি ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
-
-                // send sms
-                fetch(`https://api.sms.net.bd/sendsms?api_key=${apiKey}&msg=${message}&to=880${num}`)
-                    .then(response => response.json())
-                    .then(result => {
-                        window.alert(result?.msg)
-                        // window.alert({obj});
-                    })
-                    .catch(error => console.log('error', error));
-
-                // data.sms = '< MdOutlineMarkEmailRead />';
-                axios.put(`${process.env.REACT_APP_BASE_URL}/up/resident/sms/${id}`, (data))
-                    .then((res) => {
-                        // setSuccess(true);
-                        // handle success
-                        // console.log(res);
-                    });
-            }
-        } else if (num?.toString()?.length === 11) {
-
-            const proceed = window.confirm('Are you sure you want to send message?');
-            if (proceed) {
-                const data = {};
-                data.sms = 'yes';
-
-                const apiKey = "81e2KlJ8XZt98Q6N18Ecr88iNNBg2519Hp4DDyGW";
-                const message = `দুবলহাটি ইউপি, আপনার ওয়ার্ড নংঃ ${word}, হোল্ডিং নংঃ ${holding}, পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা, ধার্যক্রিত করঃ ${assign_tax} টাকা, মোট করঃ ${total} টাকা, আদায়কৃত করঃ ${collected_tax} টাকা, বকেয়া করঃ ${areas_tax} টাকা, ধন্যবাদ।`
-
-                // const message = `দুবলহাটি ইউপি, আপনার ওয়ার্ড নংঃ ${word} । হোল্ডিং নংঃ ${holding} । পূর্বের বকেয়া করঃ ${previes_areas_tax} টাকা। ধার্যক্রিত করঃ ${assign_tax} টাকা। মোট করঃ ${total} টাকা। ধন্যবাদ।`
-
-                // send sms
-                fetch(`https://api.sms.net.bd/sendsms?api_key=${apiKey}&msg=${message}&to=88${num}`)
-                    .then(response => response.json())
-                    .then(result => {
-                        window.alert(result?.msg)
-                        // window.alert("Request Successfully Send!", result)
-                        // window.alert({obj});
-                    })
-                    .catch(error => console.log('error', error));
-
-                // data.sms = '< MdOutlineMarkEmailRead />';
-                axios.put(`${process.env.REACT_APP_BASE_URL}/up/resident/sms/${id}`, (data))
-                    .then((res) => {
-                        // setSuccess(true);
-                        // handle success
-                        // console.log(res);
-                    });
-            }
-        }
-    }
-
-    // residentData filter
-    /*     React.useEffect(() => {
-            const totalATax = residentData.reduce((currentSum, nextObject) => {
-                return currentSum + +nextObject.total_tax;
-            }, 0);
-            setTotalTax(totalATax);
-            // console.log(totalATax);
-    
-            const collectedATax = residentData.reduce((currentSum, nextObject) => {
-                return currentSum + +nextObject.collected_tax;
-            }, 0);
-            setCollectedTax(collectedATax);
-    
-            const areasATax = residentData.reduce((currentSum, nextObject) => {
-                return currentSum + +nextObject.areas_tax;
-            }, 0);
-            setAreasTax(areasATax);
-        }, [residentData]) */
-
-    const handleReset = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/resident`)
-            .then(data => {
-                // setResidentData(data.data);
-                setFilteredData(data.data);
-                setFilteredDataTwo(data.data);
-                setIsLoading(true);
-            })
-    }
-
-
-    // const [showElement, setShowElement] = React.useState(false)
-    // useEffect(() => {
-    //     setTimeout(function () {
-    //         setShowElement(true)
-    //     }, 5000);
-    // }, [])
-    // // active class
-    // const btns = document.getElementsByClassName("btn-sub");
-    // for (let i = 0; i < btns.length; i++) {
-    //     btns[i].addEventListener("click", function () {
-    //         const current = document.getElementsByClassName("color-active");
-    //         current[0].className = current[0].className.replace(" color-active", "");
-    //         this.className += " color-active";
-    //     });
-    // }
+    /*  React.useEffect(() => {
+         const totalTax = residentData.reduce((currentSum, nextObject) => {
+             return currentSum + +nextObject.total_tax;
+         }, 0);
+         setTotalTax(totalTax);
+ 
+         const collectedTax = residentData.reduce((currentSum, nextObject) => {
+             return currentSum + +nextObject.collected_tax;
+         }, 0);
+         setCollectedTax(collectedTax);
+ 
+         const areasTax = residentData.reduce((currentSum, nextObject) => {
+             return currentSum + +nextObject.areas_tax;
+         }, 0);
+         setAreasTax(areasTax);
+     }, [residentData]) */
 
     // spinner
     if (!isLoading) {
@@ -337,16 +143,16 @@ const Residential = () => {
                 </Col>
             </Row>
             <Row xs="auto" className="g-4 text-center my-5 justify-content-center align-items-center">
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(1); handleWordFilter(1) }} className={`rounded-3 px-2 ${activeIndex === 1 ? "active" : ""}`}>ওয়ার্ড নং ১</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(2); handleWordFilter(2) }} className={`rounded-3 px-2 ${activeIndex === 2 ? "active" : ""}`}>ওয়ার্ড নং ২</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(3); handleWordFilter(3) }} className={`rounded-3 px-2 ${activeIndex === 3 ? "active" : ""}`}>ওয়ার্ড নং ৩</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(4); handleWordFilter(4) }} className={`rounded-3 px-2 ${activeIndex === 4 ? "active" : ""}`}>ওয়ার্ড নং ৪</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(5); handleWordFilter(5) }} className={`rounded-3 px-2 ${activeIndex === 5 ? "active" : ""}`}>ওয়ার্ড নং ৫</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(6); handleWordFilter(6) }} className={`rounded-3 px-2 ${activeIndex === 6 ? "active" : ""}`}>ওয়ার্ড নং ৬</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(7); handleWordFilter(7) }} className={`rounded-3 px-2 ${activeIndex === 7 ? "active" : ""}`}>ওয়ার্ড নং ৭</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(8); handleWordFilter(8) }} className={`rounded-3 px-2 ${activeIndex === 8 ? "active" : ""}`}>ওয়ার্ড নং ৮</Button></Col>
-                <Col><Button variant="outline-success" onClick={() => { handleOnClick(9); handleWordFilter(9) }} className={`rounded-3 px-2 ${activeIndex === 9 ? "active" : ""}`}>ওয়ার্ড নং ৯</Button></Col>
-                <Col> <Button variant="outline-success" onClick={() => { handleAllFilter(); handleOnClick("all"); }} className={`${activeIndex === "all" ? "active" : ""}`}>সকল ওয়ার্ড</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(1); handleRWordFilter(1) }} className={`rounded-3 px-2 ${activeIndex === 1 ? "active" : ""}`}>ওয়ার্ড নং ১</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(2); handleRWordFilter(2) }} className={`rounded-3 px-2 ${activeIndex === 2 ? "active" : ""}`}>ওয়ার্ড নং ২</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(3); handleRWordFilter(3) }} className={`rounded-3 px-2 ${activeIndex === 3 ? "active" : ""}`}>ওয়ার্ড নং ৩</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(4); handleRWordFilter(4) }} className={`rounded-3 px-2 ${activeIndex === 4 ? "active" : ""}`}>ওয়ার্ড নং ৪</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(5); handleRWordFilter(5) }} className={`rounded-3 px-2 ${activeIndex === 5 ? "active" : ""}`}>ওয়ার্ড নং ৫</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(6); handleRWordFilter(6) }} className={`rounded-3 px-2 ${activeIndex === 6 ? "active" : ""}`}>ওয়ার্ড নং ৬</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(7); handleRWordFilter(7) }} className={`rounded-3 px-2 ${activeIndex === 7 ? "active" : ""}`}>ওয়ার্ড নং ৭</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(8); handleRWordFilter(8) }} className={`rounded-3 px-2 ${activeIndex === 8 ? "active" : ""}`}>ওয়ার্ড নং ৮</Button></Col>
+                <Col><Button variant="outline-success" onClick={() => { handleOnClick(9); handleRWordFilter(9) }} className={`rounded-3 px-2 ${activeIndex === 9 ? "active" : ""}`}>ওয়ার্ড নং ৯</Button></Col>
+                <Col> <Button variant="outline-success" onClick={() => { handleRAllFilter(); handleOnClick("all"); }} className={`${activeIndex === "all" ? "active" : ""}`}>সকল ওয়ার্ড</Button></Col>
             </Row>
 
             <Row className="my-5 border-bottom">
@@ -359,13 +165,13 @@ const Residential = () => {
                     </select>
                 </Col>
                 <Form>
-                    <Row xs={2} md={2} lg={4} className="flex-column flex-sm-row align-items-center">
+                    <Row xs={2} md={2} lg={3} className="flex-column flex-sm-row align-items-center">
                         <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextPassword">
                             <Form.Label column sm="5">
                                 কর দাতার নামঃ
                             </Form.Label>
                             <Col sm="7">
-                                <Form.Control type="text" onChange={handleNameFilter} />
+                                <Form.Control type="text" onChange={handleRNameFilter} />
                             </Col>
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextPassword">
@@ -373,7 +179,7 @@ const Residential = () => {
                                 হোল্ডিং নংঃ
                             </Form.Label>
                             <Col sm="8" lg="7">
-                                <Form.Control type="number" onChange={handleHoldingFilter} />
+                                <Form.Control type="number" onChange={handleRHoldingFilter} />
                             </Col>
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextPassword">
@@ -381,12 +187,12 @@ const Residential = () => {
                                 মোবাইল নম্বরঃ
                             </Form.Label>
                             <Col sm="7">
-                                <Form.Control type="number" onChange={handlePhoneFilter} />
+                                <Form.Control type="number" onChange={handleRPhoneFilter} />
                             </Col>
                         </Form.Group>
                         <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row justify-content-center">
                             {/* <Button type="submit" variant="danger" className='px-4' size="sm">Search</Button> */}
-                            <Button type="reset" variant="outline" onClick={() => handleReset()} className="border px-4">Clear</Button>
+                            {/* <Button type="reset" variant="outline" onClick={() => handleReset()} className="border px-4">Clear</Button> */}
                         </Form.Group>
                     </Row>
                 </Form>
@@ -405,29 +211,20 @@ const Residential = () => {
                         <p className="m-0  fs-5 fw-bold">Entries</p>
                     </div>
                     <div>
-                        <Button className="mt-3 mt-md-0" variant="success" onClick={() => setModalShow(true)} size="sm"><HiOutlinePlusCircle /> সংযুক্ত করুন</Button>
+                        <Button className="mt-3 mt-sm-0 me-2" variant="success" onClick={() => setBillPrint(true)} size="sm"><HiPrinter /> বিল প্রিন্ট</Button>
 
-                        <RSModalAdd
-                            show={modalShow}
-                            onHide={() => setModalShow(false)}
+                        <BillPrint
+                            show={billPrint}
+                            onHide={() => setBillPrint(false)}
                         />
-                        <RSModalEdit
-                            number={Math.floor(Math.random() * 100)}
-                            id={modalEId}
-                            show={modalEdit}
-                            onHide={() => setModalEdit(false)}
-                        />
-                        <RSModalShow
-                            number={Math.random() * 1000}
-                            id={modalId}
-                            show={modalShowF}
-                            onHide={() => setModalShowF(false)}
-                        />
+
+                        <Button className="mt-3 mt-md-0" variant="success" onClick={() => handleShow()} size="sm"><HiOutlinePlusCircle /> সংযুক্ত করুন</Button>
+
                     </div>
                 </div>
             </Row>
             <Row className="overflow-auto px-2 px-md-0 py-3">
-                <table className="table table-striped table-hover fs-6 text-center table-bordered">
+                <table className="table table-striped table-hover fs-6 text-center">
                     <thead className="bg-success text-white rounded-3">
                         <tr>
                             <th scope="col" className="fw-normal py-3" style={{ borderRadius: '0.5rem 0 0' }}>হোল্ডিং নংঃ</th>
@@ -447,30 +244,7 @@ const Residential = () => {
                         {
                             displayData.map(data =>
                                 <tr key={data?._id}>
-                                    <th scope="row">{data.holding_no}</th>
-                                    <td>{data?.payer_name}</td>
-                                    <td>{data?.guardian_name}</td>
-                                    <td>{data?.word_no}</td>
-                                    <td>{data?.village}</td>
-                                    <td>{data?.assign_tax}</td>
-                                    <td>{data?.previes_areas_tax}</td>
-                                    <td>{data?.total_tax}</td>
-                                    <td>{data?.mobile_no}</td>
-                                    <td onClick={() => handleMessageCheck(data)} style={{ cursor: 'pointer' }} className="text-danger" >
-                                        {data?.sms ? <MdOutlineMarkEmailRead /> : <MdOutlineMailOutline />}
-                                    </td>
-
-                                    {/* {data.sms ? <td disabled className="text-danger" >
-                                        <MdOutlineMarkEmailRead />
-                                    </td> : <td onClick={() => handleMessageCheck(data.id, data.mobile_no)} style={{ cursor: 'pointer' }} className="text-danger" >
-                                        <MdOutlineMailOutline />
-                                    </td>} */}
-
-                                    {/* {showElement ? */}
-                                    <td className='text-danger' style={{ cursor: 'pointer' }} >
-                                        <BsEye style={{ width: "2rem" }} onClick={() => { setModalShowF(true); setModalId(data?._id) }} /> <FiEdit style={{ width: "2rem" }} onClick={() => { setModalEdit(true); handleEditOnClick(data?._id) }} />
-                                    </td>
-                                    {/* : "Loading"} */}
+                                    <ResidentTable data={data} />
                                 </tr>
                             )
                         }
@@ -482,14 +256,14 @@ const Residential = () => {
 
                 {/* <div className="d-flex px-0 py-3 justify-content-center align-items-center flex-column flex-md-row"> */}
                 <div className="pagi-control">
-                    <p className="mb-0 py-md-0 text-center">Showing {displayData[0]?.holding_no ? displayData[0]?.holding_no : "Undefined"} to {displayData[displayData.length - 1]?.holding_no ? displayData[displayData.length - 1]?.holding_no : "Undefined"} of {filteredData.length} entries</p>
+                    <p className="mb-0 py-md-0 text-center">Showing {displayData[0]?.holding_no ? displayData[0]?.holding_no : "Undefined"} to {displayData[displayData.length - 1]?.holding_no ? displayData[displayData.length - 1]?.holding_no : "Undefined"} of {rFilteredData.length} entries</p>
                     <div className="c-table">
                         <ReactPaginate
                             previousLabel={'<'}
                             nextLabel={'>'}
                             pageCount={pageCount}
                             onPageChange={changePage}
-                            forcePage={pageOffset}
+                            forcePage={pageROffset}
                             containerClassName={'pagination mx-auto'}
                             pageClassName={'page-item'}
                             pageLinkClassName={'page-link'}
@@ -507,14 +281,35 @@ const Residential = () => {
                         />
                     </div>
                 </div>
-                {/* </div> */}
 
             </Row>
 
-            {/* <Row className='overflow-auto'>
-            </Row> */}
+            {/* add data */}
+            <Modal className="overflow-auto" show={show} onHide={handleClose}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
+                    {/* <Modal.Title id="contained-modal-title-vcenter"> */}
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-4">আবাসিক করদাতা</p>
+                    </div>
+                    {/* </Modal.Title> */}
+                </Modal.Header>
 
-            {/* <RSModal /> */}
+                <Modal.Body className="px-5">
+                    <RSModalAdd />
+                </Modal.Body>
+                {/* <Modal.Footer style={{ border: "0" }}>
+                <Button onClick={props.onHide} type='submit' size="sm">Save</Button>
+            </Modal.Footer> */}
+            </Modal>
+
+            <Alert className="alertCss" show={showAlert} variant="light">
+                Resident List Updated Successfully!
+            </Alert>
         </Container>
     );
 };

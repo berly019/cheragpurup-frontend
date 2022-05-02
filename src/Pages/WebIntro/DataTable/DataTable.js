@@ -1,15 +1,12 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Container, Row } from 'react-bootstrap';
+import { DataContext } from '../../../contexts/DataContext';
 import "./DataTable.css";
 
 const DataTable = () => {
 
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/data_table`)
-            .then((res) => setData(res.data[0]))
-    }, [])
+    const { dataTable } = useContext(DataContext);
+
     return (
         <Container className="py-5 mt-5">
             <Row className="px-3">
@@ -29,15 +26,15 @@ const DataTable = () => {
                     </thead>
                     <tbody className="t-style">
                         <tr className="t-tr">
-                            <td className="t-tr">{data?.post_office} টি</td>
-                            <td className='t-tr'>{data?.village} টি</td>
-                            <td className='t-tr'>{data?.mouza} টি</td>
-                            <td className='t-tr'>{data?.bazar} টি</td>
-                            <td className='t-tr'>{data?.mosque} টি</td>
+                            <td className="t-tr">{dataTable?.post_office} টি</td>
+                            <td className='t-tr'>{dataTable?.village} টি</td>
+                            <td className='t-tr'>{dataTable?.mouza} টি</td>
+                            <td className='t-tr'>{dataTable?.bazar} টি</td>
+                            <td className='t-tr'>{dataTable?.mosque} টি</td>
                             <td className='t-tr'>{data.edu_institute} টি</td>
-                            <td className='t-tr'>{data?.grove} টি</td>
-                            <td className='t-tr'>{data?.eid_gah} টি</td>
-                            <td className='t-tr'>{data?.mondir} টি</td>
+                            <td className='t-tr'>{dataTable?.grove} টি</td>
+                            <td className='t-tr'>{dataTable?.eid_gah} টি</td>
+                            <td className='t-tr'>{dataTable?.mondir} টি</td>
                         </tr>
                     </tbody>
                 </Table> */}
@@ -58,15 +55,15 @@ const DataTable = () => {
                         </tr>
                         <tr className="dlinfo hover01">
                             {/* <td className="dlinfo hover01">One</td> */}
-                            <td className="dlinfo hover01 p-2">{data?.post_office} টি</td>
-                            <td className='dlinfo hover01 p-2'>{data?.village} টি</td>
-                            <td className='dlinfo hover01 p-2'>{data?.mouza} টি</td>
-                            <td className='dlinfo hover01 p-2'>{data?.bazar} টি</td>
-                            <td className='dlinfo hover01 p-2'>{data?.mosque} টি</td>
-                            <td className='dlinfo hover01 p-2'>{data.edu_institute} টি</td>
-                            <td className='dlinfo hover01 p-2'>{data?.grove} টি</td>
-                            <td className='dlinfo hover01 p-2'>{data?.eid_gah} টি</td>
-                            <td className='dlinfo hover01 p-2'>{data?.mondir} টি</td>
+                            <td className="dlinfo hover01 p-2">{dataTable?.post_office} টি</td>
+                            <td className='dlinfo hover01 p-2'>{dataTable?.village} টি</td>
+                            <td className='dlinfo hover01 p-2'>{dataTable?.mouza} টি</td>
+                            <td className='dlinfo hover01 p-2'>{dataTable?.bazar} টি</td>
+                            <td className='dlinfo hover01 p-2'>{dataTable?.mosque} টি</td>
+                            <td className='dlinfo hover01 p-2'>{dataTable?.edu_institute} টি</td>
+                            <td className='dlinfo hover01 p-2'>{dataTable?.grove} টি</td>
+                            <td className='dlinfo hover01 p-2'>{dataTable?.eid_gah} টি</td>
+                            <td className='dlinfo hover01 p-2'>{dataTable?.mondir} টি</td>
                         </tr>
                     </tbody>
                 </table>

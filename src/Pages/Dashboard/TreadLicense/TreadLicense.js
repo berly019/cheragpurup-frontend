@@ -1,77 +1,64 @@
-import React, { useState } from 'react';
-import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
-import { BsEye } from 'react-icons/bs';
-import { FiEdit } from 'react-icons/fi';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Button, Card, Col, Container, Form, Modal, Row, Spinner } from 'react-bootstrap';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
-import TLModalAdd from './TLModalAdd/TLModalAdd';
-import { CgPushDown } from 'react-icons/cg';
-import axios from 'axios';
-import TLModalEdit from './TLModalEdit/TLModalEdit';
-import TLModalShow from './TLModalShow/TLModalShow';
-import TLDownload from './TLDownload/TLDownload';
+import TLModalAdd from './Actions/TLModalAdd';
 import ReactPaginate from 'react-paginate';
+import { DataContext } from '../../../contexts/DataContext';
+import TreadLicenceTable from './Actions/TreadLicenceTable';
 
 const TreadLicense = () => {
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [modalShow, setModalShow] = React.useState(false);
-    const [modalEdit, setModalEdit] = React.useState(false);
-    const [modalShowF, setModalShowF] = React.useState(false);
-    const [modalPushDown, setModalPushDown] = React.useState(false);
-    const [modalId, setModalId] = React.useState('');
-    const [treasLicenseData, setTreasLicenseData] = React.useState([]);
-    const [filteredData, setFilteredData] = React.useState([]);
+
+    const { isLoading, totalData, treadLicenseData, tFilteredData, setTFilteredData } = useContext(DataContext);
+
+    const [showAlert, setShowAlert] = useState(false);
+
+    // for add modal
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+
+
+
+    const handleShowAlert = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 1000)
+    }
+    // const [rerender, setRerender] = useState(false);
+
+    useEffect(() => {
+        handleClose();
+
+        return () => {
+            handleShowAlert();
+        }
+    }, [treadLicenseData]);
 
     const [selectValue, setSelectValue] = useState(10);
     const [pageNumber, setPageNumber] = React.useState(0);
     const dataPerPage = selectValue;
     const dataVisited = pageNumber * dataPerPage;
-    const displayData = filteredData.slice(dataVisited, dataVisited + dataPerPage);
-    const pageCount = Math.ceil(filteredData.length / dataPerPage);
+    const displayData = tFilteredData.slice(dataVisited, dataVisited + dataPerPage);
+    const pageCount = Math.ceil(tFilteredData.length / dataPerPage);
     const changePage = ({ selected }) => {
         setPageNumber(selected);
     }
 
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/tread_license`)
-            .then(data => {
-                setTreasLicenseData(data.data);
-                // console.log(data.data);
-                setFilteredData(data.data);
-                setIsLoading(true);
-            })
-    }, [modalShow, treasLicenseData?.id]);
-
-    const [totalData, setTotalData] = React.useState([]);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home/624ef59fab75a0cf27de3f8d`)
-            .then(data => {
-                setTotalData(data?.data);
-            });
-    }, []);
-
     const handleLicenseFilter = e => {
         const license = e.target.value;
-        const matchedName = treasLicenseData.filter(data => data?.license_no?.toString().includes(license));
-        setFilteredData(matchedName);
+        const matchedName = treadLicenseData.filter(data => data?.license_no?.toString().includes(license));
+        setTFilteredData(matchedName);
     }
     const handleHoldingFilter = e => {
         const holding = e.target.value;
-        const matchedHolding = treasLicenseData?.filter(data => data?.institute_name?.includes(holding));
-        setFilteredData(matchedHolding);
+        const matchedHolding = treadLicenseData?.filter(data => data?.institute_name?.includes(holding));
+        setTFilteredData(matchedHolding);
     }
     const handlePhoneFilter = e => {
         const mobile = e.target.value;
-        const matchedMobile = treasLicenseData.filter(data => data?.owner_name?.includes(mobile));
-        setFilteredData(matchedMobile);
-    }
-
-    const handleReset = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/tread_license`)
-            .then(data => {
-                setTreasLicenseData(data.data);
-                // console.log(data.data);
-                setFilteredData(data.data);
-            })
+        const matchedMobile = treadLicenseData.filter(data => data?.owner_name?.includes(mobile));
+        setTFilteredData(matchedMobile);
     }
 
     // spinner
@@ -101,28 +88,6 @@ const TreadLicense = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col style={{ textAlign: 'right' }}>
-                    <TLModalAdd
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                    />
-
-                    <TLModalEdit
-                        id={modalId}
-                        show={modalEdit}
-                        onHide={() => setModalEdit(false)}
-                    />
-                    <TLModalShow
-                        id={modalId}
-                        show={modalShowF}
-                        onHide={() => setModalShowF(false)}
-                    />
-                    <TLDownload
-                        id={modalId}
-                        show={modalPushDown}
-                        onHide={() => setModalPushDown(false)}
-                    />
-                </Col>
             </Row>
 
 
@@ -134,7 +99,7 @@ const TreadLicense = () => {
                 </div>
                 <Col>
                     <Form>
-                        <Row xs={2} md={2} lg={4} className="flex-column flex-sm-row align-items-center">
+                        <Row xs={2} md={2} lg={3} className="flex-column flex-sm-row align-items-center">
                             <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextPassword">
                                 <Form.Label column sm="5">
                                     লাইসেন্স নংঃ
@@ -161,7 +126,7 @@ const TreadLicense = () => {
                             </Form.Group>
                             <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row justify-content-center">
                                 {/* <Button type="submit" variant="danger" className='px-4' size="sm">Search</Button> */}
-                                <Button type="reset" variant="outline-success" onClick={handleReset} className="border px-4">Clear</Button>
+                                {/* <Button type="reset" variant="outline-success" onClick={handleReset} className="border px-4">Clear</Button> */}
                             </Form.Group>
                         </Row>
                     </Form>
@@ -181,7 +146,7 @@ const TreadLicense = () => {
                         <p className="m-0  fs-5 fw-bold">Entries</p>
                     </div>
                     <div>
-                        <Button className="mt-3 mt-sm-0" variant="success" onClick={() => setModalShow(true)} size="sm"><HiOutlinePlusCircle /> সংযুক্ত করুন</Button>
+                        <Button className="mt-3 mt-sm-0" variant="success" onClick={() => handleShow()} size="sm"><HiOutlinePlusCircle /> সংযুক্ত করুন</Button>
                     </div>
                 </div>
                 <table className="table table-striped table-hover fs-6 text-center table-bordered">
@@ -197,11 +162,7 @@ const TreadLicense = () => {
                         {
                             displayData.map(license =>
                                 <tr key={license._id}>
-                                    <th scope="row">{license?.license_no}</th>
-                                    <td>{license?.institute_name}</td>
-                                    <td>{license?.owner_name}</td>
-                                    <td style={{ cursor: 'pointer' }} className='text-danger'>
-                                        <BsEye onClick={() => { setModalShowF(true); setModalId(license._id) }} /> <FiEdit className="mx-4" onClick={() => { setModalEdit(true); setModalId(license._id) }} /> <CgPushDown onClick={() => { setModalPushDown(true); setModalId(license._id) }} /></td>
+                                    <TreadLicenceTable license={license} />
                                 </tr>
                             )
                         }
@@ -212,7 +173,7 @@ const TreadLicense = () => {
             </Row>
             <Row className='overflow-auto'>
                 <div className="d-flex py-1 justify-content-between align-items-center flex-column flex-md-row pt-2">
-                    <p className="mb-0 py-2 py-md-0">Showing 1 to {displayData.length} of {filteredData.length} entries</p>
+                    <p className="mb-0 py-2 py-md-0">Showing 1 to {displayData.length} of {tFilteredData.length} entries</p>
                     <ReactPaginate
                         previousLabel={'<'}
                         nextLabel={'>'}
@@ -235,7 +196,32 @@ const TreadLicense = () => {
                     />
                 </div>
             </Row>
-            {/* <RSModal /> */}
+
+
+            {/* add data */}
+            <Modal className="overflow-auto" show={show} onHide={handleClose}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
+                    {/* <Modal.Title id="contained-modal-title-vcenter"> */}
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-4">ট্রেড লাইসেন্স</p>
+                    </div>
+                    {/* </Modal.Title> */}
+                </Modal.Header>
+
+                <Modal.Body className="px-5">
+                    <TLModalAdd />
+                </Modal.Body>
+            </Modal>
+
+
+            <Alert className="alertCss" show={showAlert} variant="light">
+                Tread License List Updated Successfully!
+            </Alert>
         </Container>
     );
 };

@@ -1,39 +1,13 @@
-import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Carousel, Col, Container, Row } from 'react-bootstrap';
 import Marquee from 'react-fast-marquee';
+import { DataContext } from '../../../contexts/DataContext';
 import './Banner.css';
 
 const Banner = () => {
-    const [isLoading, setIsLoading] = React.useState(false);
+    const { pMainData, notice, runNotice } = useContext(DataContext);
 
-    const [pMain, setPMain] = React.useState([]);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pmain`)
-            .then(res => {
-                setPMain(res?.data[0]);
-                // console.log(res);
-            })
-    }, []);
-
-    const [notice, setNotice] = React.useState([]);
-    const [runData, setRunData] = React.useState([]);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/notice`)
-            .then(data => {
-                setNotice(data?.data);
-                // console.log(data?.data);
-                setIsLoading(true);
-            })
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/run_notice`)
-            .then(data => {
-                setRunData(data.data);
-                setIsLoading(true);
-                // console.log(data.data);
-            })
-    }, []);
-
-    const bg = pMain?.image;
+    const bg = pMainData?.image;
     const bg4 = {
         backgroundImage: `linear-gradient(rgba(0, 155, 85, 0.4),rgba(0, 170, 136, 0.4),rgba(0, 55, 87, 0.4),rgba(0, 55, 87, 0.4),rgb(227, 32, 49, 0.4)), url(${bg})`,
         backgroundSize: "cover",
@@ -50,8 +24,8 @@ const Banner = () => {
                     <Container>
                         <Row xs="auto" md={2} className="align-items-center justify-content-center">
                             <Col>
-                                <p className="fs-1 fw-bold">{pMain?.name}</p>
-                                <p className="fs-2">{pMain?.location}</p>
+                                <p className="fs-1 fw-bold">{pMainData?.name}</p>
+                                <p className="fs-2">{pMainData?.location}</p>
                             </Col>
                             <Col>
                                 <Carousel controls={false} indicators={true}>
@@ -72,7 +46,7 @@ const Banner = () => {
             </section>
             <div className="mt-3 d-flex fs-5 fw-bold" style={{ backgroundColor: '#C4C4C4' }}>
                 <p className="px-4 bg-white py-3" style={{ margin: '1px 0px 1px 0px' }}>নোটিশ</p>
-                {isLoading ? <Marquee pauseOnHover gradient={false} className="py-3 overflow-hidden">{runData?.map(dt => dt?.notice)}</Marquee> : ''}
+                <Marquee pauseOnHover gradient={false} className="py-3 overflow-hidden">{runNotice?.map(dt => dt?.notice)}</Marquee>
             </div>
         </>
     );

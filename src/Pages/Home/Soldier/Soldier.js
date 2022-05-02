@@ -1,14 +1,10 @@
-import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { DataContext } from '../../../contexts/DataContext';
 
 const Soldier = () => {
-    // handle image
-    const [pbImage, setpbImage] = React.useState([]);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pbimage`)
-            .then(res => setpbImage(res.data))
-    }, []);
+
+    const { pbImage } = useContext(DataContext);
 
     return (
         <Container className="py-5">
@@ -22,10 +18,10 @@ const Soldier = () => {
                                 className="mx-auto h-100"
                             >
                                 <Card.Header className="fs-4" style={{ backgroundColor: '#F4F4F4', borderRadius: "1rem 1rem 0 0" }}>{pbi?.title}</Card.Header>
-                                <Card.Body className="p-0" style={{maxHeight:"250px"}}>
-                                {/* <Card.Body className="p-0"> */}
+                                <Card.Body className="p-0" style={{ maxHeight: "250px" }}>
+                                    {/* <Card.Body className="p-0"> */}
                                     <Image fluid src={pbi?.image} style={{ borderRadius: '0 0 1rem 1rem', height: '100%', width: '100%' }}
-                                     />
+                                    />
                                 </Card.Body>
                             </Card>
                         </Col>

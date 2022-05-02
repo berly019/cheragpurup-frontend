@@ -32,7 +32,23 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+
+
+.alertCss {
+  position: fixed;
+  /* z-index: 999999999; */
+  right: 0;
+  bottom: 0;
+  transition: all;
+  /* The default, as in, you get this without defining anything */
+  transition-timing-function: ease;
+
+  /* Also the same as */
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
 }

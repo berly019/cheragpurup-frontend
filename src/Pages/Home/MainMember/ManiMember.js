@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
 import v1 from '../../../media/Vector1.png'
 import v2 from '../../../media/Vector2.png'
 import axios from 'axios';
 import { BsArrowRight } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import { DataContext } from '../../../contexts/DataContext';
 
 const ManiMember = () => {
+
+    const { intro } = useContext(DataContext);
+
     // handle chairman
     const [cData, setCData] = React.useState([]);
     React.useEffect(() => {
@@ -30,13 +34,6 @@ const ManiMember = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/up/wpanel`)
             .then(res => setPData(res.data[0]));
     }, []);
-
-    // handle image
-    const [intro, setIntro] = React.useState([0]);
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/intro`)
-            .then(res => setIntro(res.data));
-    }, [])
 
     return (
         <Container className="py-5">
@@ -73,7 +70,7 @@ const ManiMember = () => {
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col md={6} className="pt-5"  key={sData?._id}>
+                        <Col md={6} className="pt-5" key={sData?._id}>
                             <Card
                                 text='dark'
                                 style={{ borderRadius: '1rem', backgroundColor: '#F4F4F4' }}
@@ -103,7 +100,7 @@ const ManiMember = () => {
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col md={6} className="pt-5"  key={pData?._id}>
+                        <Col md={6} className="pt-5" key={pData?._id}>
                             <Card
                                 text='dark'
                                 style={{ borderRadius: '1rem', backgroundColor: '#F4F4F4' }}

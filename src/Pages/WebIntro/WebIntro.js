@@ -1,25 +1,19 @@
-import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import Banner from '../Home/Banner/Banner';
 import Footer from '../Shared/Footer/Footer';
 import Header from '../Shared/Header/Header';
 import DataTable from './DataTable/DataTable';
 import Intros from './Intros/Intros';
 import SkeletonLoader from "tiny-skeleton-loader-react";
+import { DataContext } from '../../contexts/DataContext';
 
 const WebIntro = () => {
-    const [isLoading, setIsLoading] = React.useState(false);
-    React.useEffect(() => {
-        axios.get('https://khadimpur-mongoose-backend.herokuapp.com')
-            .then(res => {
-                // console.log(res);
-                setIsLoading(true);
-            })
-    }, []);
+
+    const { dLoading } = useContext(DataContext)
 
     return (
         <>
-            {!isLoading ?
+            {!dLoading ?
                 <  SkeletonLoader style={{ height: '100vh', width: '100vw' }} background="#eff1f6" />
                 : <div>
                     <Header />

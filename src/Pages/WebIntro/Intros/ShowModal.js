@@ -1,17 +1,7 @@
-// import axios from 'axios';
-// import { useEffect, useState } from 'react';
 import { Container, Modal, Table, } from 'react-bootstrap';
 
 const ShowModal = (props) => {
     const { id, data } = props;
-
-    // const [data, setData] = useState([]);
-    // useEffect(() => {
-    //     axios.get(`${process.env.REACT_APP_BASE_URL}/up/intro/${id}`)
-    //         .then((data) => {
-    //             setData(data.data);
-    //         })
-    // }, [id])
 
     return (
         <Modal className="overflow-auto"

@@ -1,43 +1,94 @@
-import React from 'react';
-import { Col, Container, Form, Image, Row, Button, Alert, Spinner } from 'react-bootstrap';
+import React, { useContext, useEffect, useState } from 'react';
+import { Col, Container, Form, Image, Row, Button, Alert, Spinner, Modal } from 'react-bootstrap';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import EntrepreneurAdd from './EntrepreneurAdd/EntrepreneurAdd';
 import axios from 'axios';
 import { FiEdit } from 'react-icons/fi';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import EntrepreneurEdit from './EntrepreneurEdit/EntrepreneurEdit'
+import { DataContext } from '../../../../contexts/DataContext';
 
-const WMember = () => {
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [modalShow, setModalShow] = React.useState(false);
-    const [modalEdit, setModalEdit] = React.useState(false);
-    const [modalId, setModalId] = React.useState(false);
-    const [member, setMember] = React.useState([]);
-    const [success, setSuccess] = React.useState(false);
-    const [warn, setWarn] = React.useState('');
+const WEntrepreneur = () => {
 
-    React.useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/entrepreneur`)
-            .then((res) => {
-                setMember(res.data)
-                setIsLoading(true);
-            })
-    }, [success, member?._id, warn]);
+    const { isLoading, wEntrepreneurData, setWEntrepreneur, wEFilteredData, setWEFilteredData } = useContext(DataContext);
 
-    const handleDelete = id => {
+    /* delete data */
+    const deleteEntrepreneur = (id) => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
             axios.delete(`${process.env.REACT_APP_BASE_URL}/up/entrepreneur/${id}`)
                 .then((res) => {
                     // console.log(res);
-                    if (res.data.affectedRows > 0) {
-                        setSuccess(true);
-                    } else {
-                        setWarn(res.data);
+                    if (res.data) {
+                        const remain = (wEntrepreneurData?.filter(Commerce => Commerce._id !== id))
+                        setWEntrepreneur(remain);
+                        setWEFilteredData(remain);
                     }
-                });
+                })
         }
-    };
+    }
+
+    const [showAlert, setShowAlert] = useState(false);
+
+    const [modalEData, setModalEData] = React.useState('');
+
+
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+
+    // for edit modal
+    const [showE, setShowE] = useState(false);
+    const handleShowE = () => setShowE(true);
+    const handleCloseE = () => setShowE(false);
+
+
+    const handleShowAlert = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 1000)
+    }
+
+    useEffect(() => {
+        handleClose();
+        handleCloseE();
+
+        return () => {
+            handleShowAlert();
+        }
+    }, [wEntrepreneurData, wEFilteredData])
+
+    // const [isLoading, setIsLoading] = React.useState(false);
+    // const [modalShow, setModalShow] = React.useState(false);
+    // const [modalEdit, setModalEdit] = React.useState(false);
+    // const [modalId, setModalId] = React.useState(false);
+    // const [member, setMember] = React.useState([]);
+    // const [success, setSuccess] = React.useState(false);
+    // const [warn, setWarn] = React.useState('');
+
+    // React.useEffect(() => {
+    //     axios.get(`${process.env.REACT_APP_BASE_URL}/up/entrepreneur`)
+    //         .then((res) => {
+    //             setMember(res.data)
+    //             setIsLoading(true);
+    //         })
+    // }, [success, member?._id, warn]);
+
+    // const handleDelete = id => {
+    //     const proceed = window.confirm('Are you sure, you want to delete?');
+    //     if (proceed) {
+    //         axios.delete(`${process.env.REACT_APP_BASE_URL}/up/entrepreneur/${id}`)
+    //             .then((res) => {
+    //                 // console.log(res);
+    //                 if (res.data.affectedRows > 0) {
+    //                     setSuccess(true);
+    //                 } else {
+    //                     setWarn(res.data);
+    //                 }
+    //             });
+    //     }
+    // };
 
     // spinner
     if (!isLoading) {
@@ -58,27 +109,18 @@ const WMember = () => {
     return (
         <Container>
             <div className="pb-5 text-end">
-                <Button variant="success" onClick={() => setModalShow(true)}><HiOutlinePlusCircle /> সংযুক্ত করুন</Button>
+                <Button variant="success" onClick={() => handleShow(true)}><HiOutlinePlusCircle /> সংযুক্ত করুন</Button>
 
-                <EntrepreneurAdd
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
-                />
-                <EntrepreneurEdit
-                    id={modalId}
-                    show={modalEdit}
-                    onHide={() => setModalEdit(false)}
-                />
             </div>
             <Row xs={1} md={2} className="g-5 g-sm-5">
                 {
-                    member.map(dt =>
+                    wEntrepreneurData.map(dt =>
                         <Col key={dt?._id}>
                             <div className="bg-light">
                                 <div className="p-3 border rounded d-flex justify-content-between">
                                     <p className="fs-5 mb-0">উদ্যোক্তা</p>
                                     <div>
-                                        <FiEdit onClick={() => { setModalEdit(true); setModalId(dt._id) }} /> <RiDeleteBinLine className="text-danger" onClick={() => handleDelete(dt._id)} />
+                                        <FiEdit onClick={() => { handleShowE(); setModalEData(dt) }} /> <RiDeleteBinLine className="text-danger" onClick={() => deleteEntrepreneur(dt._id)} />
                                     </div>
                                 </div>
                                 <div className="p-3">
@@ -141,10 +183,50 @@ const WMember = () => {
                     )
                 }
             </Row>
-            {success && <Alert>Data Successfully Deleted</Alert>}
-            {warn ? <Alert>{warn}</Alert> : ''}
+
+            {/* add data */}
+            <Modal className="overflow-auto" show={show} onHide={handleClose}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
+                    {/* <Modal.Title id="contained-modal-title-vcenter"> */}
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-3 fw-bold">উদ্যোক্তা</p>
+                    </div>
+                    {/* </Modal.Title> */}
+                </Modal.Header>
+                <Modal.Body className="px-5">
+                    <EntrepreneurAdd />
+                </Modal.Body>
+            </Modal>
+
+            {/* Edit data */}
+            <Modal className="overflow-auto" show={showE} onHide={handleCloseE}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter" style={{ border: "0" }}>
+                    {/* <Modal.Title id="contained-modal-title-vcenter"> */}
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-4">আপডেট উদ্যোক্তা</p>
+                    </div>
+                    {/* </Modal.Title> */}
+                </Modal.Header>
+                <Modal.Body className="px-5">
+                    <EntrepreneurEdit data={modalEData} />
+                </Modal.Body>
+            </Modal>
+
+            <Alert className="alertCss" show={showAlert} variant="light">
+                Entrepreneur List Updated Successfully!
+            </Alert>
         </Container>
     );
 };
 
-export default WMember;
+export default WEntrepreneur;

@@ -6,6 +6,7 @@ import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import useUser from "../../../hooks/useUser";
 
 
 const Profile = () => {
@@ -18,23 +19,14 @@ const Profile = () => {
         toggleShow(!show)
     };
 
-    // const iconSize = {
-    //     height: '35px',
-    //     width: '35px'
-    // }
 
     // get user id
-    const [id, setId] = React.useState(undefined);
-    const token = JSON.parse(sessionStorage.getItem("user"));
+    const { user } = useUser();
+    const [id, setId] = React.useState(undefined)
     React.useEffect(() => {
-        if (token) {
-            fetch(`${process.env.REACT_APP_BASE_URL}/up/db_user/user/token`, {
-                method: 'POST',
-                headers: { Authorization: 'Bearer ' + token.access_token }
-            }).then(response => response.json())
-                .then(data => setId(data.data.userId));
-        }
-    }, [token]);
+        const id = user.userId;
+        setId(id);
+    }, [user]);
 
     // handle image loading
     const [image, setImage] = React.useState(null);
@@ -63,11 +55,7 @@ const Profile = () => {
     const [data, setData] = React.useState([]);
     // console.log(data);
     React.useEffect(() => {
-        /*         axios.get("${process.env.REACT_APP_BASE_URL}/up/wchairman", {
-                    headers: {
-                        'token': token
-                    }
-                }) */
+        // console.log(id)
         axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_user/${id}`)
             .then(res => {
                 if (res.data.err) {
@@ -88,11 +76,11 @@ const Profile = () => {
             })
     };
 
-    if (success) {
-        setTimeout(() => {
-            window.location.reload();
-        }, 1500);
-    }
+    // if (success) {
+    //     setTimeout(() => {
+    //         window.location.reload();
+    //     }, 1500);
+    // }
 
     return (
         <Container>
@@ -130,10 +118,19 @@ const Profile = () => {
                 <Row xs={1} >
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextName">
                         <Form.Label column sm="3">
-                            Username
+                            Name
                         </Form.Label>
                         <Col sm="9">
                             <Form.Control type="text" defaultValue={data?.name} disabled={isDisabled} required {...register("name", { required: true })} />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextName">
+                        <Form.Label column sm="3">
+                            Username
+                        </Form.Label>
+                        <Col sm="9">
+                            {/* <Form.Control type="text" defaultValue={data?.email} disabled={isDisabled} required {...register("email", { required: true })} /> */}
+                            <Form.Control title="You cannot change your username 🙃" type="text" defaultValue={data?.email} disabled />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextName">
@@ -149,8 +146,7 @@ const Profile = () => {
                             Email
                         </Form.Label>
                         <Col sm="9">
-                            {/* <Form.Control type="text" defaultValue={data?.email} disabled={isDisabled} required {...register("email", { required: true })} /> */}
-                            <Form.Control title="You cannot change your email address 🙃" type="text" defaultValue={data?.email} disabled />
+                            <Form.Control type="email" defaultValue={data?.username} disabled={isDisabled} required {...register("username", { required: true })} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Col} className="mb-3 d-flex flex-column flex-sm-row" controlId="formPlaintextName">

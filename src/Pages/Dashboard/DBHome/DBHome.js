@@ -1,16 +1,37 @@
-import axios from 'axios';
-import React, { useEffect } from 'react';
-import { Button, Card, Col, Container, Row, Spinner } from 'react-bootstrap';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Button, Card, Col, Container, Modal, Row, Spinner } from 'react-bootstrap';
 import DHTableEdit from './DHTableEdit/DHTableEdit';
 import { FiEdit } from 'react-icons/fi';
+import { DataContext } from '../../../contexts/DataContext';
 
 const DBHome = () => {
 
-    const [isLoading, setIsLoading] = React.useState(false);
+    const { totalData, pMainData, homeData, isLoading } = useContext(DataContext);
 
-    const [homeData, setHomeData] = React.useState([]);
-    const [totalData, setTotalData] = React.useState([]);
-    const [modalId, setModalId] = React.useState([]);
+
+    // const [totalData, setTotalData] = React.useState([]);
+    const [modalData, setModalEData] = React.useState('');
+    const [showAlert, setShowAlert] = useState(false);
+
+    // for edit modal
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+
+    const handleShowAlert = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 1000)
+    }
+
+    useEffect(() => {
+        handleClose();
+
+        return () => {
+            handleShowAlert();
+        }
+    }, [homeData])
 
     // const [residentData, setResidentData] = React.useState([]);
     // const [rFilteredData, setRFilteredData] = React.useState([]);
@@ -40,66 +61,63 @@ const DBHome = () => {
         const [COData, setCOData] = React.useState([]);
         const [coFilteredData, setCOFilteredData] = React.useState([]); */
 
-    const [pMData, setPMData] = React.useState([]);
 
     // const [dbTaxR, setDBTaxR] = React.useState(0);
-   
-    const handleApi = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home`)
-            .then(data => {
-                setHomeData(data?.data);
-                setIsLoading(true);
-            });
 
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home/624ef59fab75a0cf27de3f8d`)
-            .then(data => {
-                setTotalData(data?.data);
-            });
+    // const handleApi = () => {
+    //     axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home`)
+    //         .then(data => {
+    //             setHomeData(data?.data);
+    //             console.log(data?.data);
+    //             setIsLoading(true);
+    //         });
 
-        // axios.get('${process.env.REACT_APP_BASE_URL}/up/resident')
-        //     .then(data => {
-        //         setResidentData(data?.data);
-        //         setRFilteredData(data?.data);
-        //     });
+    // axios.get(`${process.env.REACT_APP_BASE_URL}/up/db_home/6249ebaa4c1ff21f2a664fa2`)
+    //     .then(data => {
+    //         setTotalData(data?.data);
+    //     });
 
-        // axios.get('${process.env.REACT_APP_BASE_URL}/up/commerce')
-        //     .then(data => {
-        //         setCommerceData(data?.data);
-        //         setCFilteredData(data?.data);
-        //     });
+    // axios.get('${process.env.REACT_APP_BASE_URL}/up/resident')
+    //     .then(data => {
+    //         setResidentData(data?.data);
+    //         setRFilteredData(data?.data);
+    //     });
 
-        // axios.get('${process.env.REACT_APP_BASE_URL}/up/tread_license')
-        //     .then(data => {
-        //         setTreasLicenseData(data?.data);
-        //     });
+    // axios.get('${process.env.REACT_APP_BASE_URL}/up/commerce')
+    //     .then(data => {
+    //         setCommerceData(data?.data);
+    //         setCFilteredData(data?.data);
+    //     });
 
-        // axios.get('${process.env.REACT_APP_BASE_URL}/up/character_certificate')
-        //     .then(data => {
-        //         setCCData(data?.data);
-        //         setCCFilteredData(data?.data);
-        //     });
+    // axios.get('${process.env.REACT_APP_BASE_URL}/up/tread_license')
+    //     .then(data => {
+    //         setTreasLicenseData(data?.data);
+    //     });
 
-        // axios.get('${process.env.REACT_APP_BASE_URL}/up/citizen_certificate')
-        //     .then(data => {
-        //         setCNData(data?.data);
-        //         setCNFilteredData(data?.data);
-        //     });
+    // axios.get('${process.env.REACT_APP_BASE_URL}/up/character_certificate')
+    //     .then(data => {
+    //         setCCData(data?.data);
+    //         setCCFilteredData(data?.data);
+    //     });
 
-        // axios.get('${process.env.REACT_APP_BASE_URL}/up/inheritance_certificate')
-        //     .then(data => {
-        //         setCOData(data?.data);
-        //         setCOFilteredData(data?.data);
-        //     });
+    // axios.get('${process.env.REACT_APP_BASE_URL}/up/citizen_certificate')
+    //     .then(data => {
+    //         setCNData(data?.data);
+    //         setCNFilteredData(data?.data);
+    //     });
 
-        axios.get(`${process.env.REACT_APP_BASE_URL}/up/pMain`)
-            .then(data => {
-                setPMData(data?.data[0]);
-            })
-    }
+    // axios.get('${process.env.REACT_APP_BASE_URL}/up/inheritance_certificate')
+    //     .then(data => {
+    //         setCOData(data?.data);
+    //         setCOFilteredData(data?.data);
+    //     });
 
-    useEffect(() => {
-        handleApi();
-    }, [])
+
+    // }
+
+    // useEffect(() => {
+    //     handleApi();
+    // }, [])
 
 
     // residentData filter and calculate
@@ -171,17 +189,6 @@ const DBHome = () => {
     //     setDBTaxR(totalTax);
     // }, [dbTax, residentData]);
 
-    const [modalEdit, setModalEdit] = React.useState(false);
-
-    // active class
-    const btns = document.getElementsByClassName("btn");
-    for (var i = 0; i < btns.length; i++) {
-        btns[i].addEventListener("click", function () {
-            var current = document.getElementsByClassName("active");
-            current[0].className = current[0].className.replace(" active", "");
-            this.className += " active";
-        });
-    }
 
     // total calculate calculate
     // React.useEffect(() => {
@@ -287,14 +294,10 @@ const DBHome = () => {
             </Row>
             {/* title */}
             <Row>
-                <p className="fs-2 fw-bold text-center">এক নজরে {pMData?.name}</p>
+                <p className="fs-2 fw-bold text-center">এক নজরে {pMainData?.name}</p>
                 <div className="mb-3 text-end">
                     {/* <Button variant="success" size="sm"><HiOutlinePlusCircle /> এডিট করুন</Button> */}
-                    <DHTableEdit
-                        id={modalId}
-                        show={modalEdit}
-                        onHide={() => setModalEdit(false)}
-                    />
+
                 </div>
             </Row>
             <Row className="px-2 px-md-0 overflow-auto ">
@@ -319,7 +322,7 @@ const DBHome = () => {
                     <tbody className="text-center">
                         {
                             homeData?.map(data =>
-                                <tr key={data._id}>
+                                <tr key={data?._id}>
                                     <th scope="row">{data?.word_no}</th>
                                     <td>{data?.resident_thana}</td>
                                     <td>{data?.commerce_thana}</td>
@@ -333,7 +336,7 @@ const DBHome = () => {
                                     <td>{data?.freedom_fighters}</td>
                                     <td>{data?.total_population}</td>
                                     <td className='text-danger'>
-                                        <FiEdit onClick={() => { setModalEdit(true); setModalId(data._id) }} style={{ cursor: 'pointer' }} /></td>
+                                        <FiEdit onClick={() => { handleShow(); setModalEData(data) }} style={{ cursor: 'pointer' }} /></td>
                                 </tr>
                             )
                         }
@@ -461,6 +464,31 @@ const DBHome = () => {
                     <p className="text-danger mb-0">{totalData?.tread_license} টি</p>
                 </Col>
             </Row>
+
+
+            <Modal className="overflow-auto" show={show} onHide={handleClose}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                style={{ top: '50px', height: '90vh' }} scrollable="true"
+            >
+                <Modal.Header closeButton id="contained-modal-title-vcenter border-bottom" className="border-bottom">
+                    {/* <Modal.Title id="contained-modal-title-vcenter"> */}
+                    <div className="text-center" style={{ width: "96%" }}>
+                        <p className="text-success m-0 fs-4">৬ নং দুবলহাটি ইউনিয়ন পরিষদ</p>
+                        <p className="text-danger m-0">ওয়ার্ড নং {modalData?.word_no}</p>
+                    </div>
+                    {/* </Modal.Title> */}
+                </Modal.Header>
+
+                <Modal.Body className="px-5 pt-0" key={modalData?._id}>
+                    <DHTableEdit modalData={modalData} />
+                </Modal.Body>
+            </Modal>
+
+            <Alert className="alertCss" show={showAlert} variant="light">
+                Dashboard List Updated Successfully!
+            </Alert>
         </Container>
     );
 };
