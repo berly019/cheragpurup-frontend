@@ -1,0 +1,10 @@
+.mainHead .active,
+.mainHead .nav-link:hover {
+  color: #000000 !important;
+}
+@media screen and (max-width: 990px) {
+  .mainHead .bg-xsc {
+    margin-top: 20px;
+    background-color: #198754;
+  }
+}

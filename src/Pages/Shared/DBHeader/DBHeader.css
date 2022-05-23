@@ -1,0 +1,5 @@
+@media screen and (max-width: 990px) {
+  nav.text-white.text-center.nav-mid.navbar.navbar-expand-lg.navbar-dark.sticky-top {
+    display: none;
+  }
+}

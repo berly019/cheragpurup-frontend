@@ -1,0 +1,42 @@
+.select-form {
+  padding: 5px 20px;
+  border-bottom: 2px solid red;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background-image: url(../../../media/filter.png);
+  background-size: 15px 18px;
+  background-repeat: no-repeat;
+  background-position: left 7.5px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  padding-left: 30px;
+}
+
+/* .self-page {
+  justify-content: center;
+  align-items: center;
+} */
+
+.alertCss {
+  position: fixed;
+  /* z-index: 999999999; */
+  right: 0;
+  bottom: 0;
+  transition: all;
+  /* The default, as in, you get this without defining anything */
+  transition-timing-function: ease;
+
+  /* Also the same as */
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* .bill_print {
+  background-image: url(../../../media/logo.png);
+  background-repeat: no-repeat;
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  top: 40px;
+  left: 50px
+} */

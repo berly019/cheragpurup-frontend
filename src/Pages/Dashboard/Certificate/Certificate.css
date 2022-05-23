@@ -1,0 +1,11 @@
+.snood-logo {
+  background: url(../../../media/sonodLogo.png),
+    linear-gradient(rgba(255, 255, 255, 0.849), rgba(255, 255, 255, 0.918));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.snood-logo2 {
+  /* padding-top: 200px; */
+  background-size: 400px;
+}

@@ -1,0 +1,34 @@
+@keyframes delayedShow {
+  to {
+    visibility: visible;
+  }
+}
+.delayedShow {
+  visibility: hidden;
+  animation: 2.5s linear 5s forwards delayedShow;
+}
+
+@keyframes delayedHide {
+  to {
+    visibility: hidden;
+  }
+}
+.delayedHide {
+  visibility: visible;
+  animation: 2.5s linear 5s forwards delayedHide;
+}
+
+.bg-content {
+  top: 20%;
+  position: absolute;
+  width: 100%;
+  /* height: 100%; */
+  color: #fff;
+}
+
+.bg-illus {
+  background: url("../../../media/bg-ill.png");
+  background-size: cover;
+  height: 100%;
+  background-repeat: round;
+}
